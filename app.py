@@ -145,7 +145,7 @@ def generate_flux_image(prompt, flux_api_keys):
             time.sleep(2)
 
 
-def generate_audio_with_timestamps(text, client, openai_api_key, voice_id="alloy"):
+def generate_audio_with_timestamps(text, client, voice_id="alloy"):
     # 1) Generate TTS audio and save to a temp file
     temp_audio_file = tempfile.NamedTemporaryFile(delete=False, suffix=".mp3")
     temp_audio_path = temp_audio_file.name
