@@ -13,6 +13,7 @@ from openai import OpenAI
 from moviepy.editor import *
 import moviepy.video.fx.resize as resize
 from moviepy.editor import TextClip
+from together import Together
 
 from PIL import Image,ImageDraw, ImageFont
 
@@ -178,33 +179,28 @@ def generate_flux_image_lora(prompt, flux_api_keys,lora_path="https://huggingfac
 
     while True:
         try:
-                
-            with st.spinner('Generating image...'):
-                url = "https://api.together.xyz/v1/images/generations"
-                payload = {
-                    "prompt":  prompt,
-                    "model": "black-forest-labs/FLUX.1-dev-lora",
-                    "steps": 1,
-                    "n": 1,
-                    "height": 704,
-                    "width": 400,
-                    'image_loras':[{"path":lora_path,"scale":0.99}]
-                }
-                headers = {
-                    "accept": "application/json",
-                    "content-type": "application/json",
-                    "authorization": f"Bearer {random.choice(flux_api_keys)}"
-                }
-        
-                response = requests.post(url, json=payload, headers=headers)
-                response_data = response.json()
-                if "data" in response_data and len(response_data["data"]) > 0:
-                    st.text(response_data)
-                    return response_data["data"][0]["url"]
+            client = Together(api_key=random.choice(flux_api_keys))
 
+            with st.spinner('Generating image...'):
+                response = client.images.generate(
+                    prompt="[]",
+                    model="black-forest-labs/FLUX.1-dev-lora",
+                    width=480,
+                    height=832,
+                    steps=28,
+                    n=1,
+                    response_format="url",
+                    image_loras=[{"path":"https://huggingface.co/ddh0/FLUX-Amateur-Photography-LoRA/resolve/main/FLUX-Amateur-Photography-LoRA-v2.safetensors?download=true","scale":0.99}],
+                    update_at="2025-03-04T16:25:21.474Z"
+                )
+
+            return response.data[0].url
+    
         except:
-            print("Error generating image, retrying:", e)
-            time.sleep(2)
+            pass
+
+
+
 def generate_audio_with_timestamps(text, client, voice_id="alloy"):
     # 1) Generate TTS audio and save to a temp file
     temp_audio_file = tempfile.NamedTemporaryFile(delete=False, suffix=".mp3")
