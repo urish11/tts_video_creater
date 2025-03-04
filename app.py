@@ -1,36 +1,3 @@
-Thank you for the updated output. Here’s what we see:
-
-text
-
-Collapse
-
-Wrap
-
-Copy
-Using ImageMagick binary: /usr/bin/convert
-Using policy path: /mount/src/tts_video_creater/imagemagick_config
-Custom policy.xml found!
-ImageMagick version: Version: ImageMagick 6.9.11-60 ...
-ImageMagick @ operator test succeeded!
-TextClip creation failed: cannot import name 'subprocess_args' from 'moviepy.tools' (/home/adminuser/venv/lib/python3.12/site-packages/moviepy/tools.py)
-MoviePy using IMAGEMAGICK_BINARY: /usr/bin/convert
-MoviePy version: 1.0.3
-The error cannot import name 'subprocess_args' from 'moviepy.tools' indicates that our latest patch attempted to use subprocess_args, which doesn’t exist in MoviePy 1.0.3. This is my mistake—I assumed a helper function from newer versions was present. In MoviePy 1.0.3, TextClip constructs the ImageMagick command directly in its __init__ method without relying on a separate subprocess_args function.
-
-Root Cause
-Incorrect Assumption: The previous patch used from moviepy.tools import subprocess_args, but in MoviePy 1.0.3, there’s no such function. Instead, TextClip hardcodes the subprocess arguments (stdout=PIPE, stderr=PIPE) and calls Popen directly.
-Security Policy Persists: Because the patch failed to initialize, TextClip didn’t apply our custom environment, and the security policy error remains unresolved.
-Let’s fix this by correctly replicating TextClip’s behavior from MoviePy 1.0.3 without relying on non-existent imports.
-
-Fix: Correct PatchedTextClip for MoviePy 1.0.3
-Updated app.py
-python
-
-Collapse
-
-Wrap
-
-Copy
 import os
 import streamlit as st
 import subprocess
