@@ -180,7 +180,7 @@ def generate_flux_image_lora(prompt, flux_api_keys,lora_path="https://huggingfac
     while retries < 10:
         try:
             api_key =random.choice(flux_api_keys)
-            flux_client = Together(api_key=api_key)
+            flux_client = Together(api_key="db697d28ebf7869b7b7bfaf91f25bca64652085255031fc43c8083d825de8295")
 
             with st.spinner('Generating image...'):
                 response = flux_client.images.generate(
