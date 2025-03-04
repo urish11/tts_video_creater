@@ -39,9 +39,16 @@ st.title("🎬 AI Video Generator")
 st.write("Create viral short-form videos with AI-generated scripts, images, and voiceovers.")
 
 def patched_resizer(pilim, newsize):
-    if isinstance(newsize, list):
-        newsize = tuple(map(int, newsize))  # Convert list to tuple of ints
-    return pilim.resize(newsize[::-1], Image.LANCZOS)
+    orig_width, orig_height = pilim.size
+    if isinstance(newsize, (list, tuple)):
+        newsize = tuple(map(int, newsize))
+        return pilim.resize(newsize[::-1], Image.LANCZOS)
+    elif isinstance(newsize, (int, float)):
+        new_width = int(orig_width * newsize)
+        new_height = int(orig_height * newsize)
+        return pilim.resize((new_width, new_height), Image.LANCZOS)
+    else:
+        raise ValueError(f"Unsupported newsize type: {type(newsize)}")
 
 
 resize.resizer = patched_resizer
