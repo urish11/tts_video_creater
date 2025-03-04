@@ -3,8 +3,7 @@
 import streamlit as st
 import json
 import os
-os.environ["IMAGEMAGICK_BINARY"] = "/usr/bin/convert"
-import requests
+os.environ["MAGICK_CONFIGURE_PATH"] = os.path.join(os.path.dirname(__file__), "imagemagick_config")
 import time
 import random
 import pandas as pd
