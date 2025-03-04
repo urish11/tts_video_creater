@@ -180,21 +180,41 @@ def generate_flux_image_lora(prompt, flux_api_keys,lora_path="https://huggingfac
     while retries < 10:
         try:
             api_key =random.choice(flux_api_keys)
-            flux_client = Together(api_key="db697d28ebf7869b7b7bfaf91f25bca64652085255031fc43c8083d825de8295")
+           
 
-            with st.spinner('Generating image...'):
-                response = flux_client.images.generate(
-                    prompt=prompt,
-                    model="black-forest-labs/FLUX.1-dev-lora",
-                    width=480,
-                    height=832,
-                    steps=28,
-                    n=1,
-                    #response_format="url",
-                    image_loras=[{"path":lora_path,"scale":0.99}],
-                )
+            url = "https://api.together.xyz/v1/images/generations"
+            headers = {
+                "Authorization": f"Bearer {api_key}",  # Replace with your actual API key
+                "Content-Type": "application/json"
+            }
+            data = {
+                "model": "black-forest-labs/FLUX.1-dev-lora",
+                "prompt": "prompt",
+                "width": 400,
+                "height": 704,
+                "steps": 28,
+                "n": 1,
+                "response_format": "url",
+                "image_loras": [
+                    {
+                        "path": "https://huggingface.co/ddh0/FLUX-Amateur-Photography-LoRA/resolve/main/FLUX-Amateur-Photography-LoRA-v2.safetensors?download=true",
+                        "scale": 0.99
+                    }
+                ],
+                "update_at": "2025-03-04T16:25:21.474Z"
+            }
 
-            return response.data[0].url
+            response = requests.post(url, headers=headers, json=data)
+
+            if response.status_code == 200:
+                # Assuming the response contains the image URL in the data
+                response_data = response.json()
+                st.text(response_data)
+                image_url = response_data.get("image_url")
+                print(f"Image URL: {image_url}")
+            else:
+                print(f"Request failed with status code {response.status_code}")
+
     
         except Exception as e:
             time.sleep(3)
