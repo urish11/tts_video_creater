@@ -40,6 +40,31 @@ client = OpenAI(api_key= openai_api_key)
 st.title("🎬 AI Video Generator")
 st.write("Create viral short-form videos with AI-generated scripts, images, and voiceovers.")
 
+def group_words_with_timing(word_timings, words_per_group=2):
+    grouped_timings = []
+    
+    for i in range(0, len(word_timings), words_per_group):
+        # Take a slice of words up to words_per_group
+        group_words = word_timings[i:i+words_per_group]
+        
+        if group_words:
+            # Combine words
+            combined_word = " ".join(word['word'] for word in group_words)
+            
+            # Use the start time of the first word and end time of the last word
+            start_time = group_words[0]['start']
+            end_time = group_words[-1]['end']
+            
+            grouped_timings.append({
+                "word": combined_word,
+                "start": start_time,
+                "end": end_time
+            })
+    
+    return grouped_timings
+
+
+
 def create_text_image(text, fontsize, color, bg_color, font_path):
 
     
@@ -225,6 +250,8 @@ def create_video_with_image_on_top(media_assets, topic, progress_bar=None):
             # Generate audio with timestamps and get word timings
             client = get_openai_client()
             audio_filename, word_timings = generate_audio_with_timestamps(text=asset["text"], client=client, voice_id=asset["voice_id"])
+            word_timings = group_words_with_timing(word_timings, words_per_group=2)
+
             audio_clip = AudioFileClip(audio_filename)
             duration = audio_clip.duration
             
