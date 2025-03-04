@@ -1,4 +1,3 @@
-
 import os
 import streamlit as st
 import subprocess
@@ -10,25 +9,37 @@ policy_path = os.path.join(os.path.dirname(__file__), "imagemagick_config")
 os.environ["MAGICK_CONFIGURE_PATH"] = policy_path
 os.environ["IMAGEMAGICK_BINARY"] = "/usr/bin/convert"
 
-# Custom subprocess_call compatible with MoviePy 1.0.3
-def patched_subprocess_call(cmd, verbose=False, logger=None):
-    env = os.environ.copy()
-    env["MAGICK_CONFIGURE_PATH"] = policy_path
-    env["IMAGEMAGICK_BINARY"] = "/usr/bin/convert"
-    process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env)
-    output, error = process.communicate()
-    if process.returncode != 0:
-        error_msg = f"ImageMagick error: {error.decode()}"
-        if logger:
-            logger.error(error_msg)  # Logger might not exist in 1.0.3, but included for compatibility
-        raise IOError(error_msg)
-    if verbose and logger:
-        logger.info(f"Command {cmd} executed successfully")
-    return output
+# Custom TextClip class to enforce environment
+class PatchedTextClip(TextClip):
+    def __init__(self, txt, fontsize=70, color='white', bg_color='transparent', font=None, **kwargs):
+        env = os.environ.copy()
+        env["MAGICK_CONFIGURE_PATH"] = policy_path
+        env["IMAGEMAGICK_BINARY"] = "/usr/bin/convert"
+        
+        # Call the original TextClip init logic
+        from moviepy.tools import subprocess_args  # Import here to avoid circular issues
+        import tempfile
+        
+        # Build the ImageMagick command (mimicking MoviePy 1.0.3 behavior)
+        temp_file = tempfile.NamedTemporaryFile(delete=False, suffix='.png')
+        cmd = [get_setting("IMAGEMAGICK_BINARY"), '-background', bg_color, '-fill', color]
+        if font:
+            cmd.extend(['-font', font])
+        cmd.extend(['-pointsize', str(fontsize), '-gravity', 'center', 'label:' + txt, temp_file.name])
+        
+        # Execute with custom environment
+        process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env)
+        output, error = process.communicate()
+        if process.returncode != 0:
+            raise IOError(f"ImageMagick error: {error.decode()}")
+        
+        # Initialize as ImageClip
+        ImageClip.__init__(self, temp_file.name, transparent=(bg_color == 'transparent'))
+        os.unlink(temp_file.name)  # Clean up temporary file
+        self.txt = txt
 
-# Replace the correct subprocess_call in moviepy.tools for MoviePy 1.0.3
-import moviepy.tools
-moviepy.tools.subprocess_call = patched_subprocess_call
+# Replace TextClip with our patched version
+TextClip = PatchedTextClip
 
 # Rest of your imports
 import json
