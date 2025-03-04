@@ -183,7 +183,7 @@ def generate_flux_image_lora(prompt, flux_api_keys,lora_path="https://huggingfac
 
             with st.spinner('Generating image...'):
                 response = client.images.generate(
-                    prompt="[]",
+                    prompt="prompt",
                     model="black-forest-labs/FLUX.1-dev-lora",
                     width=480,
                     height=832,
@@ -191,7 +191,6 @@ def generate_flux_image_lora(prompt, flux_api_keys,lora_path="https://huggingfac
                     n=1,
                     response_format="url",
                     image_loras=[{"path":"https://huggingface.co/ddh0/FLUX-Amateur-Photography-LoRA/resolve/main/FLUX-Amateur-Photography-LoRA-v2.safetensors?download=true","scale":0.99}],
-                    update_at="2025-03-04T16:25:21.474Z"
                 )
 
             return response.data[0].url
