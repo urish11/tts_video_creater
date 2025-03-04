@@ -195,8 +195,8 @@ def generate_flux_image_lora(prompt, flux_api_keys,lora_path="https://huggingfac
 
             return response.data[0].url
     
-        except:
-            pass
+        except Exception as e:
+            st.text(e)
 
 
 
