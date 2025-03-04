@@ -73,7 +73,7 @@ def create_text_image(text, fontsize, color, bg_color, font_path):
     
     # Get the bounding box using getbbox()
     bbox = font.getbbox(text)
-    text_size = (bbox[2] - bbox[0], bbox[3] - bbox[1])
+    text_size = (bbox[2] - bbox[0], (bbox[3] - bbox[1])*1.05)
     
     # Create an image with the correct size and draw the text
     img = Image.new("RGB", text_size, bg_color)
@@ -120,9 +120,9 @@ def get_openai_client():
 def generate_script(prompt, client):
     with st.spinner('Generating script...'):
         response = client.chat.completions.create(
-            model="gpt-4o",
+            model="o1",
             messages=[
-                {"role": "system", "content": "You are a creative ad writer. ALWAYS write the full avatar description on each visual description ALWAYS!!!! "},
+                {"role": "system", "content": "You are a creative  writer. ALWAYS write the full avatar description on each visual description ALWAYS!!!! "},
                 {"role": "user", "content": prompt}
             ],
             temperature=1.05
@@ -464,7 +464,6 @@ if st.button("Generate Videos"):
                 tell a very short simple clickbaity selling story
                 visual description is up to 20 words each, image is perplexing wtf
                 
-                sell the product!!! start with punchy allude to a secret to increase retention controversial enticing
                 """
                 
                 # Generate script
