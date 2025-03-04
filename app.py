@@ -192,7 +192,7 @@ def generate_flux_image_lora(prompt, flux_api_keys,lora_path="https://huggingfac
                 "prompt": prompt,
                 "width": 400,
                 "height": 704,
-                "steps": 1,
+                "steps": 20,
                 "n": 1,
                 "response_format": "url",
                 "image_loras": [
