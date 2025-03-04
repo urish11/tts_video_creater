@@ -62,8 +62,9 @@ def patched_resizer(pilim, newsize):
     if isinstance(pilim, np.ndarray):
         pilim = Image.fromarray(pilim.astype('uint8'))
 
-    # Perform resize and return
-    return pilim.resize((new_width, new_height), Image.LANCZOS)
+    # Perform resize and convert back to NumPy array
+    resized_image = pilim.resize((new_width, new_height), Image.LANCZOS)
+    return np.array(resized_image)
 
 resize.resizer = patched_resizer
 
