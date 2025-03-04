@@ -189,10 +189,10 @@ def generate_flux_image_lora(prompt, flux_api_keys,lora_path="https://huggingfac
             }
             data = {
                 "model": "black-forest-labs/FLUX.1-dev-lora",
-                "prompt": "prompt",
+                "prompt": prompt,
                 "width": 400,
                 "height": 704,
-                "steps": 28,
+                "steps": 1,
                 "n": 1,
                 "response_format": "url",
                 "image_loras": [
