@@ -170,7 +170,7 @@ def create_video_with_image_on_top(media_assets, topic, progress_bar=None):
             
             # Load and resize image
             response = requests.get(asset["image"])
-            image = Image.open(BytesIO(response.content)).resize((1080, 1920))
+            image = Image.open(BytesIO(response.content)).resize((1080, 1920),Image.LANCZOS)
             image_array = np.array(image)
             
             # Create an image clip positioned at the top half
