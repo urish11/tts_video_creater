@@ -201,7 +201,7 @@ def generate_audio_with_timestamps(text, client, voice_id="alloy"):
 
     # Parse response JSON
     st.text(dir(transcribe_response))
-    transcribe_data = dict(transcribe_response.json)
+    transcribe_data = dict(transcribe_response.json())
     st.text(transcribe_data)
 
     
