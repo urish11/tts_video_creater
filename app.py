@@ -80,7 +80,8 @@ try:
 except Exception as e:
     st.error(f"TextClip creation failed: {e}")
 
-# Sidebar for API Keys and Settings
+from moviepy.config import get_setting
+st.write(f"MoviePy using IMAGEMAGICK_BINARY: {get_setting('IMAGEMAGICK_BINARY')}")
 
 openai_api_key = st.secrets["openai_api_key"]
 flux_api_keys = st.secrets["flux_api_keys"]
