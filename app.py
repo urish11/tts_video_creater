@@ -180,10 +180,10 @@ def generate_flux_image_lora(prompt, flux_api_keys,lora_path="https://huggingfac
     while True:
         try:
             api_key =random.choice(flux_api_keys)
-            client = Together(api_key=api_key)
+            flux_client = Together(api_key=api_key)
 
             with st.spinner('Generating image...'):
-                response = client.images.generate(
+                response = flux_client.images.generate(
                     prompt=prompt,
                     model="black-forest-labs/FLUX.1-dev-lora",
                     width=480,
