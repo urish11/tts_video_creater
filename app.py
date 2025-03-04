@@ -4,6 +4,8 @@ import streamlit as st
 import json
 import os
 import subprocess
+st.set_page_config(page_title="AI Video Generator", page_icon="🎬", layout="wide")
+
 # Set ImageMagick configuration before any moviepy imports
 policy_path = os.path.join(os.path.dirname(__file__), "imagemagick_config")
 os.environ["MAGICK_CONFIGURE_PATH"] = policy_path
@@ -53,7 +55,6 @@ from io import BytesIO
 import tempfile
 from openai import OpenAI
 
-st.set_page_config(page_title="AI Video Generator", page_icon="🎬", layout="wide")
 
 # Sidebar for API Keys and Settings
 
