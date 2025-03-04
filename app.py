@@ -304,15 +304,12 @@ with col2:
     selected_age = st.selectbox("Default Age", age_options, index=0)
     
     # Voice options
-    voice_options = ["random", "alloy", "echo", "fable", "onyx", "nova", "shimmer"]
+    voice_options = ["random", "alloy", "echo", "fable", "onyx", "nova", "shimmer",'sage','ash']
     selected_voice = st.selectbox("Default Voice", voice_options, index=0)
 
 if st.button("Generate Videos"):
     # Check API keys
-    if not ('openai_api_key' in st.session_state and st.session_state.openai_api_key and 
-            'flux_api_keys' in st.session_state and st.session_state.flux_api_keys):
-        st.error("Please enter API keys in the sidebar")
-    else:
+    
         client = get_openai_client()
         results = []
         
