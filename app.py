@@ -176,8 +176,8 @@ def generate_flux_image(prompt, flux_api_keys):
             time.sleep(2)
 
 def generate_flux_image_lora(prompt, flux_api_keys,lora_path="https://huggingface.co/ddh0/FLUX-Amateur-Photography-LoRA/resolve/main/FLUX-Amateur-Photography-LoRA-v2.safetensors?download=true"):
-
-    while True:
+    retries =0
+    while retries < 10:
         try:
             api_key =random.choice(flux_api_keys)
             flux_client = Together(api_key=api_key)
@@ -197,6 +197,7 @@ def generate_flux_image_lora(prompt, flux_api_keys,lora_path="https://huggingfac
             return response.data[0].url
     
         except Exception as e:
+            retries +=1
             st.text(e)
 
 
