@@ -190,13 +190,14 @@ def generate_flux_image_lora(prompt, flux_api_keys,lora_path="https://huggingfac
                     height=832,
                     steps=28,
                     n=1,
-                    response_format="url",
+                    #response_format="url",
                     image_loras=[{"path":lora_path,"scale":0.99}],
                 )
 
             return response.data[0].url
     
         except Exception as e:
+            time.sleep(3)
             retries +=1
             st.text(e)
 
