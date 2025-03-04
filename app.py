@@ -210,7 +210,7 @@ def generate_flux_image_lora(prompt, flux_api_keys,lora_path="https://huggingfac
                 # Assuming the response contains the image URL in the data
                 response_data = response.json()
                 st.text(response_data)
-                image_url = response_data.get("image_url")
+                image_url = response_data['data'][0]['url']
                 print(f"Image URL: {image_url}")
             else:
                 print(f"Request failed with status code {response.status_code}")
