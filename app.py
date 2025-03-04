@@ -189,7 +189,7 @@ def generate_flux_image_lora(prompt, flux_api_keys,lora_path="https://huggingfac
             }
             data = {
                 "model": "black-forest-labs/FLUX.1-dev-lora",
-                "prompt": prompt,
+                "prompt":"weird perplexing enticing image of : " +  prompt,
                 "width": 400,
                 "height": 704,
                 "steps": 20,
