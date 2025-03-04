@@ -29,7 +29,7 @@ aws_secret_key = st.secrets["aws_secret_key"]
 s3_bucket_name = st.secrets["s3_bucket_name"]
 s3_region = st.secrets["s3_region"]
 
-
+client = OpenAI()
 
 # Main content
 st.title("🎬 AI Video Generator")
