@@ -155,7 +155,7 @@ def generate_flux_image(prompt, flux_api_keys):
                     "prompt": "weird perplexing enticing image of : " + prompt,
                     "model": "black-forest-labs/FLUX.1-schnell-Free",
                     "steps": 3,
-                    "n": 1,
+                    "n"q: 1,
                     "height": 704,
                     "width": 400
                 }
@@ -174,7 +174,36 @@ def generate_flux_image(prompt, flux_api_keys):
             print("Error generating image, retrying:", e)
             time.sleep(2)
 
+def generate_flux_image_lora(prompt, flux_api_keys,lora_path="https://huggingface.co/ddh0/FLUX-Amateur-Photography-LoRA/resolve/main/FLUX-Amateur-Photography-LoRA-v2.safetensors?download=true"):
 
+    while True:
+        try:
+                
+            with st.spinner('Generating image...'):
+                url = "https://api.together.xyz/v1/images/generations"
+                payload = {
+                    "prompt": "weird perplexing enticing image of : " + prompt,
+                    "model": "black-forest-labs/FLUX.1-dev-lora",
+                    "steps": 1,
+                    "n": 1,
+                    "height": 704,
+                    "width": 400,
+                    'image_loras':[{"path":lora_path,"scale":0.99}]
+                }
+                headers = {
+                    "accept": "application/json",
+                    "content-type": "application/json",
+                    "authorization": f"Bearer {random.choice(flux_api_keys)}"
+                }
+        
+                response = requests.post(url, json=payload, headers=headers)
+                response_data = response.json()
+                if "data" in response_data and len(response_data["data"]) > 0:
+                    return response_data["data"][0]["url"]
+
+        except:
+            print("Error generating image, retrying:", e)
+            time.sleep(2)
 def generate_audio_with_timestamps(text, client, voice_id="alloy"):
     # 1) Generate TTS audio and save to a temp file
     temp_audio_file = tempfile.NamedTemporaryFile(delete=False, suffix=".mp3")
@@ -496,7 +525,7 @@ if st.button("Generate Videos"):
                         sub_progress.progress((idx) / len(script_json))
                         
                         # Generate image
-                        image_url = generate_flux_image(visual, flux_api_keys)
+                        image_url = generate_flux_image_lora(visual, flux_api_keys)
                         
                         if image_url:
                             media_assets.append({"voice_id": voice_id, "image": image_url, "text": text})
