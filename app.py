@@ -39,6 +39,8 @@ st.title("🎬 AI Video Generator")
 st.write("Create viral short-form videos with AI-generated scripts, images, and voiceovers.")
 
 def patched_resizer(pilim, newsize):
+    if isinstance(newsize, list):
+        newsize = tuple(map(int, newsize))  # Convert list to tuple of ints
     return pilim.resize(newsize[::-1], Image.LANCZOS)
 
 
