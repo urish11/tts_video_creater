@@ -125,9 +125,7 @@ def generate_script(prompt, client):
                 {"role": "system", "content": "You are a creative  writer. ALWAYS write the full avatar description on each visual description ALWAYS!!!! "},
                 {"role": "user", "content": prompt}
             ],
-            response_format={
-    "type": "json_object"
-  },
+           # response_format={"type": "json_object"},
   reasoning_effort="medium"
 
         )
