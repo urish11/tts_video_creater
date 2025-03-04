@@ -220,14 +220,7 @@ def create_video_with_image_on_top(media_assets, topic, progress_bar=None):
                 end = word_data['end']
                 #txt_clip = TextClip(word, fontsize=90, color=color, bg_color='black', 
                 #                  font="Arial" if os.name == 'nt' else "DejaVuSans-Bold").set_position(("center", 1440))
-                txt_clip = TextClip(
-    word,
-    fontsize=90,
-    color=color,
-    bg_color='black',
-    font="Arial" if os.name == 'nt' else "DejaVuSans-Bold",
-    method='pillow'  # Use Pillow instead of ImageMagick
-).set_position(("center", 1440)).set_start(start).set_end(end)
+                txt_clip = TextClip(word,fontsize=90,color=color,bg_color='black',font="Arial" if os.name == 'nt' else "DejaVuSans-Bold",method='pillow').set_position(("center", 1440)).set_start(start).set_end(end)
 
 
                 
