@@ -11,31 +11,7 @@ policy_path = os.path.join(os.path.dirname(__file__), "imagemagick_config")
 os.environ["MAGICK_CONFIGURE_PATH"] = policy_path
 os.environ["IMAGEMAGICK_BINARY"] = "/usr/bin/convert"
 
-# Verify configuration
-st.write(f"Using ImageMagick binary: {os.environ['IMAGEMAGICK_BINARY']}")
-st.write(f"Using policy path: {os.environ['MAGICK_CONFIGURE_PATH']}")
-if os.path.exists(os.path.join(policy_path, "policy.xml")):
-    st.write("Custom policy.xml found!")
-else:
-    st.error("Custom policy.xml NOT found in imagemagick_config/")
 
-# Verify ImageMagick version
-try:
-    output = subprocess.check_output(["convert", "--version"]).decode()
-    st.write(f"ImageMagick version: {output}")
-except Exception as e:
-    st.error(f"ImageMagick check failed: {e}")
-
-# Test ImageMagick with a simple command
-try:
-    with open("/tmp/test.txt", "w") as f:
-        f.write("label:test")
-    output = subprocess.check_output(["convert", "@/tmp/test.txt", "/tmp/test.png"]).decode()
-    st.write("ImageMagick @ operator test succeeded!")
-except Exception as e:
-    st.error(f"ImageMagick @ operator test failed: {e}")
-
-# MoviePy imports (after setting environment variables)
 
 
 import time
@@ -55,6 +31,32 @@ from io import BytesIO
 import tempfile
 from openai import OpenAI
 
+# Debug output
+st.write(f"Using ImageMagick binary: {os.environ['IMAGEMAGICK_BINARY']}")
+st.write(f"Using policy path: {os.environ['MAGICK_CONFIGURE_PATH']}")
+if os.path.exists(os.path.join(policy_path, "policy.xml")):
+    st.write("Custom policy.xml found!")
+else:
+    st.error("Custom policy.xml NOT found in imagemagick_config/")
+try:
+    output = subprocess.check_output(["convert", "--version"]).decode()
+    st.write(f"ImageMagick version: {output}")
+except Exception as e:
+    st.error(f"ImageMagick check failed: {e}")
+try:
+    with open("/tmp/test.txt", "w") as f:
+        f.write("label:test")
+    output = subprocess.check_output(["convert", "@/tmp/test.txt", "/tmp/test.png"]).decode()
+    st.write("ImageMagick @ operator test succeeded!")
+except Exception as e:
+    st.error(f"ImageMagick @ operator test failed: {e}")
+
+# Test TextClip creation
+try:
+    test_clip = TextClip("Test Text", fontsize=90, color="white", bg_color="black", font="DejaVuSans-Bold")
+    st.write("TextClip creation succeeded!")
+except Exception as e:
+    st.error(f"TextClip creation failed: {e}")
 
 # Sidebar for API Keys and Settings
 
