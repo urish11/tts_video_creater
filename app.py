@@ -39,9 +39,7 @@ st.write("Create viral short-form videos with AI-generated scripts, images, and 
 # Initialize OpenAI client
 @st.cache_resource
 def get_openai_client():
-    if 'openai_api_key' in st.session_state and st.session_state.openai_api_key:
         return OpenAI(api_key=openai_api_key)
-    return None
 
 # Functions from original code
 def generate_script(prompt, client):
