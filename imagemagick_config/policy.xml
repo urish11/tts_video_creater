@@ -1,0 +1,4 @@
+<policymap>
+  <policy domain="path" rights="read|write" pattern="@*" />
+  <policy domain="coder" rights="read|write" pattern="PNG" />
+</policymap>
