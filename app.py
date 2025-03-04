@@ -155,7 +155,7 @@ def generate_flux_image(prompt, flux_api_keys):
                     "prompt": "weird perplexing enticing image of : " + prompt,
                     "model": "black-forest-labs/FLUX.1-schnell-Free",
                     "steps": 3,
-                    "n"q: 1,
+                    "n": 1,
                     "height": 704,
                     "width": 400
                 }
