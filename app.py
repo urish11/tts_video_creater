@@ -120,12 +120,16 @@ def get_openai_client():
 def generate_script(prompt, client):
     with st.spinner('Generating script...'):
         response = client.chat.completions.create(
-            model="o1-preview",
+            model="o1",
             messages=[
                 {"role": "system", "content": "You are a creative  writer. ALWAYS write the full avatar description on each visual description ALWAYS!!!! "},
                 {"role": "user", "content": prompt}
             ],
-            temperature=1.05
+            response_format={
+    "type": "json_object"
+  },
+  reasoning_effort="medium"
+
         )
         try:
             response_content = response.choices[0].message.content.replace('```json', '').replace('```', '')
