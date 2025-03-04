@@ -116,29 +116,30 @@ def generate_script(prompt, client):
             return None
 
 def generate_flux_image(prompt, flux_api_keys):
-    with st.spinner('Generating image...'):
-        url = "https://api.together.xyz/v1/images/generations"
-        payload = {
-            "prompt": "weird perplexing enticing image of : " + prompt,
-            "model": "black-forest-labs/FLUX.1-schnell-Free",
-            "steps": 3,
-            "n": 1,
-            "height": 704,
-            "width": 400
-        }
-        headers = {
-            "accept": "application/json",
-            "content-type": "application/json",
-            "authorization": f"Bearer {random.choice(flux_api_keys)}"
-        }
+    while True:
+        try:
+                
+            with st.spinner('Generating image...'):
+                url = "https://api.together.xyz/v1/images/generations"
+                payload = {
+                    "prompt": "weird perplexing enticing image of : " + prompt,
+                    "model": "black-forest-labs/FLUX.1-schnell-Free",
+                    "steps": 3,
+                    "n": 1,
+                    "height": 704,
+                    "width": 400
+                }
+                headers = {
+                    "accept": "application/json",
+                    "content-type": "application/json",
+                    "authorization": f"Bearer {random.choice(flux_api_keys)}"
+                }
+        
+                response = requests.post(url, json=payload, headers=headers)
+                response_data = response.json()
+                if "data" in response_data and len(response_data["data"]) > 0:
+                    return response_data["data"][0]["url"]
 
-        response = requests.post(url, json=payload, headers=headers)
-        response_data = response.json()
-        if "data" in response_data and len(response_data["data"]) > 0:
-            return response_data["data"][0]["url"]
-        else:
-            st.error(f"Error generating image: {response_data}")
-            return None
 
 def generate_audio_with_timestamps(text, client, voice_id="alloy"):
     with st.spinner('Generating audio...'):
