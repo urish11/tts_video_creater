@@ -207,7 +207,7 @@ def generate_audio_with_timestamps(text, client, voice_id="alloy"):
     
     # 3) Extract word timings
     word_timings = []
-    for word_info in transcribe_data.get("words", []):
+    for word_info in transcribe_data['words']:
         word_timings.append({
             "word": word_info["word"],
             "start": word_info["start"],
