@@ -1,11 +1,4 @@
-Updated app.py
-python
 
-Collapse
-
-Wrap
-
-Copy
 import os
 import streamlit as st
 import subprocess
