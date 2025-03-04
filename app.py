@@ -74,9 +74,15 @@ def create_text_image(text, fontsize, color, bg_color, font_path):
     # Get the bounding box using getbbox()
     bbox = font.getbbox(text)
     text_size = (bbox[2] - bbox[0], bbox[3] - bbox[1])
-    text_size= (text_size[0],text_size[1]*1.1)
     
+
+       # Get the bounding box using getbbox()
+    bbox = font.getbbox(text)
+    text_width = bbox[2] - bbox[0]
+    text_height = bbox[3] - bbox[1]
     
+    # Increase background height by 10%
+    new_height = int(text_height * 1.1)
     # Create an image with the correct size and draw the text
     img = Image.new("RGB", text_size, bg_color)
     draw = ImageDraw.Draw(img)
@@ -411,7 +417,7 @@ if st.button("Generate Videos"):
         results = []
         
         progress_placeholder = st.empty()
-        main_progress_bar = st.progress(0)
+        main_progress_bar = st.progressq(0)
         
         total_videos = df['count'].sum()
         videos_completed = 0
