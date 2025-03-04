@@ -39,12 +39,16 @@ st.title("🎬 AI Video Generator")
 st.write("Create viral short-form videos with AI-generated scripts, images, and voiceovers.")
 
 def patched_resizer(pilim, newsize):
+    # If newsize is a tuple or list, ensure its elements are integers.
     if isinstance(newsize, (list, tuple)):
         newsize = tuple(int(dim) for dim in newsize)
+    # If newsize is a number, treat it as a scaling factor.
+    elif isinstance(newsize, (int, float)):
+        orig_width, orig_height = pilim.size
+        newsize = (int(orig_width * newsize), int(orig_height * newsize))
     return pilim.resize(newsize, Image.LANCZOS)
 
 resize.resizer = patched_resizer
-
 
 
 # Initialize OpenAI client
