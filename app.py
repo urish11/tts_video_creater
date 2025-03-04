@@ -26,8 +26,28 @@ from moviepy.editor import *
 import moviepy.video.fx.resize as resize
 from moviepy.config import change_settings
 from PIL import Image
-# Force MoviePy to use the correct binary and refresh config
-change_settings({"IMAGEMAGICK_BINARY": "/usr/bin/convert"})
+# Set environment variables
+policy_path = os.path.join(os.path.dirname(__file__), "imagemagick_config")
+os.environ["MAGICK_CONFIGURE_PATH"] = policy_path
+os.environ["IMAGEMAGICK_BINARY"] = "/usr/bin/convert"
+
+# Custom TextClip class to pass environment variables
+class PatchedTextClip(OriginalTextClip):
+    def __init__(self, txt, fontsize=70, color='white', bg_color='transparent', font=None, **kwargs):
+        # Prepare the environment for subprocess
+        env = os.environ.copy()
+        env["MAGICK_CONFIGURE_PATH"] = policy_path
+        env["IMAGEMAGICK_BINARY"] = "/usr/bin/convert"
+        
+        # Call the original TextClip with the custom environment
+        try:
+            OriginalTextClip.__init__(self, txt, fontsize=fontsize, color=color, bg_color=bg_color, font=font, 
+                                     method='label', env=env, **kwargs)
+        except Exception as e:
+            raise IOError(f"Custom TextClip failed: {str(e)}")
+
+# Replace TextClip with our patched version
+TextClip = PatchedTextClip
 import numpy as np
 from io import BytesIO
 import tempfile
