@@ -67,7 +67,7 @@ def group_words_with_timing(word_timings, words_per_group=2):
 
 def create_text_image(text, fontsize, color, bg_color, font_path):
 
-    
+    text = text[0] + text[1:].lower()
     # Load your custom font
     font = ImageFont.truetype(font_path, fontsize)
     
@@ -191,7 +191,7 @@ def generate_audio_with_timestamps(text, client, voice_id="alloy"):
         voice=openai_voice,
         input=text,
         response_format="mp3",
-        speed=1.0
+        speed=1.15
     )
     
     # Save the generated audio
