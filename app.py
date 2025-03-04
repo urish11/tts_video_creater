@@ -15,6 +15,7 @@ from PIL import Image
 import numpy as np
 from io import BytesIO
 import tempfile
+from openai import OpenAI
 
 st.set_page_config(page_title="AI Video Generator", page_icon="🎬", layout="wide")
 
