@@ -182,7 +182,7 @@ def generate_flux_image_lora(prompt, flux_api_keys,lora_path="https://huggingfac
             with st.spinner('Generating image...'):
                 url = "https://api.together.xyz/v1/images/generations"
                 payload = {
-                    "prompt": " prompt,
+                    "prompt":  prompt,
                     "model": "black-forest-labs/FLUX.1-dev-lora",
                     "steps": 1,
                     "n": 1,
@@ -199,6 +199,7 @@ def generate_flux_image_lora(prompt, flux_api_keys,lora_path="https://huggingfac
                 response = requests.post(url, json=payload, headers=headers)
                 response_data = response.json()
                 if "data" in response_data and len(response_data["data"]) > 0:
+                    st.text(response_data)
                     return response_data["data"][0]["url"]
 
         except:
