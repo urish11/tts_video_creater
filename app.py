@@ -41,34 +41,21 @@ st.title("🎬 AI Video Generator")
 st.write("Create viral short-form videos with AI-generated scripts, images, and voiceovers.")
 
 def create_text_image(text, fontsize, color, bg_color, font_path):
+
     
-
-    # Load the font
+    # Load your custom font
     font = ImageFont.truetype(font_path, fontsize)
-
-    # Create a dummy image to measure text size
-    dummy_img = Image.new("RGB", (1, 1), bg_color)
-    draw = ImageDraw.Draw(dummy_img)
-
-    # Measure text size
-    bbox = draw.textbbox((0, 0), text, font=font)
-    text_width = bbox[2] - bbox[0]
-    text_height = bbox[3] - bbox[1]
-
-    # Get font metrics
-    ascent, descent = font.getmetrics()
-    adjusted_height = text_height + descent  # Ensure full character height
-
-    # Create an image with corrected size
-    img = Image.new("RGB", (text_width, adjusted_height), bg_color)
+    
+    # Get the bounding box using getbbox()
+    bbox = font.getbbox(text)
+    text_size = (bbox[2] - bbox[0], bbox[3] - bbox[1])
+    
+    # Create an image with the correct size and draw the text
+    img = Image.new("RGB", text_size, bg_color)
     draw = ImageDraw.Draw(img)
-
-    # Draw text with proper alignment
-    draw.text((0, ascent), text, font=font, fill=color)  # Offset for ascenders
-
-    # Display in Streamlit
+    draw.text((-bbox[0], -bbox[1]), text, font=font, fill=color)
+    
     st.image(np.array(img))
-
     return np.array(img)
 
 
