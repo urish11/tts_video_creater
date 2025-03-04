@@ -143,70 +143,69 @@ def generate_flux_image(prompt, flux_api_keys):
         except:
             print("Error generating image, retrying:", e)
             time.sleep(2)
-def generate_audio_with_timestamps(text, client, voice_id="alloy"):
-    with st.spinner('Generating audio...'):
-        # Map the ElevenLabs voice IDs to OpenAI voice options
-        voice_mapping = {
-            # Male voices
-            "9V6ttLLomNKvqmgFjtMO": "onyx",
-            "1OhOeD8LiQNJeNSBQ4kg": "echo",
-            # Female voices
-            "VvaCLpw3xbigj6353rBV": "nova",
-            "XN5MUfNpmfCV6rvigVhs": "shimmer",
-            # Extra mappings for the streamlit app
-            "ash": "echo",
-            "sage": "nova"
-        }
-        
-        # Use the mapping if a known voice ID is provided, otherwise use the input directly
-        openai_voice = voice_mapping.get(voice_id, voice_id)
-        
-        # Create a temporary file for the audio
-        temp_audio_file = tempfile.NamedTemporaryFile(delete=False, suffix=".mp3")
-        temp_audio_path = temp_audio_file.name
-        temp_audio_file.close()
-        
-        # Request TTS from OpenAI
-        response = client.audio.speech.create(
-            model="tts-1",
-            voice=openai_voice,
-            input=text,
-            response_format="mp3",
-            speed=1.0
-        )
-        
-        # Save the audio file
-        with open(temp_audio_path, "wb") as f:
-            f.write(response.content)
-        
-        # Generate word timings
-        words = text.split()
-        audio_clip = AudioFileClip(temp_audio_path)
-        total_duration = audio_clip.duration
-        
-        # Create word timing data
-        word_pairs = []
-        for i in range(0, len(words), 2):
-            if i + 1 < len(words):
-                word_pairs.append(words[i] + " " + words[i+1])
-            else:
-                word_pairs.append(words[i])
-        
-        avg_pair_duration = total_duration / len(word_pairs) if word_pairs else 0
-        
-        # Create timing data for word pairs
-        current_time = 0
-        word_timings = []
-        for pair in word_pairs:
-            end_time = current_time + avg_pair_duration
-            word_timings.append({
-                "word": pair,
-                "start": current_time,
-                "end": end_time
-            })
-            current_time = end_time
-        
-        return temp_audio_path, word_timings
+
+
+def generate_audio_with_timestamps(text, client, openai_api_key, voice_id="alloy"):
+    # 1) Generate TTS audio and save to a temp file
+    temp_audio_file = tempfile.NamedTemporaryFile(delete=False, suffix=".mp3")
+    temp_audio_path = temp_audio_file.name
+    temp_audio_file.close()
+
+    # OpenAI voice mapping
+    voice_mapping = {
+        "9V6ttLLomNKvqmgFjtMO": "onyx",
+        "1OhOeD8LiQNJeNSBQ4kg": "echo",
+        "VvaCLpw3xbigj6353rBV": "nova",
+        "XN5MUfNpmfCV6rvigVhs": "shimmer",
+        "ash": "echo",
+        "sage": "nova"
+    }
+    openai_voice = voice_mapping.get(voice_id, voice_id)
+
+    # Generate TTS audio
+    response = client.audio.speech.create(
+        model="tts-1",
+        voice=openai_voice,
+        input=text,
+        response_format="mp3",
+        speed=1.0
+    )
+    
+    # Save the generated audio
+    with open(temp_audio_path, "wb") as f:
+        f.write(response.content)
+
+    # 2) Transcribe audio with OpenAI Whisper API for word timestamps
+    transcription_url = "https://api.openai.com/v1/audio/transcriptions"
+    headers = {"Authorization": f"Bearer {openai_api_key}"}
+    files = {"file": open(temp_audio_path, "rb")}
+    data = {
+        "model": "whisper-1",
+        "response_format": "verbose_json",
+        "timestamp_granularities": ["word"]
+    }
+
+    # Send request to OpenAI Whisper API
+    transcribe_response = requests.post(transcription_url, headers=headers, files=files, data=data)
+    
+    # Check response
+    if transcribe_response.status_code != 200:
+        print("Error in Whisper API:", transcribe_response.text)
+        return temp_audio_path, []
+
+    # Parse response JSON
+    transcribe_data = transcribe_response.json()
+    
+    # 3) Extract word timings
+    word_timings = []
+    for word_info in transcribe_data.get("words", []):
+        word_timings.append({
+            "word": word_info["word"],
+            "start": word_info["start"],
+            "end": word_info["end"]
+        })
+
+    return temp_audio_path, word_timings
 
 def create_video_with_image_on_top(media_assets, topic, progress_bar=None):
     with st.spinner('Creating video...'):
