@@ -201,7 +201,7 @@ def generate_audio_with_timestamps(text, client, voice_id="alloy"):
 
 
     # Parse response JSON
-    transcribe_data = transcribe_response
+    transcribe_data = dict(transcribe_response)
     
     # 3) Extract word timings
     word_timings = []
