@@ -26,6 +26,8 @@ from moviepy.editor import *
 import moviepy.video.fx.resize as resize
 
 from PIL import Image
+# Force MoviePy to use the correct binary and refresh config
+change_settings({"IMAGEMAGICK_BINARY": "/usr/bin/convert"})
 import numpy as np
 from io import BytesIO
 import tempfile
