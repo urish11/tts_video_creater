@@ -39,6 +39,23 @@ client = OpenAI(api_key= openai_api_key)
 st.title("🎬 AI Video Generator")
 st.write("Create viral short-form videos with AI-generated scripts, images, and voiceovers.")
 
+def create_text_image(text, fontsize, color, bg_color, font_path):
+    # Load your custom font
+    font = ImageFont.truetype(font_path, fontsize)
+    
+    # Create a dummy image to measure text size
+    dummy_img = Image.new("RGB", (1, 1), bg_color)
+    draw = ImageDraw.Draw(dummy_img)
+    text_size = draw.textsize(text, font=font)
+    
+    # Create an image with the correct size and draw the text
+    img = Image.new("RGB", text_size, bg_color)
+    draw = ImageDraw.Draw(img)
+    draw.text((0, 0), text, font=font, fill=color)
+    return np.array(img)
+
+
+
 def patched_resizer(pilim, newsize):
     # Ensure newsize is a tuple of integers
     if isinstance(newsize, (list, tuple)):
@@ -220,7 +237,9 @@ def create_video_with_image_on_top(media_assets, topic, progress_bar=None):
                 end = word_data['end']
                 #txt_clip = TextClip(word, fontsize=90, color=color, bg_color='black', 
                 #                  font="Arial" if os.name == 'nt' else "DejaVuSans-Bold").set_position(("center", 1440))
-                txt_clip = TextClip(word,fontsize=90,color=color,bg_color='black',font="Arial" if os.name == 'nt' else "DejaVuSans-Bold",method='pillow').set_position(("center", 1440)).set_start(start).set_end(end)
+                #txt_clip = TextClip(word,fontsize=90,color=color,bg_color='black',font="Arial" if os.name == 'nt' else "DejaVuSans-Bold",method='pillow').set_position(("center", 1440)).set_start(start).set_end(end)
+                text_img = create_text_image(word, 90, color, "black", "./Montserrat-Bold.ttf")
+                txt_clip = ImageClip(text_img).set_position(("center", 1440)).set_start(start).set_end(end)
 
 
                 
