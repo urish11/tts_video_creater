@@ -1,6 +1,9 @@
+
+
 import streamlit as st
 import json
 import os
+os.environ["IMAGEMAGICK_BINARY"] = "/usr/bin/convert"
 import requests
 import time
 import random
