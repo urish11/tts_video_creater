@@ -1,45 +1,6 @@
-import os
 import streamlit as st
-import subprocess
-from moviepy.editor import *
-import moviepy.video.fx.all as vfx
-
-# Set environment variables
-policy_path = os.path.join(os.path.dirname(__file__), "imagemagick_config")
-os.environ["MAGICK_CONFIGURE_PATH"] = policy_path
-os.environ["IMAGEMAGICK_BINARY"] = "/usr/bin/convert"
-
-# Custom TextClip class for MoviePy 1.0.3
-class PatchedTextClip(TextClip):
-    def __init__(self, txt, fontsize=70, color='white', bg_color='transparent', font=None, **kwargs):
-        env = os.environ.copy()
-        env["MAGICK_CONFIGURE_PATH"] = policy_path
-        env["IMAGEMAGICK_BINARY"] = "/usr/bin/convert"
-        
-        # Build the ImageMagick command (based on MoviePy 1.0.3 TextClip logic)
-        import tempfile
-        temp_file = tempfile.NamedTemporaryFile(delete=False, suffix='.png')
-        cmd = [get_setting("IMAGEMAGICK_BINARY"), '-background', bg_color, '-fill', color]
-        if font:
-            cmd.extend(['-font', font])
-        cmd.extend(['-pointsize', str(fontsize), '-gravity', 'center', 'label:' + txt, 'PNG32:' + temp_file.name])
-        
-        # Execute with custom environment
-        process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env)
-        output, error = process.communicate()
-        if process.returncode != 0:
-            raise IOError(f"ImageMagick error: {error.decode()}")
-        
-        # Initialize as ImageClip
-        ImageClip.__init__(self, temp_file.name, transparent=(bg_color == 'transparent'))
-        os.unlink(temp_file.name)  # Clean up temporary file
-        self.txt = txt
-
-# Replace TextClip with our patched version
-TextClip = PatchedTextClip
-
-# Rest of your imports
 import json
+import os
 import requests
 import time
 import random
@@ -49,71 +10,18 @@ import datetime
 import string
 from botocore.exceptions import NoCredentialsError
 from openai import OpenAI
+from moviepy.editor import *
+import moviepy.video.fx.resize as resize
+
 from PIL import Image
 import numpy as np
 from io import BytesIO
 import tempfile
+from openai import OpenAI
 
-# Streamlit setup
 st.set_page_config(page_title="AI Video Generator", page_icon="🎬", layout="wide")
 
-# Debug output
-st.write(f"Using ImageMagick binary: {os.environ['IMAGEMAGICK_BINARY']}")
-st.write(f"Using policy path: {os.environ['MAGICK_CONFIGURE_PATH']}")
-if os.path.exists(os.path.join(policy_path, "policy.xml")):
-    st.write("Custom policy.xml found!")
-else:
-    st.error("Custom policy.xml NOT found in imagemagick_config/")
-try:
-    output = subprocess.check_output(["convert", "--version"]).decode()
-    st.write(f"ImageMagick version: {output}")
-except Exception as e:
-    st.error(f"ImageMagick check failed: {e}")
-try:
-    with open("/tmp/test.txt", "w") as f:
-        f.write("label:test")
-    output = subprocess.check_output(["convert", "@/tmp/test.txt", "/tmp/test.png"]).decode()
-    st.write("ImageMagick @ operator test succeeded!")
-except Exception as e:
-    st.error(f"ImageMagick @ operator test failed: {e}")
-
-# Test TextClip creation
-try:
-    test_clip = TextClip("Test Text", fontsize=90, color="white", bg_color="black", font="DejaVuSans-Bold")
-    st.write("TextClip creation succeeded!")
-except Exception as e:
-    st.error(f"TextClip creation failed: {e}")
-
-from moviepy.config import get_setting
-st.write(f"MoviePy using IMAGEMAGICK_BINARY: {get_setting('IMAGEMAGICK_BINARY')}")
-
-# Check MoviePy version
-import moviepy
-st.write(f"MoviePy version: {moviepy.__version__}")
-
-# Define patched_resizer
-def patched_resizer(pilim, newsize):
-    if isinstance(pilim, Image.Image):
-        orig_width, orig_height = pilim.size
-    elif isinstance(pilim, np.ndarray):
-        orig_height, orig_width = pilim.shape[:2]
-    else:
-        raise ValueError(f"Unsupported input type: {type(pilim)}")
-    if isinstance(newsize, (list, tuple)):
-        newsize = tuple(map(int, newsize))
-        new_width, new_height = newsize[::-1]
-    elif isinstance(newsize, (int, float)):
-        new_width = int(orig_width * newsize)
-        new_height = int(orig_height * newsize)
-    else:
-        raise ValueError(f"Unsupported newsize type: {type(newsize)}")
-    if isinstance(pilim, np.ndarray):
-        pilim = Image.fromarray(pilim.astype('uint8'))
-    resized_image = pilim.resize((new_width, new_height), Image.LANCZOS)
-    return np.array(resized_image)
-
-# Apply patched_resizer
-vfx.resize.resizer = patched_resizer
+# Sidebar for API Keys and Settings
 
 openai_api_key = st.secrets["openai_api_key"]
 flux_api_keys = st.secrets["flux_api_keys"]
@@ -126,14 +34,17 @@ s3_region = st.secrets["s3_region"]
 
 client = OpenAI(api_key= openai_api_key)
 
-
-
-
 # Main content
 st.title("🎬 AI Video Generator")
 st.write("Create viral short-form videos with AI-generated scripts, images, and voiceovers.")
 
+def patched_resizer(pilim, newsize):
+    if isinstance(newsize, list):
+        newsize = tuple(map(int, newsize))  # Convert list to tuple of ints
+    return pilim.resize(newsize[::-1], Image.LANCZOS)
 
+
+resize.resizer = patched_resizer
 
 
 # Initialize OpenAI client
