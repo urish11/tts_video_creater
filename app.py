@@ -36,6 +36,13 @@ client = OpenAI(api_key= openai_api_key)
 st.title("🎬 AI Video Generator")
 st.write("Create viral short-form videos with AI-generated scripts, images, and voiceovers.")
 
+def patched_resizer(pilim, newsize):
+    return pilim.resize(newsize[::-1], Image.LANCZOS)
+
+
+resize.resizer = patched_resizer
+
+
 # Initialize OpenAI client
 @st.cache_resource
 def get_openai_client():
