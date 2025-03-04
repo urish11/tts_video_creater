@@ -39,14 +39,26 @@ st.title("🎬 AI Video Generator")
 st.write("Create viral short-form videos with AI-generated scripts, images, and voiceovers.")
 
 def patched_resizer(pilim, newsize):
-    # If newsize is a tuple or list, ensure its elements are integers.
+    # Ensure newsize is a tuple of integers
     if isinstance(newsize, (list, tuple)):
         newsize = tuple(int(dim) for dim in newsize)
-    # If newsize is a number, treat it as a scaling factor.
     elif isinstance(newsize, (int, float)):
-        orig_width, orig_height = pilim.size
+        # Determine original dimensions from pilim (use .shape if it's a numpy array)
+        if hasattr(pilim, "shape"):
+            orig_height, orig_width = pilim.shape[:2]
+        else:
+            orig_width, orig_height = pilim.size
         newsize = (int(orig_width * newsize), int(orig_height * newsize))
-    return pilim.resize(newsize, Image.LANCZOS)
+    
+    # If pilim is not a PIL Image, convert it
+    if not isinstance(pilim, Image.Image):
+        pilim = Image.fromarray(pilim)
+    
+    # Resize the image using PIL
+    resized = pilim.resize(newsize, Image.LANCZOS)
+    
+    # Return a numpy array (MoviePy expects a numpy array frame)
+    return np.array(resized)
 
 resize.resizer = patched_resizer
 
