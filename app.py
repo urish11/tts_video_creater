@@ -74,6 +74,8 @@ def create_text_image(text, fontsize, color, bg_color, font_path):
     # Get the bounding box using getbbox()
     bbox = font.getbbox(text)
     text_size = (bbox[2] - bbox[0], bbox[3] - bbox[1])
+    text_size= (text_size[0],text_size[1]*1.1)
+    
     
     # Create an image with the correct size and draw the text
     img = Image.new("RGB", text_size, bg_color)
@@ -445,7 +447,7 @@ if st.button("Generate Videos"):
                 
                 # Generate prompt for script
                 prompt = f"""
-                write script for 15-20 seconds  3-4 texts\images viral video for {topic}
+                write script for 15-20 seconds  3-4 texts\images viral community oriented  video for {topic}
                 
                 return JUST json object, each element has 'text' for voiceover text and 'visual' for image description
                 
@@ -453,9 +455,8 @@ if st.button("Generate Videos"):
                 intriguing BUT NOT SURREAL NOT SURREAL NOT SURREAL NO ANIMALS. showing a {gender} for appropriate {age}\\look\\{race}\etc in images. maker sure the topic of the video is seen in the images.Each image description must be fully self-contained. Avoid references like 'the same woman' or 'she.' Instead, use explicit, consistent identifiers throughout each description(not names). For example, use the same "avatar" throughout the script, if it is x avatar then mention it in each image description. first image is a hook, must standout and be very intriguing wtf moment visually, eye catching perplexing visually.
                 each image description short and consice up to 20 words
                 
-                write in first person perspective
                 
-                start with insanely engaging somewhat hook puzzling perplexing unexpected 1st person to get users watching, NOT generic text
+                start with insanely engaging somewhat hook puzzling perplexing unexpected  to get users watching, NOT generic text
                 
                 Each image description must be fully self-contained (describe the avatar on each image description fully!! )!!!!!!!, with full avatar(dont use names!)!! dont reference previously mentioned
                 
