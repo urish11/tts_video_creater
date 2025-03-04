@@ -187,7 +187,7 @@ def generate_audio_with_timestamps(text, client, voice_id="alloy"):
 
     # Send request to OpenAI Whisper API
     transcribe_response = requests.post(transcription_url, headers=headers, files=files, data=data)
-    st.text(transcribe_response)
+    st.text(transcribe_response.text)
     
     # Check response
     if transcribe_response.status_code != 200:
