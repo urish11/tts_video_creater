@@ -59,7 +59,7 @@ def create_text_image(text, fontsize, color, bg_color, font_path):
     img = Image.new("RGB", text_size, bg_color)
     draw = ImageDraw.Draw(img)
     draw.text((0, 0), text, font=font, fill=color)
-    
+    st.image(np.array(img))
     return np.array(img)
 
 
