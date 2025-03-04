@@ -242,6 +242,7 @@ def create_video_with_image_on_top(media_assets, topic, progress_bar=None):
             
             # Create text clips for each word with timing
             text_clips = []
+            st.text(word_data)
             for word_data in word_timings:
                 word = word_data['word']
                 start = word_data['start']
