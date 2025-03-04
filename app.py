@@ -3,21 +3,24 @@ import streamlit as st
 import subprocess
 from moviepy.editor import *
 import moviepy.video.fx.all as vfx
-from moviepy.tools import subprocess_call
 
 # Set environment variables
 policy_path = os.path.join(os.path.dirname(__file__), "imagemagick_config")
 os.environ["MAGICK_CONFIGURE_PATH"] = policy_path
 os.environ["IMAGEMAGICK_BINARY"] = "/usr/bin/convert"
 
-# Patch MoviePy's subprocess call to include custom environment
-def patched_subprocess_call(cmd, **kwargs):
+# Custom subprocess_call with environment support
+def patched_subprocess_call(cmd, verbose=False):
     env = os.environ.copy()
     env["MAGICK_CONFIGURE_PATH"] = policy_path
     env["IMAGEMAGICK_BINARY"] = "/usr/bin/convert"
-    return subprocess_call(cmd, env=env, **kwargs)
+    process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env)
+    output, error = process.communicate()
+    if process.returncode != 0:
+        raise IOError(f"ImageMagick error: {error.decode()}")
+    return output
 
-# Replace the original subprocess_call in TextClip's module
+# Replace MoviePy's subprocess_call
 import moviepy.video.VideoClip
 moviepy.video.VideoClip.subprocess_call = patched_subprocess_call
 
@@ -70,7 +73,7 @@ except Exception as e:
 from moviepy.config import get_setting
 st.write(f"MoviePy using IMAGEMAGICK_BINARY: {get_setting('IMAGEMAGICK_BINARY')}")
 
-# Define patched_resizer (assuming this is your function from earlier)
+# Define patched_resizer
 def patched_resizer(pilim, newsize):
     if isinstance(pilim, Image.Image):
         orig_width, orig_height = pilim.size
@@ -91,7 +94,7 @@ def patched_resizer(pilim, newsize):
     resized_image = pilim.resize((new_width, new_height), Image.LANCZOS)
     return np.array(resized_image)
 
-# Apply patched_resizer to vfx.resize
+# Apply patched_resizer
 vfx.resize.resizer = patched_resizer
 
 openai_api_key = st.secrets["openai_api_key"]
