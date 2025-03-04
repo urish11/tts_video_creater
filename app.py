@@ -389,7 +389,7 @@ if st.button("Generate Videos"):
                         sub_progress.progress((idx) / len(script_json))
                         
                         # Generate image
-                        image_url = generate_flux_image(visual, st.session_state.flux_api_keys)
+                        image_url = generate_flux_image(visual, flux_api_keys)
                         
                         if image_url:
                             media_assets.append({"voice_id": voice_id, "image": image_url, "text": text})
@@ -404,16 +404,15 @@ if st.button("Generate Videos"):
                         
                         # Upload to S3 if credentials are provided
                         video_url = None
-                        if ('aws_access_key' in st.session_state and st.session_state.aws_access_key and
-                            'aws_secret_key' in st.session_state and st.session_state.aws_secret_key):
-                            video_url = upload_vid_to_s3(
-                                video_path=video_path,
-                                object_name=file_name,
-                                bucket_name=st.session_state.s3_bucket_name,
-                                aws_access_key_id=st.session_state.aws_access_key,
-                                aws_secret_access_key=st.session_state.aws_secret_key,
-                                region_name=st.session_state.s3_region
-                            )
+                        
+                        video_url = upload_vid_to_s3(
+                        video_path=video_path,
+                        object_name=file_name,
+                        bucket_name=s3_bucket_name,
+                        aws_access_key_id=aws_access_key,
+                        aws_secret_access_key=aws_secret_key,
+                        region_name=s3_region
+                        )
                         
                         # Display video
                         with open(video_path, "rb") as file:
