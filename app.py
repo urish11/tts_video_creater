@@ -73,7 +73,7 @@ def create_text_image(text, fontsize, color, bg_color, font_path):
     
     # Get the bounding box using getbbox()
     bbox = font.getbbox(text)
-    text_size = (bbox[2] - bbox[0], (bbox[3] - bbox[1])*1.05)
+    text_size = (bbox[2] - bbox[0], bbox[3] - bbox[1])
     
     # Create an image with the correct size and draw the text
     img = Image.new("RGB", text_size, bg_color)
