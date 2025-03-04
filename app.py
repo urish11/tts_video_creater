@@ -140,7 +140,9 @@ def generate_flux_image(prompt, flux_api_keys):
                 if "data" in response_data and len(response_data["data"]) > 0:
                     return response_data["data"][0]["url"]
 
-
+        except:
+            print("Error generating image, retrying:", e)
+            time.sleep(2)
 def generate_audio_with_timestamps(text, client, voice_id="alloy"):
     with st.spinner('Generating audio...'):
         # Map the ElevenLabs voice IDs to OpenAI voice options
