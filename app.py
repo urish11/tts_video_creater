@@ -24,7 +24,7 @@ from botocore.exceptions import NoCredentialsError
 from openai import OpenAI
 from moviepy.editor import *
 import moviepy.video.fx.resize as resize
-
+from moviepy.config import change_settings
 from PIL import Image
 # Force MoviePy to use the correct binary and refresh config
 change_settings({"IMAGEMAGICK_BINARY": "/usr/bin/convert"})
