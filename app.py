@@ -182,7 +182,7 @@ def generate_flux_image_lora(prompt, flux_api_keys,lora_path="https://huggingfac
             with st.spinner('Generating image...'):
                 url = "https://api.together.xyz/v1/images/generations"
                 payload = {
-                    "prompt": "weird perplexing enticing image of : " + prompt,
+                    "prompt": " prompt,
                     "model": "black-forest-labs/FLUX.1-dev-lora",
                     "steps": 1,
                     "n": 1,
