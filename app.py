@@ -176,26 +176,32 @@ def generate_audio_with_timestamps(text, client, voice_id="alloy"):
         f.write(response.content)
 
     # 2) Transcribe audio with OpenAI Whisper API for word timestamps
-    transcription_url = "https://api.openai.com/v1/audio/transcriptions"
-    headers = {"Authorization": f"Bearer {openai_api_key}"}
-    files = {"file": open(temp_audio_path, "rb")}
-    data = {
-        "model": "whisper-1",
-        "response_format": "verbose_json",
-        "timestamp_granularities": ["word"]
-    }
+    # transcription_url = "https://api.openai.com/v1/audio/transcriptions"
+    # headers = {"Authorization": f"Bearer {openai_api_key}"}
+    # files = {"file": open(temp_audio_path, "rb")}
+    # data = {
+    #     "model": "whisper-1",
+    #     "response_format": "verbose_json",
+    #     "timestamp_granularities": ["word"]
+    # }
 
-    # Send request to OpenAI Whisper API
-    transcribe_response = requests.post(transcription_url, headers=headers, files=files, data=data)
-    st.text(transcribe_response.content)
+    # # Send request to OpenAI Whisper API
+    # transcribe_response = requests.post(transcription_url, headers=headers, files=files, data=data)
+
+
+    transcribe_response = client.audio.transcriptions.create(
+  file=open(temp_audio_path, "rb"),
+  model="whisper-1",
+  response_format="verbose_json",
+  timestamp_granularities=["word"]
+)
+
+    st.text(transcribe_response)
     
-    # Check response
-    if transcribe_response.status_code != 200:
-        print("Error in Whisper API:", transcribe_response.text)
-        return temp_audio_path, []
+
 
     # Parse response JSON
-    transcribe_data = transcribe_response.json()
+    transcribe_data = transcribe_response
     
     # 3) Extract word timings
     word_timings = []
