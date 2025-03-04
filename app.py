@@ -1,3 +1,11 @@
+Updated app.py
+python
+
+Collapse
+
+Wrap
+
+Copy
 import os
 import streamlit as st
 import subprocess
@@ -9,15 +17,20 @@ policy_path = os.path.join(os.path.dirname(__file__), "imagemagick_config")
 os.environ["MAGICK_CONFIGURE_PATH"] = policy_path
 os.environ["IMAGEMAGICK_BINARY"] = "/usr/bin/convert"
 
-# Custom subprocess_call with environment support
-def patched_subprocess_call(cmd, verbose=False):
+# Custom subprocess_call compatible with MoviePy's signature
+def patched_subprocess_call(cmd, verbose=False, logger=None):
     env = os.environ.copy()
     env["MAGICK_CONFIGURE_PATH"] = policy_path
     env["IMAGEMAGICK_BINARY"] = "/usr/bin/convert"
     process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env)
     output, error = process.communicate()
     if process.returncode != 0:
-        raise IOError(f"ImageMagick error: {error.decode()}")
+        error_msg = f"ImageMagick error: {error.decode()}"
+        if logger:
+            logger.error(error_msg)
+        raise IOError(error_msg)
+    if verbose and logger:
+        logger.info(f"Command {cmd} executed successfully")
     return output
 
 # Replace MoviePy's subprocess_call
@@ -72,6 +85,10 @@ except Exception as e:
 
 from moviepy.config import get_setting
 st.write(f"MoviePy using IMAGEMAGICK_BINARY: {get_setting('IMAGEMAGICK_BINARY')}")
+
+# Check MoviePy version
+import moviepy
+st.write(f"MoviePy version: {moviepy.__version__}")
 
 # Define patched_resizer
 def patched_resizer(pilim, newsize):
