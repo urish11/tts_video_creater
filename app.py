@@ -179,7 +179,8 @@ def generate_flux_image_lora(prompt, flux_api_keys,lora_path="https://huggingfac
 
     while True:
         try:
-            client = Together(api_key=random.choice(flux_api_keys))
+            api_key =random.choice(flux_api_keys)
+            client = Together(api_key=api_key)
 
             with st.spinner('Generating image...'):
                 response = client.images.generate(
@@ -190,7 +191,7 @@ def generate_flux_image_lora(prompt, flux_api_keys,lora_path="https://huggingfac
                     steps=28,
                     n=1,
                     response_format="url",
-                    image_loras=[{"path":"https://huggingface.co/ddh0/FLUX-Amateur-Photography-LoRA/resolve/main/FLUX-Amateur-Photography-LoRA-v2.safetensors?download=true","scale":0.99}],
+                    image_loras=[{"path":lora_path,"scale":0.99}],
                 )
 
             return response.data[0].url
