@@ -128,13 +128,13 @@ def get_openai_client():
 def generate_script(prompt, client):
     with st.spinner('Generating script...'):
         response = client.chat.completions.create(
-            model="o1",
+            model="gpt-4o",
             messages=[
                 {"role": "system", "content": "You are a creative  writer. ALWAYS write the full avatar description on each visual description ALWAYS!!!! "},
                 {"role": "user", "content": prompt}
             ],
            # response_format={"type": "json_object"},
-  reasoning_effort="medium"
+  #reasoning_effort="medium"
 
         )
         try:
