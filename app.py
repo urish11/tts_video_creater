@@ -39,17 +39,31 @@ st.title("🎬 AI Video Generator")
 st.write("Create viral short-form videos with AI-generated scripts, images, and voiceovers.")
 
 def patched_resizer(pilim, newsize):
-    orig_width, orig_height = pilim.size
+    # Determine original dimensions based on input type
+    if isinstance(pilim, Image.Image):
+        orig_width, orig_height = pilim.size
+    elif isinstance(pilim, np.ndarray):
+        orig_height, orig_width = pilim.shape[:2]  # NumPy array: (height, width, channels)
+    else:
+        raise ValueError(f"Unsupported input type: {type(pilim)}")
+
     if isinstance(newsize, (list, tuple)):
+        # Static resize: newsize is a tuple of (width, height)
         newsize = tuple(map(int, newsize))
-        return pilim.resize(newsize[::-1], Image.LANCZOS)
+        new_width, new_height = newsize[::-1]  # Reverse to (height, width) for PIL
     elif isinstance(newsize, (int, float)):
+        # Dynamic resize: newsize is a scaling factor
         new_width = int(orig_width * newsize)
         new_height = int(orig_height * newsize)
-        return pilim.resize((new_width, new_height), Image.LANCZOS)
     else:
         raise ValueError(f"Unsupported newsize type: {type(newsize)}")
 
+    # If input is a NumPy array, convert to PIL Image for resizing
+    if isinstance(pilim, np.ndarray):
+        pilim = Image.fromarray(pilim.astype('uint8'))
+
+    # Perform resize and return
+    return pilim.resize((new_width, new_height), Image.LANCZOS)
 
 resize.resizer = patched_resizer
 
