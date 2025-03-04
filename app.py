@@ -41,19 +41,27 @@ st.title("🎬 AI Video Generator")
 st.write("Create viral short-form videos with AI-generated scripts, images, and voiceovers.")
 
 def create_text_image(text, fontsize, color, bg_color, font_path):
+    from PIL import Image, ImageDraw, ImageFont
+    import numpy as np
+
     # Load your custom font
     font = ImageFont.truetype(font_path, fontsize)
     
     # Create a dummy image to measure text size
     dummy_img = Image.new("RGB", (1, 1), bg_color)
     draw = ImageDraw.Draw(dummy_img)
-    text_size = draw.textsize(text, font=font)
+    
+    # Use textbbox to get the bounding box (left, top, right, bottom)
+    bbox = draw.textbbox((0, 0), text, font=font)
+    text_size = (bbox[2] - bbox[0], bbox[3] - bbox[1])
     
     # Create an image with the correct size and draw the text
     img = Image.new("RGB", text_size, bg_color)
     draw = ImageDraw.Draw(img)
     draw.text((0, 0), text, font=font, fill=color)
+    
     return np.array(img)
+
 
 
 
