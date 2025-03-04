@@ -3,7 +3,39 @@ import requests
 import streamlit as st
 import json
 import os
-os.environ["MAGICK_CONFIGURE_PATH"] = os.path.join(os.path.dirname(__file__), "imagemagick_config")
+import subprocess
+# Set ImageMagick configuration before any moviepy imports
+policy_path = os.path.join(os.path.dirname(__file__), "imagemagick_config")
+os.environ["MAGICK_CONFIGURE_PATH"] = policy_path
+os.environ["IMAGEMAGICK_BINARY"] = "/usr/bin/convert"
+
+# Verify configuration
+st.write(f"Using ImageMagick binary: {os.environ['IMAGEMAGICK_BINARY']}")
+st.write(f"Using policy path: {os.environ['MAGICK_CONFIGURE_PATH']}")
+if os.path.exists(os.path.join(policy_path, "policy.xml")):
+    st.write("Custom policy.xml found!")
+else:
+    st.error("Custom policy.xml NOT found in imagemagick_config/")
+
+# Verify ImageMagick version
+try:
+    output = subprocess.check_output(["convert", "--version"]).decode()
+    st.write(f"ImageMagick version: {output}")
+except Exception as e:
+    st.error(f"ImageMagick check failed: {e}")
+
+# Test ImageMagick with a simple command
+try:
+    with open("/tmp/test.txt", "w") as f:
+        f.write("label:test")
+    output = subprocess.check_output(["convert", "@/tmp/test.txt", "/tmp/test.png"]).decode()
+    st.write("ImageMagick @ operator test succeeded!")
+except Exception as e:
+    st.error(f"ImageMagick @ operator test failed: {e}")
+
+# MoviePy imports (after setting environment variables)
+
+
 import time
 import random
 import pandas as pd
@@ -38,13 +70,7 @@ client = OpenAI(api_key= openai_api_key)
 
 
 
-# Debugging
-import subprocess
-try:
-    output = subprocess.check_output(["convert", "--version"]).decode()
-    st.write(f"ImageMagick version: {output}")
-except Exception as e:
-    st.error(f"ImageMagick check failed: {e}")
+
 # Main content
 st.title("🎬 AI Video Generator")
 st.write("Create viral short-form videos with AI-generated scripts, images, and voiceovers.")
