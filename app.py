@@ -11,6 +11,8 @@ import string
 from botocore.exceptions import NoCredentialsError
 from openai import OpenAI
 from moviepy.editor import *
+import moviepy.video.fx.resize as resize
+
 from PIL import Image
 import numpy as np
 from io import BytesIO
