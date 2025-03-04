@@ -36,6 +36,15 @@ s3_region = st.secrets["s3_region"]
 
 client = OpenAI(api_key= openai_api_key)
 
+
+
+# Debugging
+import subprocess
+try:
+    output = subprocess.check_output(["convert", "--version"]).decode()
+    st.write(f"ImageMagick version: {output}")
+except Exception as e:
+    st.error(f"ImageMagick check failed: {e}")
 # Main content
 st.title("🎬 AI Video Generator")
 st.write("Create viral short-form videos with AI-generated scripts, images, and voiceovers.")
