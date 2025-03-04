@@ -21,7 +21,7 @@ from io import BytesIO
 import tempfile
 from openai import OpenAI
 
-st.set_page_config(page_title="AI Video Generator", page_icon="🎬", layout="wide")
+st.set_page_config(page_title="Video Generator", page_icon="🎬", layout="wide")
 
 # Sidebar for API Keys and Settings
 
@@ -37,8 +37,7 @@ s3_region = st.secrets["s3_region"]
 client = OpenAI(api_key= openai_api_key)
 
 # Main content
-st.title("🎬 AI Video Generator")
-st.write("Create viral short-form videos with AI-generated scripts, images, and voiceovers.")
+st.title("🎬 Video Generator")
 
 def group_words_with_timing(word_timings, words_per_group=2):
     grouped_timings = []
