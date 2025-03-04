@@ -417,7 +417,7 @@ if st.button("Generate Videos"):
         results = []
         
         progress_placeholder = st.empty()
-        main_progress_bar = st.progressq(0)
+        main_progress_bar = st.progress(0)
         
         total_videos = df['count'].sum()
         videos_completed = 0
