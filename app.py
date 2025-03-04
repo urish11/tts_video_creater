@@ -14,7 +14,8 @@ from moviepy.editor import *
 import moviepy.video.fx.resize as resize
 from moviepy.editor import TextClip
 
-from PIL import Image
+from PIL import Image,ImageDraw, ImageFont
+
 import numpy as np
 from io import BytesIO
 import tempfile
