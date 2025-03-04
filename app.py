@@ -23,8 +23,8 @@ import string
 from botocore.exceptions import NoCredentialsError
 from openai import OpenAI
 from moviepy.editor import *
-import moviepy.video.fx.resize as resize
-from moviepy.config import change_settings
+from moviepy.video.VideoClip import TextClip as OriginalTextClip
+import moviepy.video.fx.all as vfx
 from PIL import Image
 # Set environment variables
 policy_path = os.path.join(os.path.dirname(__file__), "imagemagick_config")
