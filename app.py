@@ -1,4 +1,11 @@
+Updated app.py
+python
 
+Collapse
+
+Wrap
+
+Copy
 import os
 import streamlit as st
 import subprocess
@@ -10,7 +17,7 @@ policy_path = os.path.join(os.path.dirname(__file__), "imagemagick_config")
 os.environ["MAGICK_CONFIGURE_PATH"] = policy_path
 os.environ["IMAGEMAGICK_BINARY"] = "/usr/bin/convert"
 
-# Custom subprocess_call compatible with MoviePy's signature
+# Custom subprocess_call compatible with MoviePy 1.0.3
 def patched_subprocess_call(cmd, verbose=False, logger=None):
     env = os.environ.copy()
     env["MAGICK_CONFIGURE_PATH"] = policy_path
@@ -20,15 +27,15 @@ def patched_subprocess_call(cmd, verbose=False, logger=None):
     if process.returncode != 0:
         error_msg = f"ImageMagick error: {error.decode()}"
         if logger:
-            logger.error(error_msg)
+            logger.error(error_msg)  # Logger might not exist in 1.0.3, but included for compatibility
         raise IOError(error_msg)
     if verbose and logger:
         logger.info(f"Command {cmd} executed successfully")
     return output
 
-# Replace MoviePy's subprocess_call
-import moviepy.video.VideoClip
-moviepy.video.VideoClip.subprocess_call = patched_subprocess_call
+# Replace the correct subprocess_call in moviepy.tools for MoviePy 1.0.3
+import moviepy.tools
+moviepy.tools.subprocess_call = patched_subprocess_call
 
 # Rest of your imports
 import json
