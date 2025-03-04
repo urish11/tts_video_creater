@@ -377,6 +377,12 @@ if st.button("Generate Videos"):
                 script_json = generate_script(prompt, client)
                 
                 if script_json:
+                    st.write(f"Script output: ")
+                    df = pd.DataFrame(script_json)
+                    st.dataframe(df)
+
+
+                
                     media_assets = []
                     
                     # Generate image and collect assets
