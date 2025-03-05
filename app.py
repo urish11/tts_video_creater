@@ -462,7 +462,7 @@ if st.button("Generate Videos"):
         
         for _, row in df.iterrows():
             topic = row['topic']
-            count = row['count']
+            count = int(row['count'])
             
             for i in range(count):
                 progress_placeholder.write(f"Working on topic: {topic} (#{i+1}/{count})")
