@@ -525,11 +525,11 @@ if st.button("Generate Videos"):
                 script_json = generate_script(prompt, client)
                 
                 if script_json:
-                    a=sdsa
                     st.write(f"Script output: ")
                     df = pd.DataFrame(script_json)
                     st.dataframe(df)
 
+                    a=sdsa
 
                 
                     media_assets = []
