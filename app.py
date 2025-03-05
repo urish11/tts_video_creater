@@ -2,6 +2,8 @@ import streamlit as st
 import json
 import os
 import requests
+from pydub import AudioSegment
+
 import time
 import random
 import pandas as pd
@@ -248,19 +250,21 @@ def generate_audio_with_timestamps(text, client, voice_id="alloy"):
         response_format="mp3",
         speed=1.15
     )
-    
+
     # Save the generated audio
     with open(temp_audio_path, "wb") as f:
         f.write(response.content)
 
-    # **Increase Volume by 15% (1.15x)**
-    boosted_audio_path = tempfile.NamedTemporaryFile(delete=False, suffix=".mp3").name
-    audio_clip = AudioFileClip(temp_audio_path).volumex(1.3)  # 15% louder
-    audio_clip.write_audiofile(boosted_audio_path, codec="aac")  # Save boosted audio
+    # **Increase Volume by 15% using PyDub**
+    boosted_audio = AudioSegment.from_file(temp_audio_path)
+    boosted_audio = boosted_audio + 12.3  # 30% increase in dB
+
+    # Save back to the same file
+    boosted_audio.export(temp_audio_path, format="mp3")
 
     # Transcribe boosted audio with OpenAI Whisper API for word timestamps
     transcribe_response = client.audio.transcriptions.create(
-        file=open(boosted_audio_path, "rb"),
+        file=open(temp_audio_path, "rb"),
         model="whisper-1",
         response_format="verbose_json",
         timestamp_granularities=["word"]
@@ -278,7 +282,7 @@ def generate_audio_with_timestamps(text, client, voice_id="alloy"):
             "end": word_info["end"]
         })
 
-    return boosted_audio_path, word_timings
+    return temp_audio_path, word_timings  
 
 def create_video_with_image_on_top(media_assets, topic, progress_bar=None):
     with st.spinner('Creating video...'):
