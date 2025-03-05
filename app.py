@@ -253,36 +253,23 @@ def generate_audio_with_timestamps(text, client, voice_id="alloy"):
     with open(temp_audio_path, "wb") as f:
         f.write(response.content)
 
-    # 2) Transcribe audio with OpenAI Whisper API for word timestamps
-    # transcription_url = "https://api.openai.com/v1/audio/transcriptions"
-    # headers = {"Authorization": f"Bearer {openai_api_key}"}
-    # files = {"file": open(temp_audio_path, "rb")}
-    # data = {
-    #     "model": "whisper-1",
-    #     "response_format": "verbose_json",
-    #     "timestamp_granularities": ["word"]
-    # }
+    # **Increase Volume by 15% (1.15x)**
+    boosted_audio_path = tempfile.NamedTemporaryFile(delete=False, suffix=".mp3").name
+    audio_clip = AudioFileClip(temp_audio_path).volumex(1.15)  # 15% louder
+    audio_clip.write_audiofile(boosted_audio_path, codec="aac")  # Save boosted audio
 
-    # # Send request to OpenAI Whisper API
-    # transcribe_response = requests.post(transcription_url, headers=headers, files=files, data=data)
-
-
+    # Transcribe boosted audio with OpenAI Whisper API for word timestamps
     transcribe_response = client.audio.transcriptions.create(
-  file=open(temp_audio_path, "rb"),
-  model="whisper-1",
-  response_format="verbose_json",
-  timestamp_granularities=["word"]
-)
-
-    
-
+        file=open(boosted_audio_path, "rb"),
+        model="whisper-1",
+        response_format="verbose_json",
+        timestamp_granularities=["word"]
+    )
 
     # Parse response JSON
     transcribe_data = json.loads(transcribe_response.to_json())
 
-
-    
-    # 3) Extract word timings
+    # Extract word timings
     word_timings = []
     for word_info in transcribe_data['words']:
         word_timings.append({
@@ -291,7 +278,7 @@ def generate_audio_with_timestamps(text, client, voice_id="alloy"):
             "end": word_info["end"]
         })
 
-    return temp_audio_path, word_timings
+    return boosted_audio_path, word_timings
 
 def create_video_with_image_on_top(media_assets, topic, progress_bar=None):
     with st.spinner('Creating video...'):
