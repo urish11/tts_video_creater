@@ -84,7 +84,7 @@ def create_text_image(text, fontsize, color, bg_color, font_path):
     # Increase background height by 10%
     new_height = int(text_height * 1.1)
     # Create an image with the correct size and draw the text
-    img = Image.new("RGB", text_size, bg_color)
+    img = Image.new("RGB", (text_width,new_height), bg_color)
     draw = ImageDraw.Draw(img)
     draw.text((-bbox[0], -bbox[1]), text, font=font, fill=color)
     
@@ -128,7 +128,7 @@ def get_openai_client():
 def generate_script(prompt, client):
     with st.spinner('Generating script...'):
         response = client.chat.completions.create(
-            model="gpt-4o",
+            model="o1",
             messages=[
                 {"role": "system", "content": "You are a creative  writer. ALWAYS write the full avatar description on each visual description ALWAYS!!!! "},
                 {"role": "user", "content": prompt}
@@ -525,6 +525,7 @@ if st.button("Generate Videos"):
                 script_json = generate_script(prompt, client)
                 
                 if script_json:
+                    a=sdsa
                     st.write(f"Script output: ")
                     df = pd.DataFrame(script_json)
                     st.dataframe(df)
