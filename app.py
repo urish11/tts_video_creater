@@ -529,7 +529,6 @@ if st.button("Generate Videos"):
                     df = pd.DataFrame(script_json)
                     st.dataframe(df)
 
-                    a=sdsa
 
                 
                     media_assets = []
