@@ -255,7 +255,7 @@ def generate_audio_with_timestamps(text, client, voice_id="alloy"):
 
     # **Increase Volume by 15% (1.15x)**
     boosted_audio_path = tempfile.NamedTemporaryFile(delete=False, suffix=".mp3").name
-    audio_clip = AudioFileClip(temp_audio_path).volumex(1.15)  # 15% louder
+    audio_clip = AudioFileClip(temp_audio_path).volumex(1.3)  # 15% louder
     audio_clip.write_audiofile(boosted_audio_path, codec="aac")  # Save boosted audio
 
     # Transcribe boosted audio with OpenAI Whisper API for word timestamps
