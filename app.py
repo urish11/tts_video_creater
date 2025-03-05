@@ -3,7 +3,7 @@ import json
 import os
 import requests
 from pydub import AudioSegment
-
+import urllib.parse
 import time
 import random
 import pandas as pd
@@ -352,7 +352,7 @@ def create_video_with_image_on_top(media_assets, topic, progress_bar=None):
         
         # Concatenate all clips to form a single video
         final_video = concatenate_videoclips(clips, method="compose").resize((1080, 1920))
-        file_name = f"output_video_{topic.replace(' ', '_')[:40]}_{int(datetime.datetime.now().timestamp())}.mp4"
+        file_name = f"output_video_{urllib.parse.quote(topic.replace(' ', '_')[:40], safe='')}_{int(datetime.datetime.now().timestamp())}.mp4"
         final_video.write_videofile(temp_video_path, fps=24, codec="libx264", audio_codec='aac')
         
         return temp_video_path, file_name
