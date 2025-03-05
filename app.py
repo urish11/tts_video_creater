@@ -517,7 +517,6 @@ if st.button("Generate Videos"):
                 
                 pick an avatar for the script, age, gender... explicitly describe this avatar FULLY!!!! description ON EACH IMAGE DESCRIPTION
                 
-                tell a very short simple clickbaity selling story
                 visual description is up to 20 words each, image is perplexing wtf
                 
                 """
