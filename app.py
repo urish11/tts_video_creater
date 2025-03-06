@@ -68,34 +68,36 @@ def group_words_with_timing(word_timings, words_per_group=2):
 
 
 def create_text_image(text, fontsize, color, bg_color, font_path):
-
     text = text[0] + text[1:].lower()
-    # Load your custom font
     font = ImageFont.truetype(font_path, fontsize)
     
-    # Get the bounding box using getbbox()
-    bbox = font.getbbox(text)
-    text_size = (bbox[2] - bbox[0], bbox[3] - bbox[1])
-    
-
-       # Get the bounding box using getbbox()
+    # Get text size
     bbox = font.getbbox(text)
     text_width = bbox[2] - bbox[0]
     text_height = bbox[3] - bbox[1]
-    
-    # Increase background height by 10%
-    new_height = int(text_height * 1.3)
-    # Create an image with the correct size and draw the text
-    img = Image.new("RGBA", (text_width,new_height), (0,0,0,0))
+
+    # Increase background size
+    padding_x = 20  # Horizontal padding
+    padding_y = int(text_height * 0.3)  # Vertical padding
+
+    img_width = text_width + 2 * padding_x
+    img_height = text_height + 2 * padding_y
+
+    # Create background
+    img = Image.new("RGBA", (img_width, img_height), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
-    draw.rounded_rectangle(
-    [(0, 0), (text_width, new_height)],
-    radius=15,
-    fill=bg_color
-)
-    draw.text((-bbox[0], -bbox[1]*0.8), text, font=font, fill=color)
+    
+    # Draw rounded rectangle background
+    draw.rounded_rectangle([(0, 0), (img_width, img_height)], radius=15, fill=bg_color)
+    
+    # Calculate text position
+    text_x = (img_width - text_width) // 2
+    text_y = (img_height - text_height) // 2 - bbox[1]  # Adjust to align properly
+
+    draw.text((text_x, text_y), text, font=font, fill=color)
     
     return np.array(img)
+
 
 
 
@@ -357,7 +359,8 @@ def create_video_with_image_on_top(media_assets, topic, progress_bar=None):
         
         # Concatenate all clips to form a single video
         final_video = concatenate_videoclips(clips, method="compose").resize((1080, 1920))
-        file_name = f"output_video_{urllib.parse.quote(topic.replace(' ', '_')[:40], safe='')}_{int(datetime.datetime.now().timestamp())}.mp4"
+        file_name = f"output_video_{urllib.parse.quote(topic.replace(' ', '_')[:40], safe='')}_{int(datetime.datetime.now().timestamp())}.mp4".replace("'",'').replace('"','')
+
         final_video.write_videofile(temp_video_path, fps=24, codec="libx264", audio_codec='aac')
         
         return temp_video_path, file_name
