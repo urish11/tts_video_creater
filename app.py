@@ -26,12 +26,11 @@ from openai import OpenAI
 
 st.set_page_config(page_title="Video Generator", page_icon="🎬", layout="wide")
 
-# Sidebar for API Keys and Settings
 
 openai_api_key = st.secrets["openai_api_key"]
 flux_api_keys = st.secrets["flux_api_keys"]
 
-# AWS S3 settings
+# S3 settings
 aws_access_key = st.secrets["aws_access_key"]
 aws_secret_key = st.secrets["aws_secret_key"]
 s3_bucket_name = st.secrets["s3_bucket_name"]
@@ -39,7 +38,7 @@ s3_region = st.secrets["s3_region"]
 
 client = OpenAI(api_key= openai_api_key)
 
-# Main content
+# main content
 st.title("🎬 Video Generator")
 
 def group_words_with_timing(word_timings, words_per_group=2):
@@ -70,22 +69,18 @@ def group_words_with_timing(word_timings, words_per_group=2):
 def create_text_image(text, fontsize, color, bg_color, font_path):
 
     text = text[0] + text[1:].lower()
-    # Load your custom font
     font = ImageFont.truetype(font_path, fontsize)
     
-    # Get the bounding box using getbbox()
     bbox = font.getbbox(text)
     text_size = (bbox[2] - bbox[0], bbox[3] - bbox[1])
     
 
-       # Get the bounding box using getbbox()
     bbox = font.getbbox(text)
     text_width = bbox[2] - bbox[0]
     text_height = bbox[3] - bbox[1]
     
     # Increase background height by 10%
     new_height = int(text_height * 1.1)
-    # Create an image with the correct size and draw the text
     img = Image.new("RGB", (text_width,new_height), bg_color)
     draw = ImageDraw.Draw(img)
     draw.text((-bbox[0], -bbox[1]), text, font=font, fill=color)
@@ -97,36 +92,30 @@ def create_text_image(text, fontsize, color, bg_color, font_path):
 
 
 def patched_resizer(pilim, newsize):
-    # Ensure newsize is a tuple of integers
     if isinstance(newsize, (list, tuple)):
         newsize = tuple(int(dim) for dim in newsize)
     elif isinstance(newsize, (int, float)):
-        # Determine original dimensions from pilim (use .shape if it's a numpy array)
         if hasattr(pilim, "shape"):
             orig_height, orig_width = pilim.shape[:2]
         else:
             orig_width, orig_height = pilim.size
         newsize = (int(orig_width * newsize), int(orig_height * newsize))
     
-    # If pilim is not a PIL Image, convert it
     if not isinstance(pilim, Image.Image):
         pilim = Image.fromarray(pilim)
     
-    # Resize the image using PIL
     resized = pilim.resize(newsize, Image.LANCZOS)
     
-    # Return a numpy array (MoviePy expects a numpy array frame)
     return np.array(resized)
 
 resize.resizer = patched_resizer
 
 
-# Initialize OpenAI client
 @st.cache_resource
 def get_openai_client():
         return OpenAI(api_key=openai_api_key)
 
-# Functions from original code
+
 def generate_script(prompt, client):
     with st.spinner('Generating script...'):
         response = client.chat.completions.create(
@@ -226,12 +215,10 @@ def generate_flux_image_lora(prompt, flux_api_keys,lora_path="https://huggingfac
 
 
 def generate_audio_with_timestamps(text, client, voice_id="alloy"):
-    # 1) Generate TTS audio and save to a temp file
     temp_audio_file = tempfile.NamedTemporaryFile(delete=False, suffix=".mp3")
     temp_audio_path = temp_audio_file.name
     temp_audio_file.close()
 
-    # OpenAI voice mapping
     voice_mapping = {
         "9V6ttLLomNKvqmgFjtMO": "onyx",
         "1OhOeD8LiQNJeNSBQ4kg": "echo",
@@ -251,7 +238,6 @@ def generate_audio_with_timestamps(text, client, voice_id="alloy"):
         speed=1.15
     )
 
-    # Save the generated audio
     with open(temp_audio_path, "wb") as f:
         f.write(response.content)
 
@@ -259,10 +245,8 @@ def generate_audio_with_timestamps(text, client, voice_id="alloy"):
     boosted_audio = AudioSegment.from_file(temp_audio_path)
     boosted_audio = boosted_audio + 12.3  # 30% increase in dB
 
-    # Save back to the same file
     boosted_audio.export(temp_audio_path, format="mp3")
 
-    # Transcribe boosted audio with OpenAI Whisper API for word timestamps
     transcribe_response = client.audio.transcriptions.create(
         file=open(temp_audio_path, "rb"),
         model="whisper-1",
@@ -270,10 +254,8 @@ def generate_audio_with_timestamps(text, client, voice_id="alloy"):
         timestamp_granularities=["word"]
     )
 
-    # Parse response JSON
     transcribe_data = json.loads(transcribe_response.to_json())
 
-    # Extract word timings
     word_timings = []
     for word_info in transcribe_data['words']:
         word_timings.append({
@@ -295,7 +277,6 @@ def create_video_with_image_on_top(media_assets, topic, progress_bar=None):
             if progress_bar:
                 progress_bar.progress((index + 0.5) / len(media_assets))
                 
-            # Generate audio with timestamps and get word timings
             client = get_openai_client()
             audio_filename, word_timings = generate_audio_with_timestamps(text=asset["text"], client=client, voice_id=asset["voice_id"])
             word_timings = group_words_with_timing(word_timings, words_per_group=2)
@@ -303,15 +284,12 @@ def create_video_with_image_on_top(media_assets, topic, progress_bar=None):
             audio_clip = AudioFileClip(audio_filename)
             duration = audio_clip.duration
             
-            # Load and resize image
             response = requests.get(asset["image"])
             image = Image.open(BytesIO(response.content)).resize((1080, 1920),Image.LANCZOS)
             image_array = np.array(image)
             
-            # Create an image clip positioned at the top half
             img_clip = ImageClip(image_array).set_duration(duration).set_position(("center", "top"))
             
-            # Apply zoom effect over the entire duration of the slide
             if index % 2 == 0:
                 # Zoom in
                 img_clip = img_clip.fx(vfx.resize, lambda t: 1 + (zoom_factor - 1) * (t / duration))
@@ -319,7 +297,6 @@ def create_video_with_image_on_top(media_assets, topic, progress_bar=None):
                 # Zoom out
                 img_clip = img_clip.fx(vfx.resize, lambda t: zoom_factor - (zoom_factor - 1) * (t / duration))
             
-            # Create text clips for each word with timing
             text_clips = []
             #st.text(word_timings)
             for word_data in word_timings:
@@ -341,16 +318,13 @@ def create_video_with_image_on_top(media_assets, topic, progress_bar=None):
             video = CompositeVideoClip([img_clip] + text_clips, size=(1080, 1920)).set_audio(audio_clip).set_duration(duration)
             clips.append(video)
             
-            # Update progress
             if progress_bar:
                 progress_bar.progress((index + 1) / len(media_assets))
         
-        # Create a temporary file for the video
         temp_video_file = tempfile.NamedTemporaryFile(delete=False, suffix=".mp4")
         temp_video_path = temp_video_file.name
         temp_video_file.close()
         
-        # Concatenate all clips to form a single video
         final_video = concatenate_videoclips(clips, method="compose").resize((1080, 1920))
         file_name = f"output_video_{urllib.parse.quote(topic.replace(' ', '_')[:40], safe='')}_{int(datetime.datetime.now().timestamp())}.mp4"
         final_video.write_videofile(temp_video_path, fps=24, codec="libx264", audio_codec='aac')
@@ -360,13 +334,10 @@ def create_video_with_image_on_top(media_assets, topic, progress_bar=None):
 def upload_vid_to_s3(video_path, bucket_name, aws_access_key_id, aws_secret_access_key, 
                     object_name='', region_name='us-east-1', video_format='mp4'):
     with st.spinner('Uploading to S3...'):
-        # Generate a random name for the video file if not specified
         object_name = object_name or "".join(random.choices(string.ascii_letters + string.digits, k=8)) + f".{video_format}"
         
-        # Open the local video file in binary mode
         try:
             with open(video_path, "rb") as video_file:
-                # Create an S3 client with the provided credentials
                 s3_client = boto3.client(
                     's3',
                     aws_access_key_id=aws_access_key_id,
@@ -391,11 +362,9 @@ def upload_vid_to_s3(video_path, bucket_name, aws_access_key_id, aws_secret_acce
         video_url = f"https://{bucket_name}.s3.{region_name}.amazonaws.com/{object_name}"
         return video_url
 
-# Data Input Section
 st.header("📊 Input Data")
 st.write("Upload an Excel file or create a table with topics and counts")
 
-# Option to upload Excel file
 uploaded_file = st.file_uploader("Upload an Excel file", type=['xlsx', 'xls'])
 
 if uploaded_file is not None:
@@ -403,17 +372,14 @@ if uploaded_file is not None:
     st.write("Excel file uploaded:")
     st.dataframe(df)
 else:
-    # Or create a table from scratch
     st.write("Or create a table from scratch:")
     
     if 'data' not in st.session_state:
         st.session_state.data = pd.DataFrame({'topic': ['fitness tips', 'cooking hacks'], 'count': [1, 1]})
     
-    # Get the initial number of rows
     if 'n_rows' not in st.session_state:
         st.session_state.n_rows = len(st.session_state.data)
     
-    # Use st.data_editor for an editable table
     edited_df = st.data_editor(
         st.session_state.data,
         num_rows="dynamic",
@@ -424,11 +390,9 @@ else:
         use_container_width=True,
     )
     
-    # Update session state with edited data
     st.session_state.data = edited_df
     df = edited_df
 
-# Video Generation Section
 st.header("🎥 Generate Videos")
 
 col1, col2 = st.columns(2)
@@ -467,7 +431,6 @@ if st.button("Generate Videos"):
             for i in range(count):
                 progress_placeholder.write(f"Working on topic: {topic} (#{i+1}/{count})")
                 
-                # Determine gender, race, age and voice
                 gender = selected_gender
                 if gender == "random":
                     gender = random.choice(["woman", "man"])
@@ -512,7 +475,6 @@ if st.button("Generate Videos"):
                 
                 """
                 
-                # Generate script
                 script_json = generate_script(prompt, client)
                 
                 if script_json:
@@ -524,7 +486,6 @@ if st.button("Generate Videos"):
                 
                     media_assets = []
                     
-                    # Generate image and collect assets
                     sub_progress = st.progress(0)
                     for idx, element in enumerate(script_json):
                         text = element["text"]
@@ -547,7 +508,6 @@ if st.button("Generate Videos"):
                         video_progress = st.progress(0)
                         video_path, file_name = create_video_with_image_on_top(media_assets, topic, video_progress)
                         
-                        # Upload to S3 if credentials are provided
                         video_url = None
                         
                         video_url = upload_vid_to_s3(
@@ -559,11 +519,9 @@ if st.button("Generate Videos"):
                         region_name=s3_region
                         )
                         
-                        # Display video
                         with open(video_path, "rb") as file:
                             st.video(file.read())
                         
-                        # Save result
                         result = {
                             "topic": topic,
                             "file_name": file_name,
@@ -579,13 +537,11 @@ if st.button("Generate Videos"):
                 videos_completed += 1
                 main_progress_bar.progress(videos_completed / total_videos)
         
-        # Show final results
         if results:
             st.header("Generated Videos")
             results_df = pd.DataFrame(results)
             st.dataframe(results_df)
             
-            # Create a download link for results CSV
             csv = results_df.to_csv(index=False)
             st.download_button(
                 label="Download Results CSV",
@@ -594,6 +550,3 @@ if st.button("Generate Videos"):
                 mime="text/csv"
             )
 
-# Footer
-st.markdown("---")
-st.markdown("AI Video Generator - Created with Streamlit")
