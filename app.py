@@ -84,11 +84,16 @@ def create_text_image(text, fontsize, color, bg_color, font_path):
     text_height = bbox[3] - bbox[1]
     
     # Increase background height by 10%
-    new_height = int(text_height * 1.1)
+    new_height = int(text_height * 1.3)
     # Create an image with the correct size and draw the text
-    img = Image.new("RGB", (text_width,new_height), bg_color)
+    img = Image.new("RGBA", (text_width,new_height), (0,0,0,0))
     draw = ImageDraw.Draw(img)
-    draw.text((-bbox[0], -bbox[1]), text, font=font, fill=color)
+    draw.rounded_rectangle(
+    [(0, 0), (text_width, new_height)],
+    radius=15,
+    fill=bg_color
+)
+    draw.text((-bbox[0], -bbox[1]*0.8), text, font=font, fill=color)
     
     return np.array(img)
 
