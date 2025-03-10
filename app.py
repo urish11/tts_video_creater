@@ -255,7 +255,7 @@ def generate_audio_with_timestamps(text, client, voice_id="alloy"):
         voice=openai_voice,
         input=text,
         response_format="mp3",
-        speed=1.15
+        speed=1.10
     )
 
     # Save the generated audio
