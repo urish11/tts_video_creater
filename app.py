@@ -519,7 +519,32 @@ if st.button("Generate Videos"):
                 visual description is up to 20 words each, image is perplexing wtf
                 
                 """
-                
+                prompt = f"""
+
+Write a script for a **high-retention, viral** 15-20 second video with **3-4 text/image segments** on {topic}. 
+
+Return **only** a JSON object, where each element has:
+- `"text"`: **Highly engaging, unpredictable, and curiosity-inducing** voiceover text. The hook must be shocking, bizarre, or wildly unexpected.
+- `"visual"`: **Image description** that is candid, realistic, and captures a **WTF** moment—something you'd see on Reddit's r/WTF. It must be **intriguing but NOT surreal, staged, or generic**. NO ANIMALS. 
+
+### Image description rules:
+- The **first image must be a hook**—visually shocking, perplexing, or thought-provoking.
+- The **topic must be clearly visible** in all images.
+- Each image description must be **self-contained** (NO references like "the same person"—instead, fully describe the character in each image).
+- The avatar must be **explicitly and consistently described** (age, gender, physical features, clothing, expression).
+- **20 words max per image description**—keep it snappy, vivid, and specific.
+
+### Storytelling rules:
+- **Start with an insane hook**—make it feel urgent, bizarre, or deeply intriguing.
+- Show a **stark contrast** between the problem and the benefit.
+- Make the visuals **visually bizarre but relatable**—stuff that would make someone **stop scrolling** out of curiosity.
+
+
+
+
+
+
+                """
                 # Generate script
                 script_json = generate_script(prompt, client)
                 
