@@ -520,7 +520,7 @@ if st.button("Generate Videos"):
                 
                 """
                 prompt = f"""
-Write a script for a **casual, viral** 15-20 second **community-style video** with **3-4 text/image segments** for {topic}. 
+Write a script for a **casual, viral** 15-20 second video with **3-4 text/image segments** for {topic}. 
 
 Return **only** a JSON object, where each element has:
 - `"text"`: **Casual, attention-grabbing, unpredictable voiceover text.** No corporate ad vibes—make it feel like a wild story someone just had to share. Hook MUST be **shocking, bizarre, or wildly unexpected**. 
@@ -538,7 +538,7 @@ Return **only** a JSON object, where each element has:
 - **Make it feel like a real person’s experience**, not a scripted ad.
 - **NO ad-speak. NO forced persuasion.** Just let the wildness of the situation carry the virality.
 - **Make the visuals feel like shocking, caught-on-camera moments**—not polished, not posed.
-
+- push to drive clicks in the end of the video and create intresnt in the topic. dont go overboard absurd
 
 
 
