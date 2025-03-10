@@ -520,26 +520,24 @@ if st.button("Generate Videos"):
                 
                 """
                 prompt = f"""
-
-Write a script for a **high-retention, viral** 15-20 second video with **3-4 text/image segments** on {topic}. 
+Write a script for a **casual, viral** 15-20 second **community-style video** with **3-4 text/image segments** for {topic}. 
 
 Return **only** a JSON object, where each element has:
-- `"text"`: **Highly engaging, unpredictable, and curiosity-inducing** voiceover text. The hook must be shocking, bizarre, or wildly unexpected.
-- `"visual"`: **Image description** that is candid, realistic, and captures a **WTF** moment—something you'd see on Reddit's r/WTF. It must be **intriguing but NOT surreal, staged, or generic**. NO ANIMALS. 
+- `"text"`: **Casual, attention-grabbing, unpredictable voiceover text.** No corporate ad vibes—make it feel like a wild story someone just had to share. Hook MUST be **shocking, bizarre, or wildly unexpected**. 
+- `"visual"`: **Image description** that is candid, realistic, and has a “WTF” moment—something you'd see on Reddit’s r/WTF. The images should feel **raw, unstaged, and attention-grabbing**, like a weird moment caught in real life. 
 
 ### Image description rules:
-- The **first image must be a hook**—visually shocking, perplexing, or thought-provoking.
-- The **topic must be clearly visible** in all images.
-- Each image description must be **self-contained** (NO references like "the same person"—instead, fully describe the character in each image).
-- The avatar must be **explicitly and consistently described** (age, gender, physical features, clothing, expression).
-- **20 words max per image description**—keep it snappy, vivid, and specific.
+- The **first image must be a hook**—visually shocking, confusing, or hilarious.  
+- The **topic must be clearly visible** in all images.  
+- Each image description must be **self-contained** (NO references like "the same person"—instead, fully describe the character in each image).  
+- The avatar must be **explicitly and consistently described** ({age}, {gender} {race}, physical features, clothing, expression).  
+- **20 words max per image description**—keep it quick, specific, and visually striking.
 
 ### Storytelling rules:
-- **Start with an insane hook**—make it feel urgent, bizarre, or deeply intriguing.
-- Show a **stark contrast** between the problem and the benefit.
-- Make the visuals **visually bizarre but relatable**—stuff that would make someone **stop scrolling** out of curiosity.
-
-
+- **Start with a casual but insane hook**—make it feel urgent, bizarre, or just plain ridiculous.
+- **Make it feel like a real person’s experience**, not a scripted ad.
+- **NO ad-speak. NO forced persuasion.** Just let the wildness of the situation carry the virality.
+- **Make the visuals feel like shocking, caught-on-camera moments**—not polished, not posed.
 
 
 
