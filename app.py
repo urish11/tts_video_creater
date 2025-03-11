@@ -517,6 +517,10 @@ if st.button("Generate Videos"):
                 pick an avatar for the script, age, gender... explicitly describe this avatar FULLY!!!! description ON EACH IMAGE DESCRIPTION
                 
                 visual description is up to 20 words each, image is perplexing wtf
+                the text needs to be retentive and highly engaging
+
+
+
                 
                 """
 #                 prompt = f"""
