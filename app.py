@@ -26,6 +26,9 @@ from openai import OpenAI
 
 st.set_page_config(page_title="Video Generator", page_icon="🎬", layout="wide")
 
+
+
+st.text(os.path.os(r"/assets/os9tAffhF9izAzBaUMDDnCxvNrhaeGigADC4IG (1).mp3"))
 # Sidebar for API Keys and Settings
 
 openai_api_key = st.secrets["openai_api_key"]
@@ -421,6 +424,18 @@ def upload_vid_to_s3(video_path, bucket_name, aws_access_key_id, aws_secret_acce
         # Return the URL of the uploaded video
         video_url = f"https://{bucket_name}.s3.{region_name}.amazonaws.com/{object_name}"
         return video_url
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Data Input Section
 st.header("📊 Input Data")
