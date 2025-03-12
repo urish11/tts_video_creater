@@ -499,7 +499,7 @@ if st.button("Generate Videos"):
                 
                 # Generate prompt for script
                 prompt = f"""
-                write script for 15-20 seconds  3-4 texts\images viral community oriented  video for {topic}
+                write script for 15-20 seconds  3-4 texts\images viral   video for {topic}
                 
                 return JUST json object, each element has 'text' for voiceover text and 'visual' for image description
                 
