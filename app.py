@@ -276,6 +276,26 @@ def generate_audio_with_timestamps(text, client, voice_id="alloy"):
         response_format="verbose_json",
         timestamp_granularities=["word"]
     )
+    #add background music
+
+    sound_dub = AudioSegment.from_mp3(temp_audio_path)
+    music_sound= AudioSegment.from_mp3(r"/workspaces/tts_video_creater/assets/os9tAffhF9izAzBaUMDDnCxvNrhaeGigADC4IG (1).mp3")
+
+
+
+    if len(music_sound) < len(sound_dub):
+        # Loop the music until it's as long as sound_dub
+        loop_count = len(sound_dub) // len(music_sound) + 1
+        music_sound = music_sound * loop_count
+    music_sound = music_sound[:len(sound_dub)]
+    music_sound = music_sound.fade_out(3000) 
+
+    new_sound = sound_dub.overlay(music_sound)
+    new_sound.export(temp_audio_file, format="mp3")
+
+
+
+
 
     # Parse response JSON
     transcribe_data = json.loads(transcribe_response.to_json())
