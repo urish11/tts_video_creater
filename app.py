@@ -279,7 +279,10 @@ def generate_audio_with_timestamps(text, client, voice_id="alloy"):
     #add background music
 
     sound_dub = AudioSegment.from_mp3(temp_audio_path)
-    music_sound= AudioSegment.from_mp3(r"/assets/os9tAffhF9izAzBaUMDDnCxvNrhaeGigADC4IG (1).mp3")
+    if os.path.exists("assets/os9tAffhF9izAzBaUMDDnCxvNrhaeGigADC4IG (1).mp3"):
+        music_sound = AudioSegment.from_mp3("assets/os9tAffhF9izAzBaUMDDnCxvNrhaeGigADC4IG (1).mp3")
+    else:
+        print("File not found!")
 
 
 
