@@ -251,7 +251,7 @@ def generate_audio_with_timestamps(text, client, voice_id="alloy"):
 
     # Generate TTS audio
     response = client.audio.speech.create(
-        model="tts-1",
+        model="tts-1-hd",
         voice=openai_voice,
         input=text,
         response_format="mp3",
