@@ -292,7 +292,7 @@ def generate_audio_with_timestamps(text, client, voice_id="alloy"):
         print("File not found!")
 
 
-
+    st.text(str( len(music_sound)  len(sound_dub))
     if len(music_sound) < len(sound_dub):
         # Loop the music until it's as long as sound_dub
         loop_count = len(sound_dub) // len(music_sound) + 1
