@@ -241,9 +241,7 @@ def generate_audio_with_timestamps(text, client, voice_id="alloy"):
     temp_audio_path = temp_audio_file.name
     temp_audio_file.close()
 
-    mix_temp_audio_file = tempfile.NamedTemporaryFile(delete=False, suffix=".mp3")
-    mix_temp_audio_path = mix_temp_audio_file.name
-    mix_temp_audio_file.close()
+    
 
     # OpenAI voice mapping
     voice_mapping = {
@@ -285,23 +283,22 @@ def generate_audio_with_timestamps(text, client, voice_id="alloy"):
     )
     #add background music
 
-    sound_dub = AudioSegment.from_mp3(temp_audio_path)
-    if os.path.exists("assets/os9tAffhF9izAzBaUMDDnCxvNrhaeGigADC4IG (1).mp3"):
-        music_sound = AudioSegment.from_mp3("assets/os9tAffhF9izAzBaUMDDnCxvNrhaeGigADC4IG (1).mp3")
-    else:
-        print("File not found!")
+    # sound_dub = AudioSegment.from_mp3(temp_audio_path)
+    # if os.path.exists("assets/os9tAffhF9izAzBaUMDDnCxvNrhaeGigADC4IG (1).mp3"):
+    #     music_sound = AudioSegment.from_mp3("assets/os9tAffhF9izAzBaUMDDnCxvNrhaeGigADC4IG (1).mp3")
+    # else:
+    #     print("File not found!")
 
 
-    st.text(str( len(music_sound)  len(sound_dub))
-    if len(music_sound) < len(sound_dub):
-        # Loop the music until it's as long as sound_dub
-        loop_count = len(sound_dub) // len(music_sound) + 1
-        music_sound = music_sound * loop_count
-    music_sound = music_sound[:len(sound_dub)]
-    music_sound = music_sound.fade_out(3000) 
+    # if len(music_sound) < len(sound_dub):
+    #     # Loop the music until it's as long as sound_dub
+    #     loop_count = len(sound_dub) // len(music_sound) + 1
+    #     music_sound = music_sound * loop_count
+    # music_sound = music_sound[:len(sound_dub)]
+    # music_sound = music_sound.fade_out(3000) 
 
-    new_sound = sound_dub.overlay(music_sound)
-    new_sound.export(mix_temp_audio_path, format="mp3")
+    # new_sound = sound_dub.overlay(music_sound)
+    # new_sound.export(mix_temp_audio_path, format="mp3")
 
 
 
@@ -319,7 +316,7 @@ def generate_audio_with_timestamps(text, client, voice_id="alloy"):
             "end": word_info["end"]
         })
 
-    return mix_temp_audio_path, word_timings  
+    return temp_audio_path, word_timings  
 
 def create_video_with_image_on_top(media_assets, topic, progress_bar=None):
     with st.spinner('Creating video...'):
@@ -389,6 +386,20 @@ def create_video_with_image_on_top(media_assets, topic, progress_bar=None):
         
         # Concatenate all clips to form a single video
         final_video = concatenate_videoclips(clips, method="compose").resize((1080, 1920))
+
+
+          # Add background music
+        music_sound = AudioSegment.from_mp3(r"assets/os9tAffhF9izAzBaUMDDnCxvNrhaeGigADC4IG (1).mp3")  # Path to your background music
+        music_sound = music_sound.set_duration(final_video.duration)  # Set the music length to match the video length
+        music_audio_clip = AudioFileClip(music_sound.export().name)  # Convert to AudioFileClip for moviepy
+
+        # Combine the background music with the original video audio
+        final_audio = CompositeAudioClip([final_video.audio, music_audio_clip])
+        
+        # Set the final audio to the video
+        final_video = final_video.set_audio(final_audio)
+
+
         file_name = f"output_video_{urllib.parse.quote(topic.replace(' ', '_')[:40], safe='')}_{int(datetime.datetime.now().timestamp())}.mp4".replace("'",'').replace('"','')
 
         final_video.write_videofile(temp_video_path, fps=24, codec="libx264", audio_codec='aac')
