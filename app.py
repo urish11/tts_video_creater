@@ -388,7 +388,7 @@ def create_video_with_image_on_top(media_assets, topic, progress_bar=None):
         final_video = concatenate_videoclips(clips, method="compose").resize((1080, 1920))
 
         # Export the background music to a temporary file
-        music_sound = AudioSegment.from_mp3(r"assets/os9tAffhF9izAzBaUMDDnCxvNrhaeGigADC4IG (1).mp3")  # Path to your background music
+        music_sound = AudioSegment.from_mp3(r"assets/audiomass-output.mp3")  
 
         temp_music_file = tempfile.NamedTemporaryFile(delete=False, suffix=".mp3")
         music_sound.export(temp_music_file.name, format="mp3")
