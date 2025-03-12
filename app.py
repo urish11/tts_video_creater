@@ -387,11 +387,17 @@ def create_video_with_image_on_top(media_assets, topic, progress_bar=None):
         # Concatenate all clips to form a single video
         final_video = concatenate_videoclips(clips, method="compose").resize((1080, 1920))
 
+        # Export the background music to a temporary file
+        music_sound = AudioSegment.from_mp3(r"assets/os9tAffhF9izAzBaUMDDnCxvNrhaeGigADC4IG (1).mp3")  
 
-          # Add background music
-        music_sound = AudioSegment.from_mp3(r"assets/os9tAffhF9izAzBaUMDDnCxvNrhaeGigADC4IG (1).mp3")  # Path to your background music
-        music_sound = music_sound.set_duration(final_video.duration)  # Set the music length to match the video length
-        music_audio_clip = AudioFileClip(music_sound.export().name)  # Convert to AudioFileClip for moviepy
+        temp_music_file = tempfile.NamedTemporaryFile(delete=False, suffix=".mp3")
+        music_sound.export(temp_music_file.name, format="mp3")
+        
+        # Load the background music as AudioFileClip
+        music_audio_clip = AudioFileClip(temp_music_file.name)
+        
+        # Set the background music duration to match the video duration
+        music_audio_clip = music_audio_clip.subclip(0, final_video.duration)
 
         # Combine the background music with the original video audio
         final_audio = CompositeAudioClip([final_video.audio, music_audio_clip])
