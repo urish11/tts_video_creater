@@ -28,7 +28,7 @@ st.set_page_config(page_title="Video Generator", page_icon="🎬", layout="wide"
 
 
 
-st.text(os.path.exists(r"assets/os9tAffhF9izAzBaUMDDnCxvNrhaeGigADC4IG (1).mp3"))
+# st.text(os.path.exists(r"assets/os9tAffhF9izAzBaUMDDnCxvNrhaeGigADC4IG (1).mp3"))
 # Sidebar for API Keys and Settings
 
 openai_api_key = st.secrets["openai_api_key"]
@@ -241,6 +241,10 @@ def generate_audio_with_timestamps(text, client, voice_id="alloy"):
     temp_audio_path = temp_audio_file.name
     temp_audio_file.close()
 
+    mix_temp_audio_file = tempfile.NamedTemporaryFile(delete=False, suffix=".mp3")
+    mix_temp_audio_path = mix_temp_audio_file.name
+    mix_temp_audio_file.close()
+
     # OpenAI voice mapping
     voice_mapping = {
         "9V6ttLLomNKvqmgFjtMO": "onyx",
@@ -297,7 +301,7 @@ def generate_audio_with_timestamps(text, client, voice_id="alloy"):
     music_sound = music_sound.fade_out(3000) 
 
     new_sound = sound_dub.overlay(music_sound)
-    new_sound.export(temp_audio_file, format="mp3")
+    new_sound.export(mix_temp_audio_path, format="mp3")
 
 
 
@@ -315,7 +319,7 @@ def generate_audio_with_timestamps(text, client, voice_id="alloy"):
             "end": word_info["end"]
         })
 
-    return temp_audio_path, word_timings  
+    return mix_temp_audio_path, word_timings  
 
 def create_video_with_image_on_top(media_assets, topic, progress_bar=None):
     with st.spinner('Creating video...'):
