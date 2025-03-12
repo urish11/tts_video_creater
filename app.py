@@ -28,7 +28,7 @@ st.set_page_config(page_title="Video Generator", page_icon="🎬", layout="wide"
 
 
 
-st.text(os.path.os(r"/assets/os9tAffhF9izAzBaUMDDnCxvNrhaeGigADC4IG (1).mp3"))
+st.text(os.path.exists(r"/assets/os9tAffhF9izAzBaUMDDnCxvNrhaeGigADC4IG (1).mp3"))
 # Sidebar for API Keys and Settings
 
 openai_api_key = st.secrets["openai_api_key"]
