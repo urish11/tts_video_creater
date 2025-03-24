@@ -16,7 +16,7 @@ from moviepy.editor import *
 import moviepy.video.fx.resize as resize
 from moviepy.editor import TextClip
 from together import Together
-
+import base64
 from PIL import Image,ImageDraw, ImageFont
 
 import numpy as np
@@ -41,6 +41,9 @@ s3_bucket_name = st.secrets["s3_bucket_name"]
 s3_region = st.secrets["s3_region"]
 
 client = OpenAI(api_key= openai_api_key)
+
+
+GEMINI_API_KEY =st.secrets.get("GEMINI_API_KEY")
 
 # Main content
 st.title("🎬 Video Generator")
