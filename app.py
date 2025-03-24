@@ -747,10 +747,10 @@ if st.button("Generate Videos"):
                         # Generate image
                         # image_url = generate_flux_image_lora(visual, flux_api_keys) 
                         gemini_prompt = chatGPT(f"""write short prompt for\ngenerate 9:16  Vertical Aspect Ratio image promoting '{visual}'  {random.choice(['use photos'])}. 
-                                                add a CTA button with 'Learn More Here >>' in appropriate language\nshould be low quality and very enticing and alerting\nstart 
+                                                \nshould be low quality and very enticing and alerting\nstart 
                                                 with 'generate  image aspect ratio of 9:16 Vertical Aspect Ratio '\n\n example output:\n\ 9:16 Vertical Aspect Ratio image of a
                                                  concerned middle-aged woman looking at her tongue in the mirror under harsh bathroom lighting, with a cluttered counter and slightly 
-                                                blurry focus — big bold red text says “Early Warning Signs?” and a janky yellow button below reads “Learn More Here >>” — the image looks like
+                                                blurry focus  — the image looks like
                                                  it was taken on an old phone, with off angle, bad lighting, and a sense of urgency and confusion to provoke clicks.""")
                         img_bytes = gen_gemini_image(gemini_prompt)
                         image_url = upload_pil_image_to_s3(image = img_bytes ,bucket_name=s3_bucket_name,
