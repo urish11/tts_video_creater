@@ -233,6 +233,64 @@ def generate_flux_image_lora(prompt, flux_api_keys,lora_path="https://huggingfac
             retries +=1
             st.text(e)
 
+def gen_gemini_image(prompt, trys = 0):
+
+    while trys < 10 :
+
+
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp-image-generation:generateContent?key={GEMINI_API_KEY}"
+
+        headers = {
+            "Content-Type": "application/json"
+        }
+
+        data = {
+            "contents": [
+                {
+                    "role": "user",
+                    "parts": [
+                        {
+                            "text": ( prompt
+                                
+                            )
+                        }
+                    ]
+                },
+                {
+                    "role": "user",
+                    "parts": [
+                        {
+                            "text": "INSERT_INPUT_HERE"
+                        }
+                    ]
+                }
+            ],
+            "generationConfig": {
+                "temperature": 0.65,
+                "topK": 40,
+                "topP": 0.95,
+                "maxOutputTokens": 8192,
+                "responseMimeType": "text/plain",
+                "responseModalities": ["image", "text"]
+            }
+        }
+
+        response = requests.post(url, headers=headers, data=json.dumps(data))
+        if response.status_code == 200:
+            res_json = response.json()
+            try:
+                image_b64 = res_json['candidates'][0]["content"]["parts"][0]["inlineData"]['data']
+                image_data = base64.decodebytes(image_b64.encode())
+
+                return Image.open(BytesIO(image_data))
+            except Exception as e:
+                trys +=1
+                print("Failed to extract or save image:", e)
+        else:
+            trys +=1
+            print("Error:")
+            print(response.text)
+
 
 
 def generate_audio_with_timestamps(text, client, voice_id="alloy"):
@@ -446,9 +504,65 @@ def upload_vid_to_s3(video_path, bucket_name, aws_access_key_id, aws_secret_acce
         video_url = f"https://{bucket_name}.s3.{region_name}.amazonaws.com/{object_name}"
         return video_url
 
+def chatGPT(prompt, model="gpt-4o", temperature=1.0):
+    """
+    Call OpenAI's Chat Completion (GPT) to generate text.
+    """
+    st.write("Generating image description...")
+    headers = {
+        'Authorization': f'Bearer {openai_api_key}',
+        'Content-Type': 'application/json'
+    }
+    data = {
+        'model': model,
+        'temperature': temperature,
+        'messages': [{'role': 'user', 'content': prompt}]
+    }
+    response = requests.post('https://api.openai.com/v1/chat/completions', headers=headers, json=data)
+    content = response.json()['choices'][0]['message']['content'].strip()
+    # st.text(content)
+    return content
 
+def upload_pil_image_to_s3(
+    image, 
+    bucket_name, 
+    aws_access_key_id, 
+    aws_secret_access_key, 
+    object_name='',
+    region_name='us-east-1', 
+    image_format='PNG'
+):
+    """
+    Upload a PIL image to S3 in PNG (or other) format.
+    """
+    try:
+        s3_client = boto3.client(
+            's3',
+            aws_access_key_id=aws_access_key_id.strip(),
+            aws_secret_access_key=aws_secret_access_key.strip(),
+            region_name=region_name.strip()
+        )
 
+        if not object_name:
+            object_name = f"image_{int(time.time())}_{random.randint(1000, 9999)}.{image_format.lower()}"
 
+        img_byte_arr = BytesIO()
+        image.save(img_byte_arr, format=image_format)
+        img_byte_arr.seek(0)
+
+        s3_client.put_object(
+            Bucket=bucket_name.strip(),
+            Key=object_name,
+            Body=img_byte_arr,
+            ContentType=f'image/{image_format.lower()}'
+        )
+
+        url = f"https://{bucket_name}.s3.{region_name}.amazonaws.com/{object_name}"
+        return url
+
+    except Exception as e:
+        st.error(f"Error in S3 upload: {str(e)}")
+        return None
 
 
 
@@ -628,7 +742,17 @@ if st.button("Generate Videos"):
                         sub_progress.progress((idx) / len(script_json))
                         
                         # Generate image
-                        image_url = generate_flux_image_lora(visual, flux_api_keys)
+                        # image_url = generate_flux_image_lora(visual, flux_api_keys)
+                        gemini_prompt = chatGPT(f"""write short prompt for\ngenerate square image promoting '{visual}'  {random.choice(['use photos'])}. add a CTA button with 'Learn More Here >>' in appropriate language\nshould be low quality and very enticing and alerting\nstart with 'square image aspect ratio of 1:1 of '\n\n example output:\n\nsquare image of a concerned middle-aged woman looking at her tongue in the mirror under harsh bathroom lighting, with a cluttered counter and slightly blurry focus — big bold red text says “Early Warning Signs?” and a janky yellow button below reads “Learn More Here >>” — the image looks like it was taken on an old phone, with off angle, bad lighting, and a sense of urgency and confusion to provoke clicks.""")
+                        img_bytes = gen_gemini_image(gemini_prompt)
+                        image_url = upload_pil_image_to_s3(image = img_bytes ,bucket_name=s3_bucket_name,
+                            aws_access_key_id=aws_access_key,
+                            aws_secret_access_key=aws_secret_key,
+                            region_name=s3_region
+                        )
+
+
+
                         
                         if image_url:
                             media_assets.append({"voice_id": voice_id, "image": image_url, "text": text})
