@@ -746,7 +746,7 @@ if st.button("Generate Videos"):
                         
                         # Generate image
                         # image_url = generate_flux_image_lora(visual, flux_api_keys) 
-                        gemini_prompt = chatGPT(f"""write short prompt for\ngenerate 9:16  Vertical Aspect Ratio image promoting '{visual}'  {random.choice(['use photos'])}. 
+                        gemini_prompt = chatGPT(f"""write short prompt for\ngenerate 9:16  Vertical Aspect Ratio image promoting '{text}'  {random.choice(['use photos'])}. 
                                                 \nshould be low quality and very enticing and alerting\nstart 
                                                 with 'generate  image aspect ratio of 9:16 Vertical Aspect Ratio '\n\n example output:\n\ 9:16 Vertical Aspect Ratio image of a
                                                  concerned middle-aged woman looking at her tongue in the mirror under harsh bathroom lighting, with a cluttered counter and slightly 
