@@ -305,14 +305,14 @@ def generate_audio_with_timestamps(text, client, voice_id="alloy"):
     
 
     # OpenAI voice mapping
-    voice_mapping = {
-        "9V6ttLLomNKvqmgFjtMO": "onyx",
-        "1OhOeD8LiQNJeNSBQ4kg": "echo",
-        "VvaCLpw3xbigj6353rBV": "nova",
-        "XN5MUfNpmfCV6rvigVhs": "shimmer",
-        "ash": "echo",
-        "sage": "nova"
-    }
+    # voice_mapping = {
+    #     "9V6ttLLomNKvqmgFjtMO": "onyx",
+    #     "1OhOeD8LiQNJeNSBQ4kg": "echo",
+    #     "VvaCLpw3xbigj6353rBV": "nova",
+    #     "XN5MUfNpmfCV6rvigVhs": "shimmer",
+    #     "ash": "echo",
+    #     "sage": "nova"
+    # }
 
     instructions_per_voice = {
             'redneck': {'instructions': 'talk like an older american redneck heavy accent. deep voice, enthusiastic', 'voice': 'ash'},
@@ -320,7 +320,7 @@ def generate_audio_with_timestamps(text, client, voice_id="alloy"):
             'sage': {'instructions': 'high energy enthusiastic', 'voice': 'sage'},
             'announcer uk': {'instructions': 'Polished announcer voice, British accent', 'voice': 'ash'}
         }
-    openai_voice = voice_mapping.get(voice_id, voice_id)
+    # openai_voice = voice_mapping.get(voice_id, voice_id)
 
     # Generate TTS audio
     response = client.audio.speech.create(
