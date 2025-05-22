@@ -475,7 +475,7 @@ def create_video_with_image_on_top(media_assets, topic, progress_bar=None):
         
         # Set the final audio to the video
         ########################################
-        final_video = final_video.set_audio(final_audio)
+        # final_video = final_video.set_audio(final_audio)
 
 
         file_name = f"output_video_{urllib.parse.quote(topic.replace(' ', '_')[:40], safe='')}_{int(datetime.datetime.now().timestamp())}.mp4".replace("'",'').replace('"','')
