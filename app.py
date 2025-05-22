@@ -313,13 +313,21 @@ def generate_audio_with_timestamps(text, client, voice_id="alloy"):
         "ash": "echo",
         "sage": "nova"
     }
+
+    instructions_per_voice = {
+            'redneck': {'instructions': 'talk like an older american redneck heavy accent. deep voice, enthusiastic', 'voice': 'ash'},
+            'announcer': {openai_voice: 'Polished announcer voice, American accent', 'voice': 'ash'},
+            'sage': {'instructions': 'high energy enthusiastic', 'voice': 'sage'},
+            'announcer uk': {'instructions': 'Polished announcer voice, British accent', 'voice': 'ash'}
+        }
     openai_voice = voice_mapping.get(voice_id, voice_id)
 
     # Generate TTS audio
     response = client.audio.speech.create(
-        model="tts-1-hd",
+        model="generate_audio_with_timestamps",
         voice=openai_voice,
         input=text,
+        instructions=instructions_per_voice[openai_voice]['instructions']
         response_format="mp3",
         speed=1.10
     )
@@ -675,7 +683,7 @@ if st.button("Generate Videos"):
                 
                 # Generate prompt for script
                 prompt = f"""
-                write script for 15-20 seconds  3-4 texts\images viral   video for {topic}
+                write script for 10-15 seconds  3-4 texts\images viral   video for {topic}
                 
                 return JUST json object, each element has 'text' for voiceover text and 'visual' for image description
                 
