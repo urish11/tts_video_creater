@@ -316,7 +316,7 @@ def generate_audio_with_timestamps(text, client, voice_id="alloy"):
 
     instructions_per_voice = {
             'redneck': {'instructions': 'talk like an older american redneck heavy accent. deep voice, enthusiastic', 'voice': 'ash'},
-            'announcer': {openai_voice: 'Polished announcer voice, American accent', 'voice': 'ash'},
+            'announcer': {'instructions': 'Polished announcer voice, American accent', 'voice': 'ash'},
             'sage': {'instructions': 'high energy enthusiastic', 'voice': 'sage'},
             'announcer uk': {'instructions': 'Polished announcer voice, British accent', 'voice': 'ash'}
         }
