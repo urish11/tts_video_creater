@@ -176,7 +176,7 @@ def get_openai_client():
 
 # Functions from original code
 
-def generate_text_with_claude(prompt: str, anthropic_api_key: str = anthropic_api_key, model: str = "claude-3-7-sonnet-latest", temperature: float = 1.0, max_retries: int = 3): # claude-3-opus-20240229, claude-3-sonnet-20240229, claude-3-haiku-20240307
+def generate_text_with_claude(prompt: str, anthropic_api_key: str = anthropic_api_key, model: str = "claude-3-7-sonnet-latest", temperature: float = 0.88, max_retries: int = 3): # claude-3-opus-20240229, claude-3-sonnet-20240229, claude-3-haiku-20240307
     print(f"--- Requesting text from Claude with prompt: '{prompt[:70]}...' ---")
     st.write(f"Claude: Generating text (model: {model})...")
     tries = 0
@@ -773,7 +773,7 @@ if st.button("Generate Videos"):
 
                 # Generate prompt for script
                 prompt = f"""
-                write script for 10-15 seconds  3-5 texts\images slides    video for {topic} ad promotion, rather casual tone, make it look attractive for max CTR and make people click
+                write script for 10-15 seconds  2-3 texts\images slides    video for {topic} ad promotion, rather casual tone, make it look attractive for max CTR and make people click
                 end with something like "click NOW to learn more" or "click to see options"
                 quick engaging eye catching slides and speed , not slow. short 'text' per slide
                 explain the topic  concretely
@@ -822,8 +822,8 @@ if st.button("Generate Videos"):
 
 #                 """
                 # Generate script
-                # script_json = generate_script(prompt, client)
-                script_json = generate_text_with_claude(prompt)
+                script_json = generate_script(prompt, client)
+                # script_json = generate_text_with_claude(prompt)
                 
                 
                 if script_json:
