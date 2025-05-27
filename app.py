@@ -70,11 +70,11 @@ def generate_fal_image(full_prompt: str): # Changed 'topic' to 'full_prompt'
             st.write("Fal: Image generated.")
             return result['images'][0]
         else:
-            logging.error("No image data found in Fal result.")
+            print("No image data found in Fal result.")
             st.warning("Fal: No image data returned.")
             return None
     except Exception as e:
-        logging.error(f"Error during Fal image generation: {e}")
+        print(f"Error during Fal image generation: {e}")
         st.error(f"Fal Error: {e}")
         return None
 def group_words_with_timing(word_timings, words_per_group=2):
