@@ -49,7 +49,7 @@ GEMINI_API_KEY =st.secrets.get("GEMINI_API_KEY")
 # Main content
 st.title("🎬 Video Generator")
 def generate_fal_image(full_prompt: str): # Changed 'topic' to 'full_prompt'
-    logging.info(f"--- Requesting image from Fal with prompt: {full_prompt[:100]}... ---")
+    print(f"--- Requesting image from Fal with prompt: {full_prompt[:100]}... ---")
     st.write(f"Fal: Generating image for prompt: {full_prompt[:150]}...")
     try:
         result = fal_client.subscribe(
@@ -65,7 +65,7 @@ def generate_fal_image(full_prompt: str): # Changed 'topic' to 'full_prompt'
             with_logs=True, # Set to False to reduce console noise if preferred
             on_queue_update=on_queue_update
         )
-        logging.info(f"Fal image generation result: {result}")
+        print(f"Fal image generation result: {result}")
         if result and 'images' in result and len(result['images']) > 0:
             st.write("Fal: Image generated.")
             return result['images'][0]
