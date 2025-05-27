@@ -7,7 +7,7 @@ import urllib.parse
 import time
 import random
 import pandas as pd
-import boto3201
+import boto3
 import datetime
 import string
 from botocore.exceptions import NoCredentialsError
