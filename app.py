@@ -860,14 +860,14 @@ if st.button("Generate Videos"):
 
 #                 """
                 # Generate script
-                # script_json = generate_script(prompt, client)
-                script_json = generate_text_with_claude(prompt)
+                script_json = generate_script(prompt, client)
+                # script_json = generate_text_with_claude(prompt)
                 
                 
                 if script_json:
                     st.write(f"Script output: ")
                     st.text(script_json)
-                    script_json=json.loads(str(script_json))
+                    # script_json=json.loads(str(script_json))
 
                     df = pd.DataFrame(script_json)
                     st.dataframe(df)
