@@ -194,7 +194,6 @@ def generate_text_with_claude(prompt: str, anthropic_api_key: str = anthropic_ap
             response = client.messages.create(**message_payload)
             with st.status("Response: "):
                 st.text(response)
-            if len(response.content) > 0 and response.content[0].type == "text":
                 generated_text =  message.content[1].text
                 print(f"Claude generated text: {generated_text[:100]}...")
                 st.write("Claude: Text generated.")
