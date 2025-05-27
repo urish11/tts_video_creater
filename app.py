@@ -188,7 +188,7 @@ def generate_text_with_claude(prompt: str, anthropic_api_key: str = anthropic_ap
                 "max_tokens": 2048, # Increased for potentially longer prompts or JSON
                 "temperature": temperature,
                 "messages": [{"role": "user", "content": [{"type": "text", "text": prompt}]}],
-                thinking = { "type": "enabled",
+                "thinking" : { "type": "enabled",
                 "budget_tokens": 16000}
             }
             response = client.messages.create(**message_payload)
