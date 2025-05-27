@@ -810,6 +810,7 @@ if st.button("Generate Videos"):
 
                         
                         if image_url:
+                            st.text(image_url)
                             media_assets.append({"voice_id": voice_id, "image": image_url, "text": text})
                             st.image(image_url, width=300, caption=text)
                         
