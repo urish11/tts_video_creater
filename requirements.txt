@@ -11,3 +11,4 @@ together==1.0.1
 pydub==0.25.0
 ffmpeg-python==0.1.18
 fal-client
+anthropic
