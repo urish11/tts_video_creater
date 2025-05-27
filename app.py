@@ -683,16 +683,16 @@ if st.button("Generate Videos"):
                         voice_id = random.choice(['nova', 'shimmer'])
                 
                 progress_placeholder.write(f"Creating video with {gender} {age} {race} voice: {voice_id}")
-                
+                # the image descriptions should be interesting enticing, causal joe candidly ,realistic!! but eye-catching wtf moment unexpcted, the image itself visually must have a intruging NOT SURREAL very reddit wtf style viral image.
+                # intriguing BUT NOT SURREAL NOT SURREAL NOT SURREAL NO ANIMALS. showing a {gender} for appropriate {age}\\look\\{race}\etc in images. maker sure the topic of the video is seen in the images.Each image description must be fully self-contained. Avoid references like 'the same woman' or 'she.' Instead, use explicit, consistent identifiers throughout each description(not names). For example, use the same "avatar" throughout the script, if it is x avatar then mention it in each image description. first image is a hook, must standout and be very intriguing wtf moment visually, eye catching perplexing visually.
+                # each image description short and consice up to 20 words
+
                 # Generate prompt for script
                 prompt = f"""
-                write script for 10-15 seconds  2-3 texts\images viral   video for {topic}, make it look attractive for max CTR
+                write script for 10-15 seconds  2-3 texts\images viral   video for {topic} advert promotion, rather casual tone, make it look attractive for max CTR
                 
                 return JUST json object, each element has 'text' for voiceover text and 'visual' for image description
                 
-                the image descriptions should be interesting enticing, causal joe candidly ,realistic!! but eye-catching wtf moment unexpcted, the image itself visually must have a intruging NOT SURREAL very reddit wtf style viral image.
-                intriguing BUT NOT SURREAL NOT SURREAL NOT SURREAL NO ANIMALS. showing a {gender} for appropriate {age}\\look\\{race}\etc in images. maker sure the topic of the video is seen in the images.Each image description must be fully self-contained. Avoid references like 'the same woman' or 'she.' Instead, use explicit, consistent identifiers throughout each description(not names). For example, use the same "avatar" throughout the script, if it is x avatar then mention it in each image description. first image is a hook, must standout and be very intriguing wtf moment visually, eye catching perplexing visually.
-                each image description short and consice up to 20 words
                 
                 
                 start with insanely engaging somewhat hook puzzling perplexing unexpected  to get users watching, NOT generic text
