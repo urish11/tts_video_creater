@@ -178,7 +178,7 @@ def get_openai_client():
 def generate_script(prompt, client):
     with st.spinner('Generating script...'):
         response = client.chat.completions.create(
-            model="gpt-4o",
+            model="o3-mini",
             messages=[
                 {"role": "system", "content": "You are a creative  writer. ALWAYS write the full avatar description on each visual description ALWAYS!!!! "},
                 {"role": "user", "content": prompt}
@@ -726,7 +726,7 @@ if st.button("Generate Videos"):
 
                 # Generate prompt for script
                 prompt = f"""
-                write script for 10-15 seconds  2 texts\images    video for {topic} ad promotion, rather casual tone, make it look attractive for max CTR and make people click
+                write script for 10-15 seconds  2 texts\images slides    video for {topic} ad promotion, rather casual tone, make it look attractive for max CTR and make people click
                 end with something like "click NOW to learn more" or "click to see options"
                 explain the topic  concretely
                 return JUST json object, each element has 'text' for voiceover text and 'visual' for image description, visual is up to 15 words
