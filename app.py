@@ -828,6 +828,8 @@ if st.button("Generate Videos"):
                 if script_json:
                     st.write(f"Script output: ")
                     st.text(script_json)
+                    script_json json.loads(script_json)
+
                     df = pd.DataFrame(script_json)
                     st.dataframe(df)
 
