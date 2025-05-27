@@ -777,6 +777,7 @@ if st.button("Generate Videos"):
                 end with something like "click NOW to learn more" or "click to see options"
                 quick engaging eye catching slides and speed , not slow. short 'text' per slide
                 explain the topic  concretely
+                tell a little story
                 return JUST json object (no \n or anything else), each element has 'text' for voiceover text and 'visual' for image description, visual is up to 15 words
                 each slide is rather quick
                 
