@@ -728,7 +728,7 @@ if st.button("Generate Videos"):
                 prompt = f"""
                 write script for 10-15 seconds  2 texts\images    video for {topic} ad promotion, rather casual tone, make it look attractive for max CTR and make people click
                 end with something like "click NOW to learn more" or "click to see options"
-                
+                explain the topic  concretely
                 return JUST json object, each element has 'text' for voiceover text and 'visual' for image description, visual is up to 15 words
                 each slide is rather quick
                 
