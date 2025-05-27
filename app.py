@@ -728,7 +728,7 @@ if st.button("Generate Videos"):
                 prompt = f"""
                 write script for 10-15 seconds  2-3 texts\images viral   video for {topic} advert promotion, rather casual tone, make it look attractive for max CTR
                 
-                return JUST json object, each element has 'text' for voiceover text and 'visual' for image description
+                return JUST json object, each element has 'text' for voiceover text and 'visual' for image description, visual is up to 15 words
                 
                 
                 showing a {gender} for appropriate {age}\\look\\{race}\etc in images
@@ -798,7 +798,7 @@ if st.button("Generate Videos"):
                         #                          concerned middle-aged woman looking at her tongue in the mirror under harsh bathroom lighting, with a cluttered counter and slightly 
                         #                         blurry focus  — the image looks like
                         #                          it was taken on an old phone, with off angle, bad lighting, and a sense of urgency and confusion to provoke clicks.""")
-                        img_bytes = generate_fal_image(visual)
+                        img_bytes = generate_fal_image("candid UNSTAGED photo posted to reddit 2017 :" + visual)
                         image_url = img_bytes
                         # image_url = upload_pil_image_to_s3(image = img_bytes ,bucket_name=s3_bucket_name,
                         #     aws_access_key_id=aws_access_key,
