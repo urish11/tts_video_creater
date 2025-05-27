@@ -18,6 +18,7 @@ from moviepy.editor import TextClip
 from together import Together
 import base64
 from PIL import Image,ImageDraw, ImageFont
+os.environ["FAL_KEY"] =  st.secrets.get("FAL_KEY")
 
 import numpy as np
 from io import BytesIO
@@ -47,7 +48,35 @@ GEMINI_API_KEY =st.secrets.get("GEMINI_API_KEY")
 
 # Main content
 st.title("🎬 Video Generator")
-
+def generate_fal_image(full_prompt: str): # Changed 'topic' to 'full_prompt'
+    logging.info(f"--- Requesting image from Fal with prompt: {full_prompt[:100]}... ---")
+    st.write(f"Fal: Generating image for prompt: {full_prompt[:150]}...")
+    try:
+        result = fal_client.subscribe(
+            "rundiffusion-fal/juggernaut-flux/lightning", # Using a potentially faster/cheaper model as an example
+            # "rundiffusion-fal/juggernaut-flux/lightning", # Original model
+            arguments={
+                "prompt": full_prompt, # Use the full prompt directly
+                "image_size": "portrait_16_9", # Or "square_hd" / "landscape_16_9"
+                "num_inference_steps": 12, # Fast, adjust if quality needed
+                "num_images": 1,
+                "enable_safety_checker": True
+            },
+            with_logs=True, # Set to False to reduce console noise if preferred
+            on_queue_update=on_queue_update
+        )
+        logging.info(f"Fal image generation result: {result}")
+        if result and 'images' in result and len(result['images']) > 0:
+            st.write("Fal: Image generated.")
+            return result['images'][0]
+        else:
+            logging.error("No image data found in Fal result.")
+            st.warning("Fal: No image data returned.")
+            return None
+    except Exception as e:
+        logging.error(f"Error during Fal image generation: {e}")
+        st.error(f"Fal Error: {e}")
+        return None
 def group_words_with_timing(word_timings, words_per_group=2):
     grouped_timings = []
     
@@ -763,7 +792,7 @@ if st.button("Generate Videos"):
                         #                          concerned middle-aged woman looking at her tongue in the mirror under harsh bathroom lighting, with a cluttered counter and slightly 
                         #                         blurry focus  — the image looks like
                         #                          it was taken on an old phone, with off angle, bad lighting, and a sense of urgency and confusion to provoke clicks.""")
-                        img_bytes = gen_gemini_image(visual)
+                        img_bytes = generate_fal_image(visual)
                         image_url = upload_pil_image_to_s3(image = img_bytes ,bucket_name=s3_bucket_name,
                             aws_access_key_id=aws_access_key,
                             aws_secret_access_key=aws_secret_key,
