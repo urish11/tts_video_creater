@@ -7,7 +7,7 @@ import urllib.parse
 import time
 import random
 import pandas as pd
-import boto3
+import boto3201
 import datetime
 import string
 from botocore.exceptions import NoCredentialsError
@@ -198,10 +198,7 @@ def generate_text_with_claude(prompt: str, anthropic_api_key: str = anthropic_ap
                 print(f"Claude generated text: {generated_text[:100]}...")
                 st.write("Claude: Text generated.")
                 return generated_text
-            else:
-                print("Claude response content not found or not text.")
-                st.warning("Claude: Response content issue.")
-                generated_text = "" # Return empty string for this attempt
+
         except anthropic.APIConnectionError as e:
             print(f"Claude APIConnectionError (attempt {tries + 1}/{max_retries}): {e}")
             st.warning(f"Claude connection error (attempt {tries+1}), retrying...")
