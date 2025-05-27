@@ -686,6 +686,8 @@ if st.button("Generate Videos"):
                 # the image descriptions should be interesting enticing, causal joe candidly ,realistic!! but eye-catching wtf moment unexpcted, the image itself visually must have a intruging NOT SURREAL very reddit wtf style viral image.
                 # intriguing BUT NOT SURREAL NOT SURREAL NOT SURREAL NO ANIMALS. showing a {gender} for appropriate {age}\\look\\{race}\etc in images. maker sure the topic of the video is seen in the images.Each image description must be fully self-contained. Avoid references like 'the same woman' or 'she.' Instead, use explicit, consistent identifiers throughout each description(not names). For example, use the same "avatar" throughout the script, if it is x avatar then mention it in each image description. first image is a hook, must standout and be very intriguing wtf moment visually, eye catching perplexing visually.
                 # each image description short and consice up to 20 words
+                                # start with insanely engaging somewhat hook puzzling perplexing unexpected  to get users watching, NOT generic text
+
 
                 # Generate prompt for script
                 prompt = f"""
@@ -695,7 +697,6 @@ if st.button("Generate Videos"):
                 
                 
                 
-                start with insanely engaging somewhat hook puzzling perplexing unexpected  to get users watching, NOT generic text
                 
                 Each image description must be fully self-contained (describe the avatar on each image description fully!! )!!!!!!!, with full avatar(dont use names!)!! dont reference previously mentioned
                 
@@ -703,7 +704,6 @@ if st.button("Generate Videos"):
                 
                 pick an avatar for the script, age, gender... explicitly describe this avatar FULLY!!!! description ON EACH IMAGE DESCRIPTION
                 
-                visual description is up to 20 words each, image is perplexing wtf
                 the text needs to be retentive and highly engaging
 
 
