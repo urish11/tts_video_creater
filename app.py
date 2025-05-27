@@ -24,7 +24,7 @@ import numpy as np
 from io import BytesIO
 import tempfile
 from openai import OpenAI
-
+import anthropic
 st.set_page_config(page_title="Video Generator", page_icon="🎬", layout="wide")
 
 
