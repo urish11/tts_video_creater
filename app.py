@@ -51,7 +51,7 @@ st.title("🎬 Video Generator")
 def on_queue_update(update):
     if isinstance(update, fal_client.InProgress):
         for log in update.logs:
-            logging.info(f"[FalClient Log] {log['message']}")
+            print(f"[FalClient Log] {log['message']}")
             # st.sidebar.text(f"[Fal Log] {log['message']}") # Optional: log to sidebar
 
 def generate_fal_image(full_prompt: str): # Changed 'topic' to 'full_prompt'
@@ -177,7 +177,7 @@ def get_openai_client():
 # Functions from original code
 
 def generate_text_with_claude(prompt: str, anthropic_api_key: str = anthropic_api_key, model: str = "claude-3-7-sonnet-latest", temperature: float = 1.0, max_retries: int = 3): # claude-3-opus-20240229, claude-3-sonnet-20240229, claude-3-haiku-20240307
-    logging.info(f"--- Requesting text from Claude with prompt: '{prompt[:70]}...' ---")
+    print(f"--- Requesting text from Claude with prompt: '{prompt[:70]}...' ---")
     st.write(f"Claude: Generating text (model: {model})...")
     tries = 0
     while tries < max_retries:
@@ -194,32 +194,32 @@ def generate_text_with_claude(prompt: str, anthropic_api_key: str = anthropic_ap
             response = client.messages.create(**message_payload)
             if len(response.content) > 0 and response.content[0].type == "text":
                 generated_text = response.content[0].text
-                logging.info(f"Claude generated text: {generated_text[:100]}...")
+                print(f"Claude generated text: {generated_text[:100]}...")
                 st.write("Claude: Text generated.")
                 return generated_text
             else:
-                logging.error("Claude response content not found or not text.")
+                print("Claude response content not found or not text.")
                 st.warning("Claude: Response content issue.")
                 generated_text = "" # Return empty string for this attempt
         except anthropic.APIConnectionError as e:
-            logging.error(f"Claude APIConnectionError (attempt {tries + 1}/{max_retries}): {e}")
+            print(f"Claude APIConnectionError (attempt {tries + 1}/{max_retries}): {e}")
             st.warning(f"Claude connection error (attempt {tries+1}), retrying...")
         except anthropic.RateLimitError as e:
-            logging.error(f"Claude RateLimitError (attempt {tries + 1}/{max_retries}): {e}")
+            print(f"Claude RateLimitError (attempt {tries + 1}/{max_retries}): {e}")
             st.warning(f"Claude rate limit hit (attempt {tries+1}), retrying after delay...")
             time.sleep(15 if tries < 2 else 30) # Longer sleep for rate limits
         except anthropic.APIStatusError as e:
-            logging.error(f"Claude APIStatusError status={e.status_code} (attempt {tries + 1}/{max_retries}): {e.message}")
+            print(f"Claude APIStatusError status={e.status_code} (attempt {tries + 1}/{max_retries}): {e.message}")
             st.error(f"Claude API error {e.status_code} (attempt {tries+1}): {e.message}")
         except Exception as e:
-            logging.error(f"Error during Claude text generation (attempt {tries + 1}/{max_retries}): {e}")
+            print(f"Error during Claude text generation (attempt {tries + 1}/{max_retries}): {e}")
             st.error(f"Claude general error (attempt {tries+1}): {e}")
         
         tries += 1
         if tries < max_retries:
             time.sleep(5 * tries) # Exponential backoff
         else:
-            logging.error("Max retries reached for Claude.")
+            print("Max retries reached for Claude.")
             st.error("Claude: Max retries reached. Failed to generate text.")
             return None
     return None # Should be unreachable if loop logic is correct, but as a fallback
