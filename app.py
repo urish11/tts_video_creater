@@ -780,7 +780,7 @@ if st.button("Generate Videos"):
                                 Structure:
                                 - 2 to 3 slides.
                                 - Each slide includes: 
-                                   • 'text': the short voiceover/caption (5–12 words).
+                                   • 'text': the short voiceover/caption (7–16 words).
                                    • 'visual': a detailed image description (max 15 words).
                                 - Slides should be fast-paced, eye-catching, and feel like a real social ad — no slow build-up.
                                 
