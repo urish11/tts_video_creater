@@ -411,7 +411,7 @@ def generate_audio_with_timestamps(text, client, voice_id="alloy"):
         input=text,
         # instructions=instructions_per_voice[voice_id]['instructions'],
         response_format="mp3",
-        speed=1.15
+        speed=1.1
     )
 
     # Save the generated audio
