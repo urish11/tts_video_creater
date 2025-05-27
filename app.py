@@ -364,7 +364,7 @@ def generate_audio_with_timestamps(text, client, voice_id="alloy"):
         input=text,
         # instructions=instructions_per_voice[voice_id]['instructions'],
         response_format="mp3",
-        speed=1.10
+        speed=1.2
     )
 
     # Save the generated audio
@@ -736,7 +736,7 @@ if st.button("Generate Videos"):
                 Each image description must be fully self-contained (describe the avatar on each image description fully!! )!!!!!!!, with full avatar(dont use names!)!! dont reference previously mentioned
                 
                 make sure to show the benefits and the stark contrast
-                
+                dont make false far fetched promises, dont use over senesional language, dont use 'our' 'we'
                 pick an avatar for the script, age, gender... explicitly describe this avatar FULLY!!!! description ON EACH IMAGE DESCRIPTION
                 
                 the text needs to be retentive and highly engaging
