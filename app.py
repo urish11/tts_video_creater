@@ -15,6 +15,7 @@ from openai import OpenAI
 from moviepy.editor import *
 import moviepy.video.fx.resize as resize
 from moviepy.editor import TextClip
+import moviepy.audio.fx.all as afx
 from together import Together
 import base64
 from PIL import Image,ImageDraw, ImageFont
@@ -411,7 +412,7 @@ def generate_audio_with_timestamps(text, client, voice_id="alloy"):
         input=text,
         # instructions=instructions_per_voice[voice_id]['instructions'],
         response_format="mp3",
-        speed=1.07
+        speed=1.0
     )
 
     # Save the generated audio
@@ -541,13 +542,13 @@ def create_video_with_image_on_top(media_assets, topic, progress_bar=None):
         final_video = concatenate_videoclips(clips, method="compose").resize((1080, 1920))
 
         # Export the background music to a temporary file
-        music_sound = AudioSegment.from_mp3(r"assets/audiomass-output.mp3")  
+        music_sound = AudioSegment.from_mp3(r"assets/audio_Sunrise.mp3")  
 
         temp_music_file = tempfile.NamedTemporaryFile(delete=False, suffix=".mp3")
         music_sound.export(temp_music_file.name, format="mp3")
         
         # Load the background music as AudioFileClip
-        music_audio_clip = AudioFileClip(temp_music_file.name)
+        music_audio_clip = AudioFileClip(temp_music_file.name).fx(afx.volumex, 0.08)
         
         # Set the background music duration to match the video duration
         music_audio_clip = music_audio_clip.subclip(0, final_video.duration)
@@ -557,7 +558,7 @@ def create_video_with_image_on_top(media_assets, topic, progress_bar=None):
         
         # Set the final audio to the video
         ########################################
-        # final_video = final_video.set_audio(final_audio)
+        final_video = final_video.set_audio(final_audio)
 
 
         file_name = f"output_video_{urllib.parse.quote(topic.replace(' ', '_')[:40], safe='')}_{int(datetime.datetime.now().timestamp())}.mp4".replace("'",'').replace('"','')
