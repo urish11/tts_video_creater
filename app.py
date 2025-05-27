@@ -772,33 +772,68 @@ if st.button("Generate Videos"):
 
 
                 # Generate prompt for script
-                prompt = f"""
-                write script for 10-15 seconds  2-3 texts\images slides    video for {topic} ad promotion, rather casual tone, make it look attractive for max CTR and make people click
-                end with something like "click NOW to learn more" or "click to see options"
-                quick engaging eye catching slides and speed , not slow. short 'text' per slide
-                explain the topic  concretely
-                tell a little story
-                show the topic and make it enticing
-                return JUST json object (no \n or anything else), each element has 'text' for voiceover text and 'visual' for image description, visual is up to 15 words
-                each slide is rather quick
-                
-                showing a {gender} for appropriate {age}\\look\\{race}\etc in images
-                
-                Each image description must be fully self-contained (describe the avatar on each image description fully!! )!!!!!!!, with full avatar(dont use names!)!! dont reference previously mentioned
-                
-                make sure to show the benefits and the stark contrast
-                dont make false far fetched promises, dont use over senesional language, dont use 'our' 'we' 'today'
-                pick an avatar for the script, age, gender... explicitly describe this avatar FULLY!!!! description ON EACH IMAGE DESCRIPTION
-                
-                the text needs to be retentive and highly engaging, so really sell on the get go
 
-                example output (examply this structure)!:"""+"""
+
+                prompt = f"""Write a JSON-formatted script for a 10–15 second video ad promoting: "{topic}".
+                                
+                                Structure:
+                                - 2 to 3 slides.
+                                - Each slide includes: 
+                                   • 'text': the short voiceover/caption (5–12 words).
+                                   • 'visual': a detailed image description (max 15 words).
+                                - Slides should be fast-paced, eye-catching, and feel like a real social ad — no slow build-up.
+                                
+                                Requirements:
+                                • Start with a *concrete relatable moment or mini-story* involving a real-life scenario.
+                                • The story should clearly show a **problem**, a **benefit**, or a **before/after moment** — make the transformation **visual** and enticing.
+                                • Show the product/topic in action, or its effect/result. Be visceral and visual — avoid abstract concepts.
+                                • Every image MUST contain a **fully self-contained description of the person/avatar** (e.g. “40s Black man in casual gym clothes, sweating and smiling after a workout”), even if they appear in multiple slides.
+                                • Use **simple**, engaging, curiosity-driven text. Avoid buzzwords, fake promises, or corporate tone.
+                                • End with a strong CTA like: “Click to explore options” or “Tap to see how it works.”
+                                
+                                Avatar:
+                                - Choose and show one realistic human avatar (gender, age, race, clothing style, mood, etc.)
+                                - Reflect that avatar visually and narratively in EVERY SLIDE.
+                                
+                                Tone:
+                                - Casual, fast, relatable.
+                                - DO NOT use: “we,” “our,” “limited time,” “best,” or exaggerated language.
+                                - DO NOT include intros or explanations of the video format — return only the final JSON array.
+                                
+                                """ + +"""
                 [{'text' : 'some text','visual'  : 'visual ...'},{'text' : 'some text','visual'  : 'visual ...'}...]
 
 
 
                 
                 """
+                # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # GOOD!!prompt = f"""
+                # write script for 10-15 seconds  2-3 texts\images slides    video for {topic} ad promotion, rather casual tone, make it look attractive for max CTR and make people click
+                # end with something like "click NOW to learn more" or "click to see options"
+                # quick engaging eye catching slides and speed , not slow. short 'text' per slide
+                # explain the topic  concretely
+                # tell a little story
+                # show the topic and make it enticing
+                # return JUST json object (no \n or anything else), each element has 'text' for voiceover text and 'visual' for image description, visual is up to 15 words
+                # each slide is rather quick
+                
+                # showing a {gender} for appropriate {age}\\look\\{race}\etc in images
+                
+                # Each image description must be fully self-contained (describe the avatar on each image description fully!! )!!!!!!!, with full avatar(dont use names!)!! dont reference previously mentioned
+                
+                # make sure to show the benefits and the stark contrast
+                # dont make false far fetched promises, dont use over senesional language, dont use 'our' 'we' 'today'
+                # pick an avatar for the script, age, gender... explicitly describe this avatar FULLY!!!! description ON EACH IMAGE DESCRIPTION
+                
+                # the text needs to be retentive and highly engaging, so really sell on the get go
+
+                # example output (examply this structure)!:"""+"""
+                # [{'text' : 'some text','visual'  : 'visual ...'},{'text' : 'some text','visual'  : 'visual ...'}...]
+
+
+
+                
+                # """
 #                 prompt = f"""
 # Write a script for a **casual, viral** 15-20 second video with **3-4 text/image segments** for {topic}. 
 
