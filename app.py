@@ -19,7 +19,7 @@ from together import Together
 import base64
 from PIL import Image,ImageDraw, ImageFont
 os.environ["FAL_KEY"] =  st.secrets.get("FAL_KEY")
-
+import fal_client
 import numpy as np
 from io import BytesIO
 import tempfile
@@ -48,6 +48,12 @@ GEMINI_API_KEY =st.secrets.get("GEMINI_API_KEY")
 
 # Main content
 st.title("🎬 Video Generator")
+def on_queue_update(update):
+    if isinstance(update, fal_client.InProgress):
+        for log in update.logs:
+            logging.info(f"[FalClient Log] {log['message']}")
+            # st.sidebar.text(f"[Fal Log] {log['message']}") # Optional: log to sidebar
+
 def generate_fal_image(full_prompt: str): # Changed 'topic' to 'full_prompt'
     print(f"--- Requesting image from Fal with prompt: {full_prompt[:100]}... ---")
     st.write(f"Fal: Generating image for prompt: {full_prompt[:150]}...")
