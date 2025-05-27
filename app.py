@@ -790,7 +790,7 @@ if st.button("Generate Videos"):
                                 • Every image MUST contain a **fully self-contained description of the person/avatar** (e.g. “40s Black man in casual gym clothes, sweating and smiling after a workout”), even if they appear in multiple slides.
                                 • Use **simple**, engaging, curiosity-driven text. Avoid buzzwords, fake promises, or corporate tone.
                                 • End with a strong CTA like: “Click to explore options” or “Tap to see how it works.”
-                                
+                                • showing a {gender} for appropriate {age}\\look\\{race}\etc in images!!!
                                 Avatar:
                                 - Choose and show one realistic human avatar (gender, age, race, clothing style, mood, etc.)
                                 - Reflect that avatar visually and narratively in EVERY SLIDE.
