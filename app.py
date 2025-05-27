@@ -789,7 +789,8 @@ if st.button("Generate Videos"):
                 
                 the text needs to be retentive and highly engaging, so really sell on the get go
 
-                example output (examply this structure)!:
+                example output (examply this structure)!:"""+
+                """
                 [{'text' : 'some text','visual'  : 'visual ...'},{'text' : 'some text','visual'  : 'visual ...'}...]
 
 
