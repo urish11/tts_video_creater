@@ -800,7 +800,7 @@ if st.button("Generate Videos"):
                                 - DO NOT use: “we,” “our,” “limited time,” “best,” or exaggerated language.
                                 - DO NOT include intros or explanations of the video format — return only the final JSON array.
                                 
-                                """ + +"""
+                                """  +"""
                 [{'text' : 'some text','visual'  : 'visual ...'},{'text' : 'some text','visual'  : 'visual ...'}...]
 
 
