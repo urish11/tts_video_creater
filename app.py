@@ -788,7 +788,9 @@ if st.button("Generate Videos"):
                 pick an avatar for the script, age, gender... explicitly describe this avatar FULLY!!!! description ON EACH IMAGE DESCRIPTION
                 
                 the text needs to be retentive and highly engaging, so really sell on the get go
-                
+
+                example output (examply this structure)!:
+                [{'text' : 'some text','visual'  : 'visual ...'},{'text' : 'some text','visual'  : 'visual ...'}...]
 
 
 
