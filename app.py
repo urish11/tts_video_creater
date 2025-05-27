@@ -696,7 +696,7 @@ if st.button("Generate Videos"):
                 return JUST json object, each element has 'text' for voiceover text and 'visual' for image description
                 
                 
-                
+                showing a {gender} for appropriate {age}\\look\\{race}\etc in images
                 
                 Each image description must be fully self-contained (describe the avatar on each image description fully!! )!!!!!!!, with full avatar(dont use names!)!! dont reference previously mentioned
                 
