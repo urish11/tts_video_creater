@@ -785,8 +785,8 @@ if st.button("Generate Videos"):
                                 - Slides should be fast-paced, eye-catching, and feel like a real social ad — no slow build-up.
                                 
                                 Requirements:
-                                • Start with a *concrete relatable moment or mini-story* involving a real-life scenario. Not 1st person !!
-                                • The story should clearly show a **problem**, a **benefit**, or a **before/after moment** — make the transformation **visual** and enticing.
+                                • Start with a *concrete relatable moment or involving a real-life scenario. Not 1st person !!
+                                • it should clearly show a **problem**, a **benefit**, or a **before/after moment** — make the transformation **visual** and enticing.
                                 • Show the product/topic in action, or its effect/result. Be visceral and visual — avoid abstract concepts.
                                 • Every image MUST contain a **fully self-contained description of the person/avatar** (e.g. “40s Black man in casual gym clothes, sweating and smiling after a workout”), even if they appear in multiple slides.
                                 • Use **simple**, engaging, curiosity-driven text. Avoid buzzwords, fake promises, or corporate tone.
