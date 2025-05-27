@@ -185,11 +185,11 @@ def generate_text_with_claude(prompt: str, anthropic_api_key: str = anthropic_ap
             client = anthropic.Anthropic(api_key=anthropic_api_key)
             message_payload = {
                 "model": model,
-                "max_tokens": 2048, # Increased for potentially longer prompts or JSON
+                "max_tokens": 8000, # Increased for potentially longer prompts or JSON
                 "temperature": temperature,
                 "messages": [{"role": "user", "content": [{"type": "text", "text": prompt}]}],
                 "thinking" : { "type": "enabled",
-                "budget_tokens": 16000}
+                "budget_tokens": 3000}
             }
             response = client.messages.create(**message_payload)
             if len(response.content) > 0 and response.content[0].type == "text":
