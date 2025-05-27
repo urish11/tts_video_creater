@@ -799,11 +799,12 @@ if st.button("Generate Videos"):
                         #                         blurry focus  — the image looks like
                         #                          it was taken on an old phone, with off angle, bad lighting, and a sense of urgency and confusion to provoke clicks.""")
                         img_bytes = generate_fal_image(visual)
-                        image_url = upload_pil_image_to_s3(image = img_bytes ,bucket_name=s3_bucket_name,
-                            aws_access_key_id=aws_access_key,
-                            aws_secret_access_key=aws_secret_key,
-                            region_name=s3_region
-                        )
+                        image_url = img_bytes
+                        # image_url = upload_pil_image_to_s3(image = img_bytes ,bucket_name=s3_bucket_name,
+                        #     aws_access_key_id=aws_access_key,
+                        #     aws_secret_access_key=aws_secret_key,
+                        #     region_name=s3_region
+                        # )
 
 
 
