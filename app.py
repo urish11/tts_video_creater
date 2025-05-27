@@ -74,7 +74,7 @@ def generate_fal_image(full_prompt: str): # Changed 'topic' to 'full_prompt'
         print(f"Fal image generation result: {result}")
         if result and 'images' in result and len(result['images']) > 0:
             st.write("Fal: Image generated.")
-            return result['images'][0]
+            return result['images'][0]['url']
         else:
             print("No image data found in Fal result.")
             st.warning("Fal: No image data returned.")
