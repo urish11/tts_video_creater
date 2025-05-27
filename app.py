@@ -362,7 +362,7 @@ def generate_audio_with_timestamps(text, client, voice_id="alloy"):
         model="gpt-4o-mini-tts",
         voice=voice_id,
         input=text,
-        instructions=instructions_per_voice[voice_id]['instructions'],
+        # instructions=instructions_per_voice[voice_id]['instructions'],
         response_format="mp3",
         speed=1.10
     )
