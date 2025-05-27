@@ -40,7 +40,7 @@ aws_access_key = st.secrets["aws_access_key"]
 aws_secret_key = st.secrets["aws_secret_key"]
 s3_bucket_name = st.secrets["s3_bucket_name"]
 s3_region = st.secrets["s3_region"]
-
+anthropic_api_key = st.secrets.get("ANTHROPIC_API_KEY", "")
 client = OpenAI(api_key= openai_api_key)
 
 
@@ -175,6 +175,55 @@ def get_openai_client():
         return OpenAI(api_key=openai_api_key)
 
 # Functions from original code
+
+def generate_text_with_claude(prompt: str, anthropic_api_key: str = anthropic_api_key, model: str = "claude-3-7-sonnet-latest", temperature: float = 1.0, max_retries: int = 3): # claude-3-opus-20240229, claude-3-sonnet-20240229, claude-3-haiku-20240307
+    logging.info(f"--- Requesting text from Claude with prompt: '{prompt[:70]}...' ---")
+    st.write(f"Claude: Generating text (model: {model})...")
+    tries = 0
+    while tries < max_retries:
+        try:
+            client = anthropic.Anthropic(api_key=anthropic_api_key)
+            message_payload = {
+                "model": model,
+                "max_tokens": 2048, # Increased for potentially longer prompts or JSON
+                "temperature": temperature,
+                "messages": [{"role": "user", "content": [{"type": "text", "text": prompt}]}],
+                thinking = { "type": "enabled",
+                "budget_tokens": 16000}
+            }
+            response = client.messages.create(**message_payload)
+            if len(response.content) > 0 and response.content[0].type == "text":
+                generated_text = response.content[0].text
+                logging.info(f"Claude generated text: {generated_text[:100]}...")
+                st.write("Claude: Text generated.")
+                return generated_text
+            else:
+                logging.error("Claude response content not found or not text.")
+                st.warning("Claude: Response content issue.")
+                generated_text = "" # Return empty string for this attempt
+        except anthropic.APIConnectionError as e:
+            logging.error(f"Claude APIConnectionError (attempt {tries + 1}/{max_retries}): {e}")
+            st.warning(f"Claude connection error (attempt {tries+1}), retrying...")
+        except anthropic.RateLimitError as e:
+            logging.error(f"Claude RateLimitError (attempt {tries + 1}/{max_retries}): {e}")
+            st.warning(f"Claude rate limit hit (attempt {tries+1}), retrying after delay...")
+            time.sleep(15 if tries < 2 else 30) # Longer sleep for rate limits
+        except anthropic.APIStatusError as e:
+            logging.error(f"Claude APIStatusError status={e.status_code} (attempt {tries + 1}/{max_retries}): {e.message}")
+            st.error(f"Claude API error {e.status_code} (attempt {tries+1}): {e.message}")
+        except Exception as e:
+            logging.error(f"Error during Claude text generation (attempt {tries + 1}/{max_retries}): {e}")
+            st.error(f"Claude general error (attempt {tries+1}): {e}")
+        
+        tries += 1
+        if tries < max_retries:
+            time.sleep(5 * tries) # Exponential backoff
+        else:
+            logging.error("Max retries reached for Claude.")
+            st.error("Claude: Max retries reached. Failed to generate text.")
+            return None
+    return None # Should be unreachable if loop logic is correct, but as a fallback
+
 def generate_script(prompt, client):
     with st.spinner('Generating script...'):
         response = client.chat.completions.create(
@@ -771,7 +820,9 @@ if st.button("Generate Videos"):
 
 #                 """
                 # Generate script
-                script_json = generate_script(prompt, client)
+                # script_json = generate_script(prompt, client)
+                script_json = generate_text_with_claude(prompt)
+                
                 
                 if script_json:
                     st.write(f"Script output: ")
