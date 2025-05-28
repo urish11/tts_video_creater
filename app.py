@@ -226,7 +226,7 @@ def generate_text_with_claude(prompt: str, anthropic_api_key: str = anthropic_ap
 def generate_script(prompt, client):
     with st.spinner('Generating script...'):
         response = client.chat.completions.create(
-            model="o3",
+            model="o3-mini",
             messages=[
                 {"role": "system", "content": "You are a creative  writer. ALWAYS write the full avatar description on each visual description ALWAYS!!!! "},
                 {"role": "user", "content": prompt}
