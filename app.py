@@ -792,6 +792,7 @@ if st.button("Generate Videos"):
                                 • Use **simple**, engaging, curiosity-driven text. Avoid buzzwords, fake promises, or corporate tone. but still be very convincing and eye catching!!!
                                 • End with a strong convinsing  CTA like: “Click to explore options” or “Tap to see how it works.”
                                 • showing a {gender} for appropriate {age}\\look\\{race}\etc in images!!!
+                                • end with a positive outcome visual : like if for a degree, someone holding the diploma proudly , or if for a car, someone in a brand new luxury car happy
 
                                 REALLY SELL IT FROM THE GET GO!
                                 Avatar:
