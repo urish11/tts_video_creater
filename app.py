@@ -793,7 +793,7 @@ if st.button("Generate Videos"):
                                 • End with a strong convinsing  CTA like: “Click to explore options” or “Tap to see how it works.”
                                 • showing a {gender} for appropriate {age}\\look\\{race}\etc in images!!!
 
-                                REALLY SELL IT!
+                                REALLY SELL IT FROM THE GET GO!
                                 Avatar:
                                 - Choose and show one realistic human avatar (gender, age, race, clothing style, mood, etc.)
                                 - Reflect that avatar visually and narratively in EVERY SLIDE.
