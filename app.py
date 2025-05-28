@@ -792,9 +792,12 @@ if st.button("Generate Videos"):
                                 • Use **simple**, engaging, curiosity-driven text. Avoid buzzwords, fake promises, or corporate tone. but still be very convincing and eye catching!!!
                                 • End with a strong convinsing  CTA like: “Click to explore options” or “Tap to see how it works.”
                                 • showing a {gender} for appropriate {age}\\look\\{race}\etc in images!!!
+
+                                REALLY SELL IT!
                                 Avatar:
                                 - Choose and show one realistic human avatar (gender, age, race, clothing style, mood, etc.)
                                 - Reflect that avatar visually and narratively in EVERY SLIDE.
+                                    
                                 
                                 Tone:
                                 - Casual, fast, relatable.
