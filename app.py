@@ -812,6 +812,7 @@ if st.button("Generate Videos"):
                                 • End with a strong convinsing  CTA like: “Click to explore options” or “Tap to see how it works.”
                                 • showing a {gender}  {age}\\look\\{race}\ in images!!!
                                 • end with a positive outcome visual, sell the dream (also with the visuals): like if for a degree, someone holding the diploma proudly , or if for a car, someone in a brand new luxury car happy pointing to it proudly
+                                • make sure to do that to the final visual!
 
                                 REALLY SELL IT FROM THE GET GO!
                                 Avatar:
