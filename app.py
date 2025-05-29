@@ -379,7 +379,7 @@ def gen_gemini_image(prompt, trys = 0):
 
 
 
-def generate_audio_with_timestamps(text, client, voice_id="alloy"):
+def generate_audio_with_timestamps(text, client,lang, voice_id="alloy"):
     # 1) Generate TTS audio and save to a temp file
     temp_audio_file = tempfile.NamedTemporaryFile(delete=False, suffix=".mp3")
     temp_audio_path = temp_audio_file.name
@@ -427,11 +427,14 @@ def generate_audio_with_timestamps(text, client, voice_id="alloy"):
     boosted_audio.export(temp_audio_path, format="mp3")
 
     # Transcribe boosted audio with OpenAI Whisper API for word timestamps
+    lang_map = {  "English": "en",  "Spanish": "es",  "French": "fr",  "German": "de",  "Italian": "it",  "Portuguese": "pt",  "Russian": "ru",  "Chinese": "zh",  "Japanese": "ja",  "Korean": "ko",  "Arabic": "ar",  "Hebrew": "he",  "Hindi": "hi",  "Bengali": "bn",  "Urdu": "ur",  "Turkish": "tr",  "Polish": "pl",  "Dutch": "nl",  "Swedish": "sv",  "Norwegian": "no",  "Danish": "da",  "Finnish": "fi",  "Greek": "el",  "Czech": "cs",  "Hungarian": "hu",  "Romanian": "ro",  "Thai": "th",  "Vietnamese": "vi",  "Indonesian": "id",  "Malay": "ms",  "Ukrainian": "uk",  "Slovak": "sk",  "Serbian": "sr",  "Croatian": "hr",  "Bulgarian": "bg",  "Persian": "fa",  "Swahili": "sw",  "Tagalog": "tl",  "Tamil": "ta",  "Telugu": "te",  "Marathi": "mr",  "Punjabi": "pa",  "Malayalam": "ml",  "Kannada": "kn"}
+    2_letter_lang = lang_map[lang.title()]
     transcribe_response = client.audio.transcriptions.create(
         file=open(temp_audio_path, "rb"),
         model="whisper-1",
         response_format="verbose_json",
-        timestamp_granularities=["word"]
+        timestamp_granularities=["word"],
+        language= lang_map
     )
     #add background music
 
@@ -470,7 +473,7 @@ def generate_audio_with_timestamps(text, client, voice_id="alloy"):
 
     return temp_audio_path, word_timings  
 
-def create_video_with_image_on_top(media_assets, topic, progress_bar=None):
+def create_video_with_image_on_top(media_assets, topic,lang, progress_bar=None):
     with st.spinner('Creating video...'):
         clips = []
         zoom_factor = 1.04  # Scale factor for zoom
@@ -483,7 +486,7 @@ def create_video_with_image_on_top(media_assets, topic, progress_bar=None):
                 
             # Generate audio with timestamps and get word timings
             client = get_openai_client()
-            audio_filename, word_timings = generate_audio_with_timestamps(text=asset["text"], client=client, voice_id=asset["voice_id"])
+            audio_filename, word_timings = generate_audio_with_timestamps(text=asset["text"], client=client, voice_id=asset["voice_id"],lang=lang)
             word_timings = group_words_with_timing(word_timings, words_per_group=2)
 
             audio_clip = AudioFileClip(audio_filename)
@@ -938,7 +941,7 @@ if st.button("Generate Videos"):
                     # Create video
                     if media_assets:
                         video_progress = st.progress(0)
-                        video_path, file_name = create_video_with_image_on_top(media_assets, topic, video_progress)
+                        video_path, file_name = create_video_with_image_on_top(media_assets, topic,lang, video_progress)
                         
                         # Upload to S3 if credentials are provided
                         video_url = None
