@@ -685,7 +685,15 @@ else:
     st.write("Or create a table from scratch:")
     
     if 'data' not in st.session_state:
-        st.session_state.data = pd.DataFrame({'topic': ['fitness tips', 'cooking hacks'], 'count': [1, 1]})
+        st.session_state.data = pd.DataFrame({
+    'topic': ['fitness tips'],
+    'count': [1],
+    'lang' : "English",
+    'gender': ['random'],
+    'age': ['random'],
+    'race': ['random'],
+    'voice_id': ['random']
+})
     
     # Get the initial number of rows
     if 'n_rows' not in st.session_state:
@@ -693,14 +701,18 @@ else:
     
     # Use st.data_editor for an editable table
     edited_df = st.data_editor(
-        st.session_state.data,
-        num_rows="dynamic",
-        column_config={
-            "topic": st.column_config.TextColumn("Topic"),
-            "count": st.column_config.NumberColumn("Count", min_value=1, max_value=10, step=1)
-        },
-        use_container_width=True,
-    )
+    st.session_state.data,
+    num_rows="dynamic",
+    column_config={
+        "topic": st.column_config.TextColumn("Topic"),
+        "count": st.column_config.NumberColumn("Count", min_value=1, max_value=10, step=1),
+        "gender": st.column_config.SelectboxColumn("Gender", options=["random", "woman", "man"]),
+        "age": st.column_config.SelectboxColumn("Age", options=["random", "young", "middle-aged", "elderly"]),
+        "race": st.column_config.SelectboxColumn("Race", options=["random", "white", "asian", "black", "latino"]),
+        "voice_id": st.column_config.SelectboxColumn("Voice", options=["random", "alloy", "echo", "fable", "onyx", "nova", "shimmer", "sage", "ash"])
+    },
+    use_container_width=True,
+)
     
     # Update session state with edited data
     # st.session_state.data = edited_df
@@ -709,22 +721,22 @@ else:
 # Video Generation Section
 st.header("🎥 Generate Videos")
 
-col1, col2 = st.columns(2)
+# col1, col2 = st.columns(2)
 
-with col1:
-    gender_options = ["random", "woman", "man"]
-    selected_gender = st.selectbox("Default Gender", gender_options, index=0)
+# with col1:
+#     gender_options = ["random", "woman", "man"]
+#     selected_gender = st.selectbox("Default Gender", gender_options, index=0)
     
-    race_options = ["random", "white", "asian", "black", "latino"]
-    selected_race = st.selectbox("Default Race", race_options, index=0)
+#     race_options = ["random", "white", "asian", "black", "latino"]
+#     selected_race = st.selectbox("Default Race", race_options, index=0)
 
-with col2:
-    age_options = ["random", "young", "middle-aged", "elderly"]
-    selected_age = st.selectbox("Default Age", age_options, index=0)
+# with col2:
+#     age_options = ["random", "young", "middle-aged", "elderly"]
+#     selected_age = st.selectbox("Default Age", age_options, index=0)
     
-    # Voice options
-    voice_options = ["random", "alloy", "echo", "fable", "onyx", "nova", "shimmer",'sage','ash']
-    selected_voice = st.selectbox("Default Voice", voice_options, index=0)
+#     # Voice options
+#     voice_options = ["random", "alloy", "echo", "fable", "onyx", "nova", "shimmer",'sage','ash']
+#     selected_voice = st.selectbox("Default Voice", voice_options, index=0)
 
 if st.button("Generate Videos"):
         st.session_state.data = edited_df
@@ -745,6 +757,11 @@ if st.button("Generate Videos"):
             count = int(row['count'])
             
             for i in range(count):
+                gender    = row["gender"]
+                lang      = row["lang"]
+                age       = row["age"]
+                race      = row["race"]
+                voice_id  = row["voice_id"]
                 progress_placeholder.write(f"Working on topic: {topic} (#{i+1}/{count})")
                 
                 # Determine gender, race, age and voice
@@ -777,7 +794,7 @@ if st.button("Generate Videos"):
                 # Generate prompt for script
 
 
-                prompt = f"""Write a JSON-formatted script for a 10–15 second video ad promoting: "{topic}".
+                prompt = f"""Write a JSON-formatted script for a 10–15 second video ad promoting: "{topic}" in language "{lang}".
                                 
                                 Structure:
                                 - 2 to 3 slides.
