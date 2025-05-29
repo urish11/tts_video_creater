@@ -428,7 +428,7 @@ def generate_audio_with_timestamps(text, client,lang, voice_id="alloy"):
 
     # Transcribe boosted audio with OpenAI Whisper API for word timestamps
     lang_map = {  "English": "en",  "Spanish": "es",  "French": "fr",  "German": "de",  "Italian": "it",  "Portuguese": "pt",  "Russian": "ru",  "Chinese": "zh",  "Japanese": "ja",  "Korean": "ko",  "Arabic": "ar",  "Hebrew": "he",  "Hindi": "hi",  "Bengali": "bn",  "Urdu": "ur",  "Turkish": "tr",  "Polish": "pl",  "Dutch": "nl",  "Swedish": "sv",  "Norwegian": "no",  "Danish": "da",  "Finnish": "fi",  "Greek": "el",  "Czech": "cs",  "Hungarian": "hu",  "Romanian": "ro",  "Thai": "th",  "Vietnamese": "vi",  "Indonesian": "id",  "Malay": "ms",  "Ukrainian": "uk",  "Slovak": "sk",  "Serbian": "sr",  "Croatian": "hr",  "Bulgarian": "bg",  "Persian": "fa",  "Swahili": "sw",  "Tagalog": "tl",  "Tamil": "ta",  "Telugu": "te",  "Marathi": "mr",  "Punjabi": "pa",  "Malayalam": "ml",  "Kannada": "kn"}
-    2_letter_lang = lang_map[lang.title()]
+    two_letter_lang = lang_map[lang.title()]
     transcribe_response = client.audio.transcriptions.create(
         file=open(temp_audio_path, "rb"),
         model="whisper-1",
