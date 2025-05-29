@@ -703,8 +703,8 @@ else:
     )
     
     # Update session state with edited data
-    st.session_state.data = edited_df
-    df = edited_df
+    # st.session_state.data = edited_df
+    # df = edited_df
 
 # Video Generation Section
 st.header("🎥 Generate Videos")
@@ -727,6 +727,8 @@ with col2:
     selected_voice = st.selectbox("Default Voice", voice_options, index=0)
 
 if st.button("Generate Videos"):
+        st.session_state.data = edited_df
+        df = edited_df
     # Check API keys
     
         client = get_openai_client()
