@@ -765,19 +765,19 @@ if st.button("Generate Videos"):
                 progress_placeholder.write(f"Working on topic: {topic} (#{i+1}/{count})")
                 
                 # Determine gender, race, age and voice
-                gender = selected_gender
+                # gender = selected_gender
                 if gender == "random":
                     gender = random.choice(["woman", "man"])
                 
-                race = selected_race
+                # race = selected_race
                 if race == "random":
                     race = random.choice(['white', 'asian', 'black', 'latino'])
                 
-                age = selected_age
+                # age = selected_age
                 if age == "random":
                     age = random.choice(['young', 'middle-aged', 'elderly', " "])
                 
-                voice_id = selected_voice
+                # voice_id = selected_voice
                 if voice_id == "random":
                     if gender == 'man':
                         voice_id = random.choice(['echo', 'onyx'])
