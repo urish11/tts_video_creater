@@ -110,7 +110,7 @@ def group_words_with_timing(word_timings, words_per_group=2):
 
 
 def create_text_image(text, fontsize, color, bg_color, font_path):
-    text = text[0] + text[1:].lower()
+    # text = text[0] + text[1:].lower()
     font = ImageFont.truetype(font_path, fontsize)
     
     # Get text size
@@ -811,7 +811,7 @@ if st.button("Generate Videos"):
                                 • Use **simple**, engaging, curiosity-driven text. Avoid buzzwords, fake promises, or corporate tone. but still be very convincing and eye catching!!!
                                 • End with a strong convinsing  CTA like: “Click to explore options” or “Tap to see how it works.”
                                 • showing a {gender}  {age}\\look\\{race}\ in images!!!
-                                • end with a positive outcome visual, sell the dream : like if for a degree, someone holding the diploma proudly , or if for a car, someone in a brand new luxury car happy
+                                • end with a positive outcome visual, sell the dream (also with the visuals): like if for a degree, someone holding the diploma proudly , or if for a car, someone in a brand new luxury car happy pointing to it proudly
 
                                 REALLY SELL IT FROM THE GET GO!
                                 Avatar:
