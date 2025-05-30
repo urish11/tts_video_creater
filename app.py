@@ -690,8 +690,9 @@ else:
     if 'data' not in st.session_state:
         st.session_state.data = pd.DataFrame({
     'topic': ['fitness tips'],
-    'count': [1],
     'lang' : "English",
+    'count': [1],
+
     'gender': ['random'],
     'age': ['random'],
     'race': ['random'],
