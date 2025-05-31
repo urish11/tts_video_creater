@@ -230,7 +230,7 @@ def generate_script(prompt, client):
         st.text(prompt)
         response = client.chat.completions.create(
             model="o4-mini", #o4-mini
-            reasoning_effort = "low",
+            reasoning_effort = "medium",
             messages=[
                 {"role": "system", "content": "You are a creative  writer. ALWAYS write the full avatar description on each visual description ALWAYS!!!! "},
                 {"role": "user", "content": prompt}
@@ -411,10 +411,10 @@ def generate_audio_with_timestamps(text, client,lang, voice_id="alloy"):
 
     # Generate TTS audio
     response = client.audio.speech.create(
-        model="tts-1-hd",#gpt-4o-mini-tts
+        model="gpt-4o-mini-tts",#gpt-4o-mini-tts
         voice=voice_id,
         input=text,
-        # instructions=instructions_per_voice[voice_id]['instructions'],
+        instructions=instructions_per_voice[voice_id]['instructions'],
         response_format="mp3",
         speed=1.0
     )
