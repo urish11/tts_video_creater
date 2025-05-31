@@ -60,14 +60,16 @@ def generate_fal_image(full_prompt: str): # Changed 'topic' to 'full_prompt'
     st.write(f"Fal: Generating image for prompt: {full_prompt[:150]}...")
     try:
         result = fal_client.subscribe(
-            "rundiffusion-fal/juggernaut-flux/lightning", # Using a potentially faster/cheaper model as an example
+            "fal-ai/hidream-i1-fast", # Using a potentially faster/cheaper model as an example  rundiffusion-fal/juggernaut-flux/lightning
             # "rundiffusion-fal/juggernaut-flux/lightning", # Original model
             arguments={
                 "prompt": full_prompt, # Use the full prompt directly
+                "negative_prompt": "studio lighting, artificial lighting, ring light, controlled environment, professional photo, high quality, ultra-HD, crisp resolution, DSLR, mirrorless camera, depth-of-field blur, perfect composition, rule of thirds, clean background, minimalist background, white backdrop, studio backdrop, seamless paper, posed subject, stiff posture, retouched skin, airbrushed, blemish-free, flawless, sharp focus, edge-to-edge clarity, commercial aesthetic, ad-style framing, cinematic color grading, symmetrical layout, perfectly centered subject, saturated colors, balanced exposure, glowing highlights, photorealism, HDR effect, beauty lighting, glamour shot, AI-generated face, generic avatar, influencer vibe, model-like features, makeup-heavy, fashion lighting, branded clothing, visible logos, lifestyle influencer tone, intentional styling, hair light, catchlights in eyes, perfect framing, product placement, rule-following, polished look, editorial-style, magazine-ready, portfolio-grade, high production value, promotional image, advertising tone, billboard look, overly clean, pristine scene, curated aesthetic, Instagram filter, social media gloss, shallow personality expression, emotionless gaze, digital perfection, corporate tone, symmetrical background, centered horizon, intentional color harmony, filtered, cinematic shadows, visual hierarchy, aesthetic framing, beauty-focused",
+            "image_size": "portrait_16_9",
                 "image_size": "portrait_16_9", # Or "square_hd" / "landscape_16_9"
-                "num_inference_steps": 12, # Fast, adjust if quality needed
+                "num_inference_steps": 11, # Fast, adjust if quality needed
                 "num_images": 1,
-                "enable_safety_checker": True
+                "enable_safety_checker": False
             },
             with_logs=True, # Set to False to reduce console noise if preferred
             on_queue_update=on_queue_update
