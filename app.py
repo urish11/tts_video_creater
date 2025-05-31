@@ -226,7 +226,8 @@ def generate_text_with_claude(prompt: str, anthropic_api_key: str = anthropic_ap
     return None # Should be unreachable if loop logic is correct, but as a fallback
 
 def generate_script(prompt, client):
-    with st.spinner('Generating script...'):
+    with st.status('Generating script...'):
+        st.text(prompt)
         response = client.chat.completions.create(
             model="o4-mini", #o4-mini
             messages=[
