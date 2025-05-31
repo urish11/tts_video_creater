@@ -815,7 +815,7 @@ if st.button("Generate Videos"):
                                 • Use **simple**, engaging, curiosity-driven text. Avoid buzzwords, fake promises, or corporate tone. but still be very convincing and eye catching!!!
                                 • End with a strong convinsing  CTA like: “Click to explore options” or “Tap to see how it works.”
                                 • showing a {gender}  {age}\\look\\{race}\ in images!!!
-                                • end with a positive outcome visual, sell the dream (also with the visuals): like if for a degree, someone holding the diploma proudly , or if for a car, someone in a brand new luxury car happy pointing to it proudly
+                                •End with a visually uplifting moment that sells the dream. Show the result in an expressive, celebratory way — for example, someone proudly holding their diploma up to the camera, or joyfully pointing to their brand-new luxury car. Make the benefit unmistakable and emotionally powerful.!
                                 • make sure to do that to the final visual!
 
                                 REALLY SELL IT FROM THE GET GO!
