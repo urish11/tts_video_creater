@@ -815,9 +815,7 @@ if st.button("Generate Videos"):
                                 • Use **simple**, engaging, curiosity-driven text. Avoid buzzwords, fake promises, or corporate tone. but still be very convincing and eye catching!!!
                                 • End with a strong convinsing  CTA like: “Click to explore options” or “Tap to see how it works.”
                                 • showing a {gender}  {age}\\look\\{race}\ in images!!!
-                                •End with a visually uplifting moment that sells the dream. Show the result in an expressive, celebratory way — for example, someone proudly holding their diploma up to the camera, or joyfully pointing to their brand-new luxury car. Make the benefit unmistakable and emotionally powerful.!
-                                • make sure to do that to the final visual!
-
+                                •End with a powerful visual that proudly showcases the outcome to the camera — like someone beaming as they hold up their diploma or point at their new luxury car. Make it feel like they’re saying, ‘This could be you,’ urging the viewer to act
                                 REALLY SELL IT FROM THE GET GO!
                                 Avatar:
                                 - Choose and show one realistic human avatar (gender, age, race, clothing style, mood, etc.)
