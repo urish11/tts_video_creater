@@ -921,7 +921,7 @@ if st.button("Generate Videos"):
                         #                          concerned middle-aged woman looking at her tongue in the mirror under harsh bathroom lighting, with a cluttered counter and slightly 
                         #                         blurry focus  — the image looks like
                         #                          it was taken on an old phone, with off angle, bad lighting, and a sense of urgency and confusion to provoke clicks.""")
-                        img_bytes = generate_fal_image("candid UNSTAGED photo posted to reddit 2017 :" + visual)
+                        img_bytes = generate_fal_image("candid UNSTAGED photo  :" + visual)
                         image_url = img_bytes
                         # image_url = upload_pil_image_to_s3(image = img_bytes ,bucket_name=s3_bucket_name,
                         #     aws_access_key_id=aws_access_key,
