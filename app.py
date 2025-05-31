@@ -411,7 +411,7 @@ def generate_audio_with_timestamps(text, client,lang, voice_id="alloy"):
 
     # Generate TTS audio
     response = client.audio.speech.create(
-        model="gpt-4o-mini-tts",#gpt-4o-mini-tts
+        model="tts-1-hd",#gpt-4o-mini-tts
         voice=voice_id,
         input=text,
         # instructions=instructions_per_voice[voice_id]['instructions'],
