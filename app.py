@@ -438,7 +438,7 @@ def generate_audio_with_timestamps(text, client,lang, voice_id="alloy"):
         model="whisper-1",
         response_format="verbose_json",
         timestamp_granularities=["word"],
-        language= lang_map
+        language= two_letter_lang
     )
     #add background music
 
