@@ -819,7 +819,7 @@ if st.button("Generate Videos"):
                                 • it should clearly show a **problem**, a **benefit**, or a **before/after moment** — make the transformation **visual** and enticing.
                                 • Show the product/topic in action, or its effect/result. Be visceral and visual — avoid abstract concepts.
                                 • Every image MUST contain a **fully self-contained description of the person/avatar** (e.g. “43 year old Black man in casual gym clothes, sweating and smiling after a workout”), even if they appear in multiple slides.
-                                • Use **simple**, engaging, curiosity-driven text. Avoid buzzwords, fake\outlansish promises, or corporate tone. but still be very convincing and eye catching!!! never use "Today" "x% off.." "Get it Now.."
+                                • Use **simple**, engaging, curiosity-driven text. Avoid , fake\outlansish promises, or corporate tone. but still be very convincing and eye catching!!! never use "Today" "x% off.." "Get it Now..", find the gray area to make it super enticng but with these limitations!!!!!!!!!!!!!!!!!!
                                 • End with a strong convinsing  CTA like: “Click to explore options” or “Tap to see how it works.”
                                 • showing a {gender}  {age}\\look\\{race}\ in images!!!
                                 •End with a powerful visual that proudly showcases the outcome to the camera — like someone beaming as they hold up their diploma or point at their new luxury car. Make it feel like they’re saying, ‘This could be you,’ urging the viewer to act. you can make them point to the topic!
