@@ -179,7 +179,7 @@ def get_openai_client():
 
 # Functions from original code
 
-def generate_text_with_claude(prompt: str, anthropic_api_key: str = anthropic_api_key, model: str = "claude-sonnet-4-20250514", temperature: float = 1.0, max_retries: int = 3): # claude-3-opus-20240229, claude-3-sonnet-20240229, claude-3-haiku-20240307
+def generate_text_with_claude(prompt: str, anthropic_api_key: str = anthropic_api_key, model: str = "claude-opus-4-20250514", temperature: float = 1.0, max_retries: int = 3): # claude-3-opus-20240229, claude-3-sonnet-20240229, claude-3-haiku-20240307
     print(f"--- Requesting text from Claude with prompt: '{prompt[:70]}...' ---")
     st.write(f"Claude: Generating text (model: {model})...")
     tries = 0
