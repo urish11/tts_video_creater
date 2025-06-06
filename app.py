@@ -3,6 +3,8 @@ import json
 import os
 import requests
 from pydub import AudioSegment
+from pydub.effects import speedup
+
 import urllib.parse
 import time
 import random
@@ -426,6 +428,7 @@ def generate_audio_with_timestamps(text, client,lang, voice_id="alloy"):
     # **Increase Volume by 15% using PyDub**
     boosted_audio = AudioSegment.from_file(temp_audio_path)
     boosted_audio = boosted_audio + 12.3  # 30% increase in dB
+    boosted_audio = boosted_audio.speedup(playback_speed=1.1)
 
     # Save back to the same file
     boosted_audio.export(temp_audio_path, format="mp3")
