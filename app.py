@@ -837,11 +837,10 @@ if st.button("Generate Videos"):
                                 - DO NOT include intros or explanations of the video format — return only the final JSON array.
                                 
                                 """  +"""
-                [{'text' : 'some text','visual'  : 'visual ...'},{'text' : 'some text','visual'  : 'visual ...'}...]
+                [{'text' : 'some text','visual'  : 'visual ...'},{'text' : 'some text','visual'  : 'visual ...'}...]"""
 
 
-                prompt =  f"""
-                                You are a seasoned social-media copywriter and storyboard artist.
+                prompt =  f"""You are a seasoned social-media copywriter and storyboard artist.
                                 Deliver a JSON array of 2-3 slide objects for a 10 15-second vertical video ad.
                                 
                                 Inputs
@@ -849,10 +848,10 @@ if st.button("Generate Videos"):
                                 - lang  = "{lang}"   (write all captions/voice-over in this language)
                                 
                                 For each slide object include only:
-                                {
+                                
                                   "text": "<7-16-word caption in {lang}>",
                                   "visual": "<≤15-word English scene description>"
-                                }
+                                
                                 
                                 Use the SAME avatar in every slide:
                                 68-year-old white woman, pastel cardigan, upbeat smile, energetic posture.
@@ -866,10 +865,9 @@ if st.button("Generate Videos"):
                                 - Captions: punchy, curiosity-driven, no "we," "our," "limited time," percentages, "Get it now," or hype.
                                 - Visuals: fully describe the avatar and setting; avoid abstract imagery.
                                 - Slides feel fast-paced and eye-catching-no slow build-up.
-                                - Return **only** the JSON array (no wrappers, comments, or explanations).
-                                """
+                                - Return **only** the JSON array (no wrappers, comments, or explanations)."""
                                                 
-                """
+                
                 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # GOOD!!prompt = f"""
                 # write script for 10-15 seconds  2-3 texts\images slides    video for {topic} ad promotion, rather casual tone, make it look attractive for max CTR and make people click
                 # end with something like "click NOW to learn more" or "click to see options"
