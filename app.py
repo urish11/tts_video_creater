@@ -818,9 +818,9 @@ if st.button("Generate Videos"):
                                 • Start with a enticing attention grabing for the topic that really 'sells' it 
                                 • it should clearly show a **problem**, a **benefit**, or a **before/after moment** — make the transformation **visual** and enticing.
                                 • Show the product/topic in action, or its effect/result. Be visceral and visual — avoid abstract concepts.
-                                • Every image MUST contain a **fully self-contained description of the person/avatar** (e.g. “43 year old Black man in casual gym clothes, sweating and smiling after a workout”), even if they appear in multiple slides.
+                                • Every image MUST contain a **fully self-contained description of the person/avatar** (e.g. "43 year old Black man in casual gym clothes, sweating and smiling after a workout"), even if they appear in multiple slides.
                                 • Use **simple**, engaging, curiosity-driven text. Avoid , fake\outlansish promises, or corporate tone. but still be very convincing and eye catching!!! never use "Today" "x% off.." "Get it Now..",
-                                • End with a strong convinsing  CTA like: “Click to explore options” or “Tap to see how it works.”
+                                • End with a strong convinsing  CTA like: "Click to explore options" or "Tap to see how it works."
                                 • showing a {gender}  {age}\\look\\{race}\ in images!!!
                                 •End with a powerful visual that proudly showcases the outcome to the camera — like someone beaming as they hold up their diploma or point at their new luxury car. Make it feel like they’re saying, ‘This could be you,’ urging the viewer to act. you can make them point to the topic!
                                 REALLY SELL IT FROM THE GET GO!
@@ -833,7 +833,7 @@ if st.button("Generate Videos"):
                                 
                                 Tone:
                                 - Casual, fast, relatable.
-                                - DO NOT use: “we,” “our,” “limited time,” “best,” or exaggerated language.
+                                - DO NOT use: "we," "our," "limited time," "best," or exaggerated language.
                                 - DO NOT include intros or explanations of the video format — return only the final JSON array.
                                 
                                 """  +"""
@@ -845,8 +845,8 @@ You are a seasoned social-media copywriter and storyboard artist.
 Deliver a JSON array of 2-3 slide objects for a 10 15-second vertical video ad.
 
 Inputs
-- topic = “{topic}”
-- lang  = “{lang}”   (write all captions/voice-over in this language)
+- topic = "{topic}"
+- lang  = "{lang}"   (write all captions/voice-over in this language)
 
 For each slide object include only:
 {
@@ -860,10 +860,10 @@ Use the SAME avatar in every slide:
 Story arc
 1. Hook - instantly dramatize the problem or desire around {topic}.
 2. Benefit/Transformation - show {topic} solving the issue; keep it visceral and concrete.
-3. Payoff + CTA - avatar proudly displays the outcome, pointing toward {topic}; end with a CTA such as “Tap to see how it works.”
+3. Payoff + CTA - avatar proudly displays the outcome, pointing toward {topic}; end with a CTA such as "Tap to see how it works."
 
 Style requirements
-- Captions: punchy, curiosity-driven, no “we,” “our,” “limited time,” percentages, “Get it now,” or hype.
+- Captions: punchy, curiosity-driven, no "we," "our," "limited time," percentages, "Get it now," or hype.
 - Visuals: fully describe the avatar and setting; avoid abstract imagery.
 - Slides feel fast-paced and eye-catching—no slow build-up.
 - Return **only** the JSON array (no wrappers, comments, or explanations).
@@ -902,7 +902,7 @@ Style requirements
 
 # Return **only** a JSON object, where each element has:
 # - `"text"`: **Casual, attention-grabbing, unpredictable voiceover text.** No corporate ad vibes—make it feel like a wild story someone just had to share. Hook MUST be **shocking, bizarre, or wildly unexpected**. 
-# - `"visual"`: **Image description** that is candid, realistic, and has a “WTF” moment—something you'd see on Reddit’s r/WTF. The images should feel **raw, unstaged, and attention-grabbing**, like a weird moment caught in real life. 
+# - `"visual"`: **Image description** that is candid, realistic, and has a "WTF" moment—something you'd see on Reddit’s r/WTF. The images should feel **raw, unstaged, and attention-grabbing**, like a weird moment caught in real life. 
 
 # ### Image description rules:
 # - The **first image must be a hook**—visually shocking, confusing, or hilarious.  
