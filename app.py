@@ -865,7 +865,7 @@ Story arc
 Style requirements
 - Captions: punchy, curiosity-driven, no "we," "our," "limited time," percentages, "Get it now," or hype.
 - Visuals: fully describe the avatar and setting; avoid abstract imagery.
-- Slides feel fast-paced and eye-catching—no slow build-up.
+- Slides feel fast-paced and eye-catching-no slow build-up.
 - Return **only** the JSON array (no wrappers, comments, or explanations).
 """
                 
