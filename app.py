@@ -842,7 +842,7 @@ if st.button("Generate Videos"):
 
                 prompt =  f"""
 You are a seasoned social-media copywriter and storyboard artist.
-Deliver a JSON array of 2–3 slide objects for a 10–15-second vertical video ad.
+Deliver a JSON array of 2-3 slide objects for a 10–15-second vertical video ad.
 
 Inputs
 • topic = “{topic}”
