@@ -232,7 +232,7 @@ def generate_script(prompt, client):
         st.text(prompt)
         response = client.chat.completions.create(
             model="o4-mini", #o4-mini
-            reasoning_effort = "medium",
+            reasoning_effort = "high",
             messages=[
                 {"role": "system", "content": "You are a creative  writer. ALWAYS write the full avatar description on each visual description ALWAYS!!!! "},
                 {"role": "user", "content": prompt}
@@ -895,8 +895,8 @@ if st.button("Generate Videos"):
 
 #                 """
                 # Generate script
-                # script_json = generate_script(prompt, client)
-                script_json = generate_text_with_claude(prompt)
+                script_json = generate_script(prompt, client)
+                # script_json = generate_text_with_claude(prompt)
                 
                 
                 if script_json:
