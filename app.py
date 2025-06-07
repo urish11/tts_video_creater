@@ -805,12 +805,12 @@ if st.button("Generate Videos"):
                 # Generate prompt for script
 
 
-                prompt = f"""Write a JSON-formatted script for a 10–15 second video ad promoting: "{topic}" in language "{lang}".
+                prompt = f"""Write a JSON-formatted script for a 10-15 second video ad promoting: "{topic}" in language "{lang}".
                                 
                                 Structure:
                                 - 2 to 3 slides.
                                 - Each slide includes: 
-                                   • 'text': the short voiceover/caption (7–16 words).
+                                   • 'text': the short voiceover/caption (7-16 words).
                                    • 'visual': a detailed image description (max 15 words). always in english
                                 - Slides should be fast-paced, eye-catching, and feel like a real social ad — no slow build-up.
                                 
@@ -842,7 +842,7 @@ if st.button("Generate Videos"):
 
                 prompt =  f"""
 You are a seasoned social-media copywriter and storyboard artist.
-Deliver a JSON array of 2-3 slide objects for a 10–15-second vertical video ad.
+Deliver a JSON array of 2-3 slide objects for a 10 15-second vertical video ad.
 
 Inputs
 • topic = “{topic}”
@@ -850,7 +850,7 @@ Inputs
 
 For each slide object include only:
 {
-  "text": "<7–16-word caption in {lang}>",
+  "text": "<7-16-word caption in {lang}>",
   "visual": "<≤15-word English scene description>"
 }
 
@@ -858,9 +858,9 @@ Use the SAME avatar in every slide:
 68-year-old white woman, pastel cardigan, upbeat smile, energetic posture.
 
 Story arc
-1. Hook – instantly dramatize the problem or desire around {topic}.
-2. Benefit/Transformation – show {topic} solving the issue; keep it visceral and concrete.
-3. Payoff + CTA – avatar proudly displays the outcome, pointing toward {topic}; end with a CTA such as “Tap to see how it works.”
+1. Hook - instantly dramatize the problem or desire around {topic}.
+2. Benefit/Transformation - show {topic} solving the issue; keep it visceral and concrete.
+3. Payoff + CTA - avatar proudly displays the outcome, pointing toward {topic}; end with a CTA such as “Tap to see how it works.”
 
 Style requirements
 • Captions: punchy, curiosity-driven, no “we,” “our,” “limited time,” percentages, “Get it now,” or hype.
