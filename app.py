@@ -853,7 +853,8 @@ if st.button("Generate Videos"):
                                   "visual": "<≤15-word English scene description>"
                                 
                                 
-                                Use the SAME avatar in every slide.
+                                Use the SAME avatar in every slide:
+                                • showing a {gender}  {age}\\look\\{race}\ in images!!!
                                 
                                 
                                 Story arc
