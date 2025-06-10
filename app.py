@@ -840,34 +840,34 @@ if st.button("Generate Videos"):
                 [{'text' : 'some text','visual'  : 'visual ...'},{'text' : 'some text','visual'  : 'visual ...'}...]"""
 
 
-                prompt =  f"""You are a seasoned social-media copywriter and storyboard artist.
-                                Deliver a JSON array of 2-3 slide objects for a 10 15-second vertical video ad.
+                # prompt =  f"""You are a seasoned social-media copywriter and storyboard artist.
+                #                 Deliver a JSON array of 2-3 slide objects for a 10 15-second vertical video ad.
                                 
-                                Inputs
-                                - topic = "{topic}"
-                                - lang  = "{lang}"   (write all captions/voice-over in this language)
+                #                 Inputs
+                #                 - topic = "{topic}"
+                #                 - lang  = "{lang}"   (write all captions/voice-over in this language)
                                 
-                                For each slide object include only:
+                #                 For each slide object include only:
                                 
-                                  "text": "<7-16-word caption in {lang}>",
-                                  "visual": "<≤15-word English scene description>"
-                                
-                                
-                                Use the SAME avatar in every slide:
-                                • showing a {gender}  {age}\\look\\{race}\ in images!!!
+                #                   "text": "<7-16-word caption in {lang}>",
+                #                   "visual": "<≤15-word English scene description>"
                                 
                                 
-                                Story arc
-                                1. Hook - instantly dramatize the problem or desire around {topic}.
-                                2. Benefit/Transformation - show {topic} solving the issue; keep it visceral and concrete.
-                                3. Payoff + CTA - avatar proudly displays the outcome, pointing toward {topic}; end with a CTA such as "Tap to see how it works." Or "Tap to see how YOU..."
+                #                 Use the SAME avatar in every slide:
+                #                 • showing a {gender}  {age}\\look\\{race}\ in images!!!
                                 
-                                Style requirements
-                                - Captions: punchy, curiosity-driven, no "we," "our," "limited time," percentages, "Get it now," or hype.
-                                - Visuals: fully describe the avatar and setting; avoid abstract imagery.
-                                - Slides feel fast-paced and eye-catching-no slow build-up.
-                                - Be very  much intruging and enticing, with out crossing to the senesation realm.
-                                - Return **only** the JSON array (no wrappers, comments, or explanations)."""
+                                
+                #                 Story arc
+                #                 1. Hook - instantly dramatize the problem or desire around {topic}.
+                #                 2. Benefit/Transformation - show {topic} solving the issue; keep it visceral and concrete.
+                #                 3. Payoff + CTA - avatar proudly displays the outcome, pointing toward {topic}; end with a CTA such as "Tap to see how it works." Or "Tap to see how YOU..."
+                                
+                #                 Style requirements
+                #                 - Captions: punchy, curiosity-driven, no "we," "our," "limited time," percentages, "Get it now," or hype.
+                #                 - Visuals: fully describe the avatar and setting; avoid abstract imagery.
+                #                 - Slides feel fast-paced and eye-catching-no slow build-up.
+                #                 - Be very  much intruging and enticing, with out crossing to the senesation realm.
+                #                 - Return **only** the JSON array (no wrappers, comments, or explanations)."""
                                                 
                 
                 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # GOOD!!prompt = f"""
