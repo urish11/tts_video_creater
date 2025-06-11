@@ -805,7 +805,7 @@ if st.button("Generate Videos"):
                 # Generate prompt for script
 
 
-                prompt = f"""Write a JSON-formatted script for a 10-15 second video ad promoting: "{topic}" in language "{lang}".
+                prompt = f"""Write a JSON-formatted script for a 10-15 for FB viral   video promoting: "{topic}" in language "{lang}".
                                 
                                 Structure:
                                 - 2 to 3 slides.
