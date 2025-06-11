@@ -231,7 +231,7 @@ def generate_script(prompt, client):
     with st.status('Generating script...'):
         st.text(prompt)
         response = client.chat.completions.create(
-            model="o4-mini" #o4-mini
+            model="o4-mini", #o4-mini
             reasoning_effort = "medium",
             messages=[
                 {"role": "system", "content": "You are a creative  writer. ALWAYS write the full avatar description on each visual description ALWAYS!!!! "},
