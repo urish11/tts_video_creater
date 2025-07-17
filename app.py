@@ -825,7 +825,7 @@ if st.button("Generate Videos"):
                                 •End with a powerful visual that proudly showcases the outcome to the camera — like someone beaming as they hold up their diploma or point at their new luxury car. Make it feel like they’re saying, ‘This could be you,’ urging the viewer to act. you can make them point to the topic!
                                 REALLY SELL IT FROM THE GET GO!
                                 •Again, with the limitions, be as convincing as possible, try to find a gray area way to be VERY CONVINVING 
-                
+                                Make sure the offer is clearly convaied and include a motivating call to action
                                 Avatar:
                                 - Choose and show one realistic human avatar (gender, age, race, clothing style, mood, etc.)
                                 - Reflect that avatar visually and narratively in EVERY SLIDE.
